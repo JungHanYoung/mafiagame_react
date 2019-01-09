@@ -42,14 +42,14 @@ class Setting extends Component {
 		const code = Number(e.target.name);
 		const value = Number(e.target.value);
 
-		console.log([ ...this.state.jobs ]);
+		// console.log([ ...this.state.jobs ]);
 
 		if (value >= 0) {
 			this.setState(
 				(prevState) => ({
 					...prevState,
 					jobs: [ ...prevState.jobs.map((job) => (job.code === code ? { ...job, count: value } : job)) ]
-				}),
+				}) /*,
 				() => {
 					const { jobs } = this.state;
 					if (jobs.find((job) => job.code === code).count < 0) {
@@ -57,7 +57,7 @@ class Setting extends Component {
 					} else {
 						console.log('정수얌');
 					}
-				}
+				}*/
 			);
 		}
 	};
@@ -82,10 +82,21 @@ class Setting extends Component {
 	};
 	onSettingEnd = () => {
 		const { history } = this.props;
-		const { jobs } = this.state;
-		history.push('/start', {
-			jobs: [ ...jobs ]
-		});
+		const { jobs, num } = this.state;
+		const counts = jobs
+			.map((job) => {
+				return job.count;
+			})
+			.reduce((accu, count) => accu + count);
+		console.log(counts);
+
+		if (counts === num) {
+			history.push('/start', {
+				jobs: [ ...jobs ]
+			});
+		} else {
+			alert('총인원과 전체 게임인원이 맞지 않습니다.');
+		}
 	};
 	render() {
 		const { jobs, num, selectPeopleCheck } = this.state;
