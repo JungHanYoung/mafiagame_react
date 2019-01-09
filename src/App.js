@@ -1,28 +1,50 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Link } from 'react-router-dom';
 import './App.css';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+	state = {
+		players: [
+			{
+				name: '한영'
+			}
+		],
+		jobs: [
+			{
+				code: 1,
+				jobName: 'MAFIA'
+			},
+			{
+				code: 2,
+				jobName: 'POLICE'
+			},
+			{
+				code: 3,
+				jobName: 'DOCTOR'
+			},
+			{
+				code: 4,
+				jobName: 'CITIZEN'
+			}
+		]
+	};
+	onGameStart = () => {};
+	onGameSetting = () => {};
+	render() {
+		return (
+			<div className="App">
+				<header className="App-header">
+					<h1>Hello Mafia</h1>
+					<Link className="btn" to="/setting">
+						게임 시작
+					</Link>
+					<Link className="btn" to="/about">
+						게임 설명
+					</Link>
+				</header>
+			</div>
+		);
+	}
 }
 
 export default App;
