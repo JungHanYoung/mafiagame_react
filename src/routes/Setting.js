@@ -26,8 +26,7 @@ class Setting extends Component {
 				count: 0
 			}
 		],
-		num: 0,
-		selectPeopleCheck: false
+		num: 0
 	};
 	// handleJobCount = (event) => {
 	//     this.state.jobs.find()
@@ -69,12 +68,14 @@ class Setting extends Component {
 			});
 		} else {
 			alert('People num is over 3');
-			this.setState({
-				num: 0
-			});
+			// console.dir(this.refs.pp);
+			// this.setState({
+			// 	num: 0
+			// });
 		}
 	};
 	onPeopleChange = (e) => {
+		// console.log(e.target);
 		const value = Number(e.target.value);
 		this.setState({
 			num: value
@@ -88,7 +89,7 @@ class Setting extends Component {
 				return job.count;
 			})
 			.reduce((accu, count) => accu + count);
-		console.log(counts);
+		// console.log(counts);
 
 		if (counts === num) {
 			history.push('/start', {
@@ -99,25 +100,47 @@ class Setting extends Component {
 		}
 	};
 	render() {
-		const { jobs, num, selectPeopleCheck } = this.state;
-		console.log(this.props);
+		const { jobs, num } = this.state;
+		// console.log(this.props);
 		return (
 			<div className="App-header">
 				<div>
 					몇명이서 할건데?
-					<input type="number" value={num} onBlur={this.onPeopleCheck} onChange={this.onPeopleChange} />
+					{/* <input
+						type="number"
+						value={num}
+						onBlur={this.onPeopleCheck}
+						onChange={this.onPeopleChange}
+						ref="pp"
+					/> */}
+					{/* <select>{(1)['..'](10)}</select> */}
+					<select value={num} onChange={this.onPeopleChange}>
+						<option>select number</option>
+						{Array.from({ length: 9 }, (v, k) => k + 4).map((num) => (
+							<option key={num} value={num}>
+								{num}
+							</option>
+						))}
+					</select>
 				</div>
-				{selectPeopleCheck &&
+				{num > 3 &&
 					jobs.map((job) => (
 						<div key={job.code}>
 							<span
 								style={{
 									paddingRight: 15
 								}}
+								className="animated fadeInLeft"
 							>
 								{job.jobName}은 몇명?
 							</span>
-							<input type="number" name={job.code} value={job.count} onChange={this.handleJobCount} />
+							<input
+								type="number"
+								name={job.code}
+								value={job.count}
+								onChange={this.handleJobCount}
+								className="animated fadeInRight"
+							/>
 						</div>
 					))}
 				<button onClick={this.onSettingEnd}>submit</button>

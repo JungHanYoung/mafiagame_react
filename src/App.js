@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import './App.css';
 
 class App extends Component {
@@ -31,6 +31,10 @@ class App extends Component {
 	onGameStart = () => {};
 	onGameSetting = () => {};
 	render() {
+		const location = this.props.location;
+		// console.log(location.state);
+		// console.log(location.state ? location.state.redirectMesg : 'not exists location');
+		location.state && location.state.redirectMesg && alert(location.state.redirectMesg);
 		return (
 			<div className="App">
 				<header className="App-header">
@@ -47,4 +51,4 @@ class App extends Component {
 	}
 }
 
-export default App;
+export default withRouter(App);
