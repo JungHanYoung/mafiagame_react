@@ -1,6 +1,9 @@
 import React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 
+// component
+import Game from './Game';
+
 class GameStart extends React.Component {
 	// componentWillMount() {
 	// 	const state = this.props.location.state;
@@ -17,7 +20,7 @@ class GameStart extends React.Component {
 
 		console.log(state ? state.jobs : 'no state');
 		return (
-			<div>
+			<div className="App-header">
 				GameStart Page... 준비중...
 				{/* {!jobs && <Redirect to="/" />} */}
 				{state ? (
@@ -25,6 +28,7 @@ class GameStart extends React.Component {
 				) : (
 					<Redirect to={{ pathname: '/', state: { redirectMesg: 'do not setting...' } }} />
 				)}
+				<Game num={state.num} jobs={state.jobs} people={state.people} />
 			</div>
 		);
 	}

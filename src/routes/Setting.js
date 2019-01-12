@@ -26,7 +26,8 @@ class Setting extends Component {
 				count: 0
 			}
 		],
-		num: 0
+		num: 0,
+		people: []
 	};
 	// handleJobCount = (event) => {
 	//     this.state.jobs.find()
@@ -67,7 +68,7 @@ class Setting extends Component {
 				selectPeopleCheck: true
 			});
 		} else {
-			alert('People num is over 3');
+			alert('People num must be over 3');
 			// console.dir(this.refs.pp);
 			// this.setState({
 			// 	num: 0
@@ -78,12 +79,20 @@ class Setting extends Component {
 		// console.log(e.target);
 		const value = Number(e.target.value);
 		this.setState({
-			num: value
+			num: value,
+			people: [ ...Array.from({ length: value }, (v, k) => k).map(() => '') ]
+		});
+	};
+	onChangePersonName = (i, value) => {
+		const { people } = this.state;
+
+		this.setState({
+			people: people.map((v, index1) => (i === index1 ? value : v))
 		});
 	};
 	onSettingEnd = () => {
 		const { history } = this.props;
-		const { jobs, num } = this.state;
+		const { jobs, num, people } = this.state;
 		const counts = jobs
 			.map((job) => {
 				return job.count;
@@ -93,14 +102,17 @@ class Setting extends Component {
 
 		if (counts === num) {
 			history.push('/start', {
-				jobs: [ ...jobs ]
+				jobs,
+				num,
+				people
 			});
 		} else {
 			alert('총인원과 전체 게임인원이 맞지 않습니다.');
 		}
 	};
 	render() {
-		const { jobs, num } = this.state;
+		const { jobs, num, people } = this.state;
+
 		// console.log(this.props);
 		return (
 			<div className="App-header">
@@ -123,6 +135,18 @@ class Setting extends Component {
 						))}
 					</select>
 				</div>
+				{people.map((person, i) => (
+					<input
+						key={`name_${i}`}
+						type="text"
+						name={`person_${i}`}
+						value={person}
+						onChange={(e) => this.onChangePersonName(i, e.target.value)}
+					/>
+				))}
+				{/* {Array.from({ length: num }, (v, k) => k).map((v) => (
+					<input key={`name_${v}`} type="text" value={people.name} />
+				))} */}
 				{num > 3 &&
 					jobs.map((job) => (
 						<div key={job.code}>
