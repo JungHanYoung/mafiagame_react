@@ -21,13 +21,9 @@ class GameStart extends React.Component {
 		console.log(state ? state.jobs : 'no state');
 		return (
 			<div className="App-header">
-				GameStart Page... 준비중...
+				...준비중...
 				{/* {!jobs && <Redirect to="/" />} */}
-				{state ? (
-					state.jobs.map((job) => <div key={job.code}>{`${job.jobName} : ${job.count}명`}</div>)
-				) : (
-					<Redirect to={{ pathname: '/', state: { redirectMesg: 'do not setting...' } }} />
-				)}
+				{!state && <Redirect to={{ pathname: '/', state: { redirectMesg: 'do not setting...' } }} />}
 				<Game num={state.num} jobs={state.jobs} people={state.people} />
 			</div>
 		);
