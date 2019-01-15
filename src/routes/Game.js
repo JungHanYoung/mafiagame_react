@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { shuffle } from '../utils/shuffle';
 
+// component
+import Start from './Start';
+
 class Game extends Component {
 	state = {
 		first: false,
@@ -85,7 +88,7 @@ class Game extends Component {
 				<h1 className="animated" ref="title">
 					이제 각 사람 마다의 역할이 정해집니다.
 				</h1>
-				{showIndex === people.length && <h1>comfirmed</h1>}
+				{showIndex === people.length && <Start people={people} />}
 				{showIndex < people.length &&
 				second && <h1 className="animated fadeInUp delay-.1s">Enter를 눌러 당신의 역할을 확인하세요.</h1>}
 				{showIndex < people.length &&
