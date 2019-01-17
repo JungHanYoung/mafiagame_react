@@ -1,9 +1,43 @@
 import React from 'react';
+import { useGame } from '../context/GameContext';
 
 class VoteTime extends React.Component {
+	state = {
+		voteOrder: 0
+	};
+	handleVote = (name) => {
+		const { votePerson } = this.props;
+		const { voteOrder } = this.state;
+		this.setState({
+			voteOrder: voteOrder + 1
+		});
+		votePerson(name);
+	};
 	render() {
-		return <div>마피아로 의심되는 사람을 kill하기 위해 투표를 진행합니다.</div>;
+		const { voteOrder } = this.state;
+		const { people } = this.props;
+		return (
+			<div>
+				<div>{people[voteOrder].name}님의 투표</div>
+				<div>
+					{people.map((person, i) => {
+						if (i === voteOrder) {
+							return null;
+						} else {
+							return (
+								<button key={`vote-btn-${i}`} onClick={() => this.handleVote(person.name)}>
+									{person.name}
+								</button>
+							);
+						}
+					})}
+				</div>
+			</div>
+		);
 	}
 }
 
-export default VoteTime;
+export default useGame(({ state, actions }) => ({
+	votePerson: actions.votePerson,
+	people: state.people
+}))(VoteTime);

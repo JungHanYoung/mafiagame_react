@@ -1,4 +1,5 @@
 import React from 'react';
+import { useGame } from '../context/GameContext';
 
 class DayTimeDiscuss extends React.Component {
 	render() {
@@ -6,4 +7,6 @@ class DayTimeDiscuss extends React.Component {
 	}
 }
 
-export default DayTimeDiscuss;
+export default useGame(({ state, actions }) => ({
+	order: state.gameOrder
+}))(DayTimeDiscuss);
