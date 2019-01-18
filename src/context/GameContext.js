@@ -9,7 +9,9 @@ const { Provider, Consumer: GameConsumer } = Context;
 class GameProvider extends Component {
 	state = {
 		people: [],
-		gameOrder: 0,
+		gameOrder: 'day-time',
+		dayTimeOrder: 'discuss',
+		nightTimeOrder: 'mafia',
 		isEndVoteDayTime: false
 	};
 
@@ -42,11 +44,6 @@ class GameProvider extends Component {
 				people: c_people
 			});
 		},
-		setGameStart: () => {
-			this.setState({
-				gameStart: true
-			});
-		},
 		setPeopleVoted: () => {
 			this.setState({
 				people: [
@@ -69,6 +66,48 @@ class GameProvider extends Component {
 					}
 				})
 			});
+		},
+		endVoteTime: () => {
+			// 투표 끝..
+			// 투표를 많이 받은 사람은 people에서 삭제
+			// 투표 수를 초기화시킴.
+			const { people } = this.state;
+			const maxVotedIndex = people.reduce((max, cur, index) => {
+				return people[max].daytimeVoted < cur.daytimeVoted ? index : max;
+			}, 0);
+			const c_people = [ ...people ];
+			c_people.splice(maxVotedIndex, 1);
+			c_people.forEach((person) => {
+				Object.assign(person, { daytimeVoted: 0 });
+			});
+			this.setState({
+				people: c_people,
+				gameOrder: 'night-time'
+			});
+		},
+		changeDayTimeOrder: () => {
+			const { dayTimeOrder } = this.state;
+			if (dayTimeOrder === 'vote') {
+				this.setState({
+					dayTimeOrder: 'discuss'
+				});
+			} else if (dayTimeOrder === 'discuss') {
+				this.setState({
+					dayTimeOrder: 'vote'
+				});
+			}
+		},
+		toggleNightAndDay: () => {
+			const { gameOrder } = this.state;
+			if (gameOrder === 'day-time') {
+				this.setState({
+					gameOrder: 'night-time'
+				});
+			} else if (gameOrder === 'night-time') {
+				this.setState({
+					gameOrder: 'day-time'
+				});
+			}
 		}
 	};
 

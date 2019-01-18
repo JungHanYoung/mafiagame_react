@@ -1,21 +1,26 @@
 import React from 'react';
-import { useGame } from '../context/GameContext';
+import { useGame } from '../../context/GameContext';
 
 class VoteTime extends React.Component {
 	state = {
 		voteOrder: 0
 	};
 	handleVote = (name) => {
-		const { votePerson } = this.props;
+		const { votePerson, people, endVoteTime } = this.props;
 		const { voteOrder } = this.state;
-		this.setState({
-			voteOrder: voteOrder + 1
-		});
-		votePerson(name);
+		if (voteOrder < people.length - 1) {
+			this.setState({
+				voteOrder: voteOrder + 1
+			});
+			votePerson(name);
+		} else {
+			endVoteTime();
+		}
 	};
 	render() {
 		const { voteOrder } = this.state;
 		const { people } = this.props;
+
 		return (
 			<div>
 				<div>{people[voteOrder].name}님의 투표</div>
@@ -39,5 +44,6 @@ class VoteTime extends React.Component {
 
 export default useGame(({ state, actions }) => ({
 	votePerson: actions.votePerson,
+	endVoteTime: actions.endVoteTime,
 	people: state.people
 }))(VoteTime);
