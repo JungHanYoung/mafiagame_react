@@ -12,7 +12,9 @@ class GameProvider extends Component {
 		gameOrder: 'day-time',
 		dayTimeOrder: 'discuss',
 		nightTimeOrder: 'mafia',
-		isEndVoteDayTime: false
+		isEndVoteDayTime: false,
+		votedByMafia: '',
+		votedByDoctor: ''
 	};
 
 	actions = {
@@ -108,6 +110,17 @@ class GameProvider extends Component {
 					gameOrder: 'day-time'
 				});
 			}
+		},
+		votePersonAtMafiaTime: (name) => {
+			this.setState({
+				votedByMafia: name,
+				nightTimeOrder: 'doctor'
+			});
+		},
+		votePersonAtDocter: (name) => {
+			this.setState({
+				votedByDoctor: name
+			});
 		}
 	};
 
