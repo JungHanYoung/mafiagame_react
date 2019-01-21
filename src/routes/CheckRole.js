@@ -76,7 +76,7 @@ class GameStart extends React.Component {
 						return <div key={`person_${i}`}>{person.code}</div>;
 					})*/}
 
-					<button onClick={this.handleShowRole}>다음</button>
+					<button onClick={this.handleShowRole} className="btn">다음</button>
 				</div>
 			) : null;
 		}
