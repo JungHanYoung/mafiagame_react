@@ -3,7 +3,7 @@ import { useGame } from '../../context/GameContext';
 
 class Result extends React.Component {
 	render() {
-		const { votedByMafia, votedByDoctor } = this.props;
+		const { votedByMafia, votedByDoctor, setDayTime } = this.props;
 		return (
 			<div>
 				<span>밤 투표 결과</span>
@@ -15,7 +15,7 @@ class Result extends React.Component {
 					<div>마피아는 {votedByMafia}를 죽였고, 의사는 살리지 못하였습니다.</div>
 				)}
 
-				<button />
+				<button onClick={setDayTime}>낮이 됩니다.</button>
 			</div>
 		);
 	}
@@ -25,5 +25,6 @@ class Result extends React.Component {
 
 export default useGame(({ state, actions }) => ({
 	votedByMafia: state.votedByMafia,
-	votedByDoctor: state.votedByDoctor
+	votedByDoctor: state.votedByDoctor,
+	setDayTime: actions.setDayTime
 }))(Result);

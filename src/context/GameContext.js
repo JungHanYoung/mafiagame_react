@@ -1,6 +1,7 @@
 import React, { createContext, Component } from 'react';
 import createUseConsumer from '../lib/createUseConsumer';
 import { shuffle } from '../utils/shuffle';
+import { Object } from 'es6-shim';
 
 const Context = createContext();
 
@@ -126,6 +127,16 @@ class GameProvider extends Component {
 			});
 		},
 		votePersonAtDocter: (name) => {
+			const { votedByMafia, people } = this.state;
+			if (votedByMafia !== name) {
+				// 여기서 마피아가 죽인 사람을 의사가 살리지 못함..
+				const removeIndex = people.findIndex((person) => person.name === votedByMafia);
+				const c_people = [ ...people ];
+				c_people.splice(removeIndex, 1);
+				this.setState({
+					people: c_people
+				});
+			}
 			this.setState({
 				votedByDoctor: name,
 				nightTimeOrder: 'police'
@@ -134,6 +145,16 @@ class GameProvider extends Component {
 		moveToVoteResultAtNight: () => {
 			this.setState({
 				nightTimeOrder: 'result'
+			});
+		},
+		setDayTime: () => {
+			const { people } = this.state;
+			this.setState({
+				people: people.map((person) => {
+					return Object.assign(person, { daytimeVoted: 0 });
+				}),
+				gameOrder: 'day-time',
+				nightTimeOrder: 'mafia'
 			});
 		}
 	};
