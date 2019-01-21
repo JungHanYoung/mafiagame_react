@@ -101,7 +101,7 @@ class Setting extends Component {
 		// console.log(counts);
 
 		if (counts === num) {
-			history.push('/start', {
+			history.push('/check', {
 				jobs,
 				num,
 				people

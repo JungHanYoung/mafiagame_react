@@ -1,106 +1,73 @@
-import React, { Component } from 'react';
-import { shuffle } from '../utils/shuffle';
+import React from 'react';
+import { useGame } from '../context/GameContext';
 
-// component
-import Start from './Start';
+// 컴포넌트
+import DayTime from '../components/DayTime';
+import NightTime from '../components/NightTime';
 
-class Game extends Component {
+const SwitchingButton = ({ order, orderChange }) => {
+	switch (order) {
+		case 0:
+			return <button onClick={orderChange}>투표 고고</button>;
+		case 1:
+			return <button onClick={orderChange}>투표 마침... 밤으로</button>;
+		case 2:
+			return <button onClick={orderChange}>마피아 투표 끝</button>;
+		case 3:
+			return <button onClick={orderChange}>경찰 수색 끝</button>;
+		case 4:
+			return <button onClick={orderChange}>의사 끝</button>;
+		default:
+			return null;
+	}
+};
+
+class Game extends React.Component {
 	state = {
-		first: false,
-		second: false,
-		showIndex: 0,
-		visible: false
+		// 0: 낮 토론, 1: 낮 투표, 2: 밤 - 마피아, 3: 밤 - 의사, 4: 밤 - 경찰, 5: ....
 	};
+
 	componentWillMount() {
-		const { people, num, jobs } = this.props;
-
-		let c_people = [ ...people ];
-
-		jobs.forEach((job) => {
-			let flag_count = 0;
-			while (job.count !== flag_count) {
-				const randomIndex = Math.floor(Math.random() * num);
-				if (typeof c_people[randomIndex] === 'object') {
-					continue;
-				} else {
-					c_people = [
-						{
-							name: c_people.splice(randomIndex, 1)[0],
-							code: job.code,
-							jobName: job.jobName
-						},
-						...c_people
-					];
-					flag_count += 1;
-				}
-			}
-		});
-		// console.log(c_people);
-		c_people = shuffle(c_people);
-		this.setState({
-			people: c_people
-		});
+		this.props.setPeopleVoted();
 	}
-	componentDidMount() {
-		this.refs.title.addEventListener('animationend', (e) => {
-			this.refs.title.removeEventListener('animationend', () => console.log('remove'));
-			this.refs.title.remove();
-			this.setState({
-				second: true
-			});
-			console.log('Animation End!!!');
-		});
 
-		setTimeout(() => {
-			this.refs.title.classList.add('fadeOutDown');
-			window.addEventListener('keypress', (e) => {
-				if (e.code === 'Enter') {
-					const { visible, people, showIndex } = this.state;
-					// if(this.state.visible) {
-					// 	this.setState({
-					// 		...this.state,
-					// 		visible: true
-					// 	});
-					// 	setTimeout(() => {
+	handlerOrderChange = () => {
+		const { order } = this.state;
 
-					// 	}, 2000)
-					// }
-					console.log('show index :', showIndex);
-					!visible && people.length > showIndex - 1
-						? this.setState({
-								...this.state,
-								visible: true
-							})
-						: this.setState({
-								...this.state,
-								visible: false,
-								showIndex: showIndex + 1
-							});
-				}
-			});
-		}, 2000);
-	}
+		order > 4
+			? this.setState({
+					order: 0
+				})
+			: this.setState({
+					order: order + 1
+				});
+	};
+
 	render() {
-		const { people, second, visible, showIndex } = this.state;
-		console.table(people);
+		const { people, gameOrder } = this.props;
+
+		console.log(people);
+
 		return (
-			<div className="App-header">
-				<h1 className="animated" ref="title">
-					이제 각 사람 마다의 역할이 정해집니다.
-				</h1>
-				{showIndex === people.length && <Start people={people} />}
-				{showIndex < people.length &&
-				second && <h1 className="animated fadeInUp delay-.1s">Enter를 눌러 당신의 역할을 확인하세요.</h1>}
-				{showIndex < people.length &&
-				second && <h2 className="animated fadeInUp delay-.1s">{people[showIndex].name}</h2>}
-				{showIndex < people.length &&
-				visible && <h2 className="animated fadeInUp delay-.1s">{people[showIndex].jobName}</h2>}
-				{/* {people.map((person, i) => {
-					return <div key={`person_${i}`}>{person.code}</div>;
-				})} */}
+			<div className="animated fadeInUp">
+				{gameOrder === 'day-time' ? (
+					<div>
+						<h1>낮</h1>
+						<DayTime />
+					</div>
+				) : (
+					<div className="App-header">
+						<h1>밤</h1>
+						<NightTime />
+					</div>
+				)}
 			</div>
 		);
 	}
 }
 
-export default Game;
+export default useGame(({ state, actions }) => ({
+	people: state.people,
+	gameOrder: state.gameOrder,
+	setPeopleVoted: actions.setPeopleVoted
+}))(Game);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import './App.css';
+import { useGame } from './context/GameContext';
 
 class App extends Component {
 	state = {
@@ -31,6 +32,7 @@ class App extends Component {
 	onGameStart = () => {};
 	onGameSetting = () => {};
 	render() {
+		const { people } = this.props;
 		const location = this.props.location;
 		// console.log(location.state);
 		// console.log(location.state ? location.state.redirectMesg : 'not exists location');
@@ -39,9 +41,16 @@ class App extends Component {
 			<div className="App">
 				<header className="App-header">
 					<h1>Hello Mafia</h1>
-					<Link className="btn" to="/setting">
-						게임 시작
-					</Link>
+					{people.length > 0 ? (
+						<Link className="btn" to="/start">
+							게임 시작
+						</Link>
+					) : (
+						<Link className="btn" to="/setting">
+							게임 시작
+						</Link>
+					)}
+
 					<Link className="btn" to="/about">
 						게임 설명
 					</Link>
@@ -51,4 +60,8 @@ class App extends Component {
 	}
 }
 
-export default withRouter(App);
+export default withRouter(
+	useGame(({ state, actions }) => ({
+		people: state.people
+	}))(App)
+);

@@ -5,19 +5,25 @@ import 'animate.css';
 import App from './App';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+import { GameProvider } from './context/GameContext';
+
 // Route Component
 import Setting from './routes/Setting';
-import GameStart from './routes/GameStart';
+import CheckRole from './routes/CheckRole';
 import About from './routes/About';
+import Game from './routes/Game';
 
 ReactDOM.render(
-	<Router>
-		<div>
-			<Route exact path="/" component={App} />
-			<Route path="/setting" component={Setting} />
-			<Route path="/start" component={GameStart} />
-			<Route path="/about" component={About} />
-		</div>
-	</Router>,
+	<GameProvider>
+		<Router>
+			<div>
+				<Route exact path="/" component={App} />
+				<Route path="/setting" component={Setting} />
+				<Route path="/check" component={CheckRole} />
+				<Route path="/about" component={About} />
+				<Route path="/game" component={Game} />
+			</div>
+		</Router>
+	</GameProvider>,
 	document.getElementById('root')
 );
