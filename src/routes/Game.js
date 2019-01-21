@@ -50,13 +50,17 @@ class Game extends React.Component {
 
 		return (
 			<div className="animated fadeInUp">
-				{gameOrder === 'day-time' ? <h1>낮</h1> : <h1>밤</h1>}
-				<div>
-					{/* <SwitchOrderComponent order={order} /> */}
-					{gameOrder === 'day-time' ? <DayTime /> : gameOrder === 'night-time' ? <NightTime /> : null}
-
-					{/* <SwitchingButton order={gameOrder} orderChange={this.handlerOrderChange} /> */}
-				</div>
+				{gameOrder === 'day-time' ? (
+					<div>
+						<h1>낮</h1>
+						<DayTime />
+					</div>
+				) : (
+					<div className="App-header">
+						<h1>밤</h1>
+						<NightTime />
+					</div>
+				)}
 			</div>
 		);
 	}

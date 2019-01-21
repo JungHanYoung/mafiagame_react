@@ -23,6 +23,7 @@ class VoteTime extends React.Component {
 
 		return (
 			<div>
+				<h1>마피아로 의심되는 사람을 투표합니다.</h1>
 				<div>{people[voteOrder].name}님의 투표</div>
 				<div>
 					{people.map((person, i) => {

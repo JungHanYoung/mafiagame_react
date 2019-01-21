@@ -3,12 +3,13 @@ import React from 'react';
 // Component
 import Discuss from './DayTimeDiscuss';
 import VoteTime from './VoteTime';
+import Result from './Result';
 import { useGame } from '../../context/GameContext';
 
 class DayTime extends React.Component {
 	handleNext = () => {
 		const { dayTimeOrder, changeDayTimeOrder, toggleNightAndDay } = this.props;
-		if (dayTimeOrder === 'vote') {
+		if (dayTimeOrder === 'result') {
 			toggleNightAndDay();
 		}
 		changeDayTimeOrder();
@@ -19,7 +20,8 @@ class DayTime extends React.Component {
 			<div>
 				{dayTimeOrder === 'discuss' && <Discuss />}
 				{dayTimeOrder === 'vote' && <VoteTime />}
-				<button onClick={this.handleNext}>next</button>
+				{dayTimeOrder === 'result' && <Result />}
+				{dayTimeOrder !== 'vote' && <button onClick={this.handleNext}>next</button>}
 			</div>
 		);
 	}

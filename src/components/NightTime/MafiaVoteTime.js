@@ -15,10 +15,12 @@ class MafiaVoteTime extends React.Component {
 		const { people, votePersonAtMafiaTime } = this.props;
 		return isGuideLetter ? (
 			<div>
-				GuideLetter<button onClick={this.endGuideLetter} />
+				<h1>밤이 되고 마피아가 움직입니다.</h1>
+				<button onClick={this.endGuideLetter}>확인</button>
 			</div>
 		) : (
 			<div>
+				<h1>마피아는 죽일 사람을 상의하여 선택하시기 바랍니다.</h1>
 				{people
 					.filter((person) => {
 						return person.jobName !== 'MAFIA';

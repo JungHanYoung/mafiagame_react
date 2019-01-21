@@ -7,11 +7,7 @@ class Doctor extends React.Component {
 		return (
 			<div>
 				<h1>Doctor</h1>
-				{people
-					.filter((person) => {
-						return person.jobName !== 'DOCTOR';
-					})
-					.map((person) => <button onClick={() => votePersonAtDoctor(person.name)}>{person.name}</button>)}
+				{people.map((person) => <button onClick={() => votePersonAtDoctor(person.name)}>{person.name}</button>)}
 			</div>
 		);
 	}
@@ -19,5 +15,5 @@ class Doctor extends React.Component {
 
 export default useGame(({ state, actions }) => ({
 	people: state.people,
-	votePersonAtDoctor: actions.votePersonAtDoctor
+	votePersonAtDoctor: actions.votePersonAtDocter
 }))(Doctor);

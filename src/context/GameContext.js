@@ -9,8 +9,10 @@ const { Provider, Consumer: GameConsumer } = Context;
 class GameProvider extends Component {
 	state = {
 		people: [],
+		isEndGame: false,
 		gameOrder: 'day-time',
 		dayTimeOrder: 'discuss',
+		dayTimeVotedPerson: '',
 		nightTimeOrder: 'mafia',
 		isEndVoteDayTime: false,
 		votedByMafia: '',
@@ -50,7 +52,7 @@ class GameProvider extends Component {
 			this.setState({
 				people: [
 					...this.state.people.map((person) => {
-						return Object.assign(person, { daytimeVoted: 0, nightVoted: 0 });
+						return Object.assign(person, { daytimeVoted: 0 });
 					})
 				]
 			});
@@ -78,24 +80,30 @@ class GameProvider extends Component {
 				return people[max].daytimeVoted < cur.daytimeVoted ? index : max;
 			}, 0);
 			const c_people = [ ...people ];
-			c_people.splice(maxVotedIndex, 1);
+			const votedPerson = c_people.splice(maxVotedIndex, 1)[0];
 			c_people.forEach((person) => {
 				Object.assign(person, { daytimeVoted: 0 });
 			});
 			this.setState({
 				people: c_people,
-				gameOrder: 'night-time'
+				dayTimeOrder: 'result',
+				dayTimeVotedPerson: votedPerson
+				// gameOrder: 'night-time'
 			});
 		},
 		changeDayTimeOrder: () => {
 			const { dayTimeOrder } = this.state;
 			if (dayTimeOrder === 'vote') {
 				this.setState({
-					dayTimeOrder: 'discuss'
+					dayTimeOrder: 'result'
 				});
 			} else if (dayTimeOrder === 'discuss') {
 				this.setState({
 					dayTimeOrder: 'vote'
+				});
+			} else if (dayTimeOrder === 'result') {
+				this.setState({
+					dayTimeOrder: 'discuss'
 				});
 			}
 		},
@@ -119,7 +127,13 @@ class GameProvider extends Component {
 		},
 		votePersonAtDocter: (name) => {
 			this.setState({
-				votedByDoctor: name
+				votedByDoctor: name,
+				nightTimeOrder: 'police'
+			});
+		},
+		moveToVoteResultAtNight: () => {
+			this.setState({
+				nightTimeOrder: 'result'
 			});
 		}
 	};
