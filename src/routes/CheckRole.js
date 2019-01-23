@@ -18,7 +18,7 @@ class GameStart extends React.Component {
 	handleShowRole = () => {
 		const { showRole, showIndex } = this.state;
 		const { people } = this.props;
-		console.log(people);
+		//console.log(people);
 
 		showRole
 			? this.setState({
@@ -36,7 +36,7 @@ class GameStart extends React.Component {
 
 		showRole && people.length === showIndex + 1 && this.props.history.push('/game');
 
-		console.log('show Index:', showIndex);
+		//console.log('show Index:', showIndex);
 	};
 
 	render() {

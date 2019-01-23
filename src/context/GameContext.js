@@ -1,6 +1,7 @@
 import React, { createContext, Component } from 'react';
 import createUseConsumer from '../lib/createUseConsumer';
 import { shuffle } from '../utils/shuffle';
+import { setRandomJob } from '../utils/setRandomJob';
 
 const Context = createContext();
 
@@ -23,27 +24,30 @@ class GameProvider extends Component {
 		setRolePeople: (people, jobs) => {
 			let c_people = [ ...people ];
 
-			jobs.forEach((job) => {
-				let flag_count = 0;
-				while (job.count !== flag_count) {
-					const randomIndex = Math.floor(Math.random() * people.length);
-					if (typeof c_people[randomIndex] === 'object') {
-						continue;
-					} else {
-						c_people = [
-							{
-								name: c_people.splice(randomIndex, 1)[0],
-								code: job.code,
-								jobName: job.jobName
-							},
-							...c_people
-						];
-						flag_count += 1;
-					}
-				}
-			});
+			// people 순서가 바뀜
+			//jobs.forEach((job) => {
+			//	let flag_count = 0;
+			//	while (job.count !== flag_count) {
+			//		const randomIndex = Math.floor(Math.random() * people.length);
+			//		if (typeof c_people[randomIndex] === 'object') {
+			//			continue;
+			//		} else {
+			//			c_people = [
+			//				{
+			//					name: c_people.splice(randomIndex, 1)[0],
+			//					code: job.code,
+			//					jobName: job.jobName
+			//				},
+			//				...c_people
+			//			];
+			//			flag_count += 1;
+			//		}
+			//	}
+			//});
 
-			c_people = shuffle(c_people);
+			c_people = setRandomJob(c_people,jobs);
+			// shuffle 함수 왜쓰는지 모르겠음.. 그대로임
+			//c_people = shuffle(c_people);
 			this.setState({
 				people: c_people
 			});
