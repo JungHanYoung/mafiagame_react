@@ -108,7 +108,7 @@ class Setting extends Component {
 		return (
 			<div className="App-header">
 				<div>
-					몇명이서 할건데?
+					몇명이서 할건데?&nbsp;
 					{/* <input
 						type="number"
 						value={num}
@@ -143,13 +143,8 @@ class Setting extends Component {
 					<Fragment>
 						{jobs.map((job) => (
 							<div key={job.code}>
-								<span
-									style={{
-										paddingRight: 15
-									}}
-									className="animated fadeInLeft"
-								>
-									{job.jobName}은 몇명?
+								<span className="animated fadeInLeft">
+									{job.jobName}은 몇명?&nbsp;
 								</span>
 								<input
 									type="number"
