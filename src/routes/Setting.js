@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import '../App.css';
 import { withRouter } from 'react-router-dom';
+import { useGame } from '../context/GameContext';
 
 class Setting extends Component {
 	state = {
@@ -82,7 +83,7 @@ class Setting extends Component {
 		});
 	};
 	onSettingEnd = () => {
-		const { history } = this.props;
+		const { history, setJobs, setPeople } = this.props;
 		const { jobs, num, people } = this.state;
 		const counts = jobs
 			.map((job) => {
@@ -92,11 +93,9 @@ class Setting extends Component {
 		// console.log(counts);
 
 		if (counts === num) {
-			history.push('/check', {
-				jobs,
-				num,
-				people
-			});
+			setJobs(jobs);
+			setPeople(people);
+			history.push('/check');
 		} else {
 			alert('총인원과 전체 게임인원이 맞지 않습니다.');
 		}
@@ -168,4 +167,9 @@ class Setting extends Component {
 	}
 }
 
-export default withRouter(Setting);
+export default withRouter(
+	useGame(({ state, actions }) => ({
+		setJobs: actions.setJobs,
+		setPeople: actions.setPeople
+	}))(Setting)
+);

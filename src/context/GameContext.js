@@ -12,6 +12,7 @@ class GameProvider extends Component {
 	state = {
 		people: [],
 		players: [],
+		jobs: [],
 		isEndGame: false,
 		gameOrder: 'day-time',
 		dayTimeOrder: 'discuss',
@@ -23,7 +24,18 @@ class GameProvider extends Component {
 	};
 
 	actions = {
-		setRolePeople: (people, jobs) => {
+		setJobs: (jobs) => {
+			this.setState({
+				jobs
+			});
+		},
+		setPeople: (people) => {
+			this.setState({
+				people
+			});
+		},
+		setRolePeople: () => {
+			const { people, jobs } = this.state;
 			let c_people = [ ...people ];
 
 			// people 순서가 바뀜
