@@ -6,9 +6,9 @@ class VoteTime extends React.Component {
 		voteOrder: 0
 	};
 	handleVote = (name) => {
-		const { votePerson, people, endVoteTime } = this.props;
+		const { votePerson, players, endVoteTime } = this.props;
 		const { voteOrder } = this.state;
-		if (voteOrder < people.length - 1) {
+		if (voteOrder < players.length - 1) {
 			this.setState({
 				voteOrder: voteOrder + 1
 			});
@@ -19,14 +19,14 @@ class VoteTime extends React.Component {
 	};
 	render() {
 		const { voteOrder } = this.state;
-		const { people } = this.props;
+		const { players } = this.props;
 
 		return (
 			<div>
 				<h1>마피아로 의심되는 사람을 투표합니다.</h1>
-				<div>{people[voteOrder].name}님의 투표</div>
+				<div>{players[voteOrder].name}님의 투표</div>
 				<div>
-					{people.map((person, i) => {
+					{players.map((person, i) => {
 						if (i === voteOrder) {
 							return null;
 						} else {
@@ -46,5 +46,5 @@ class VoteTime extends React.Component {
 export default useGame(({ state, actions }) => ({
 	votePerson: actions.votePerson,
 	endVoteTime: actions.endVoteTime,
-	people: state.people
+	players: state.players
 }))(VoteTime);
