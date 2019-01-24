@@ -139,6 +139,7 @@ class Setting extends Component {
 					<input
 						key={`name_${i}`}
 						type="text"
+						autoComplete="off"
 						name={`person_${i}`}
 						value={person}
 						onChange={(e) => this.onChangePersonName(i, e.target.value)}
