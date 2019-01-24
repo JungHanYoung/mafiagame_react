@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 // Component
 import Discuss from './DayTimeDiscuss';
@@ -14,24 +15,30 @@ class DayTime extends React.Component {
 		}
 		changeDayTimeOrder();
 	};
+	handleMoveToMain = () => {
+		this.props.history.push('/');
+		this.props.moveToMainAndReset();
+	};
 	render() {
-		const { dayTimeOrder, isEndGame, moveToMainAndReset } = this.props;
+		const { dayTimeOrder, isEndGame } = this.props;
 		return (
 			<div>
 				{dayTimeOrder === 'discuss' && <Discuss />}
 				{dayTimeOrder === 'vote' && <VoteTime />}
 				{dayTimeOrder === 'result' && <Result />}
 				{dayTimeOrder !== 'vote' && !isEndGame && <button onClick={this.handleNext}>next</button>}
-				{isEndGame && <button onClick={moveToMainAndReset}>메인으로</button>}
+				{isEndGame && <button onClick={this.handleMoveToMain}>메인으로</button>}
 			</div>
 		);
 	}
 }
 
-export default useGame(({ state, actions }) => ({
-	isEndGame: state.isEndGame,
-	dayTimeOrder: state.dayTimeOrder,
-	moveToMainAndReset: actions.moveToMainAndReset,
-	changeDayTimeOrder: actions.changeDayTimeOrder,
-	toggleNightAndDay: actions.toggleNightAndDay
-}))(DayTime);
+export default withRouter(
+	useGame(({ state, actions }) => ({
+		isEndGame: state.isEndGame,
+		dayTimeOrder: state.dayTimeOrder,
+		moveToMainAndReset: actions.moveToMainAndReset,
+		changeDayTimeOrder: actions.changeDayTimeOrder,
+		toggleNightAndDay: actions.toggleNightAndDay
+	}))(DayTime)
+);

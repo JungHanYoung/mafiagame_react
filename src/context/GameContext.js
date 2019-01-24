@@ -1,13 +1,14 @@
 import React, { createContext, Component } from 'react';
 import createUseConsumer from '../lib/createUseConsumer';
 import { Object } from 'es6-shim';
-import { setRandomJob } from '../utils/setRandomJob';
+import { setPlayers } from '../utils/setPlayers';
 
 const Context = createContext();
 
 const { Provider, Consumer: GameConsumer } = Context;
 
 class GameProvider extends Component {
+	// 데이터
 	state = {
 		people: [],
 		players: [],
@@ -46,7 +47,7 @@ class GameProvider extends Component {
 			//	}
 			//});
 
-			const players = setRandomJob(c_people, jobs);
+			const players = setPlayers(c_people, jobs);
 			// shuffle 함수 왜쓰는지 모르겠음.. 그대로임
 			//c_people = shuffle(c_people);
 			this.setState({
