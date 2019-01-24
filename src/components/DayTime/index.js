@@ -15,14 +15,14 @@ class DayTime extends React.Component {
 		changeDayTimeOrder();
 	};
 	render() {
-		const { dayTimeOrder, isEndGame, moveToMain } = this.props;
+		const { dayTimeOrder, isEndGame, moveToMainAndReset } = this.props;
 		return (
 			<div>
 				{dayTimeOrder === 'discuss' && <Discuss />}
 				{dayTimeOrder === 'vote' && <VoteTime />}
 				{dayTimeOrder === 'result' && <Result />}
 				{dayTimeOrder !== 'vote' && !isEndGame && <button onClick={this.handleNext}>next</button>}
-				{isEndGame && <button onClick={moveToMain}>메인으로</button>}
+				{isEndGame && <button onClick={moveToMainAndReset}>메인으로</button>}
 			</div>
 		);
 	}
@@ -31,7 +31,7 @@ class DayTime extends React.Component {
 export default useGame(({ state, actions }) => ({
 	isEndGame: state.isEndGame,
 	dayTimeOrder: state.dayTimeOrder,
-	moveToMain: actions.moveToMain,
+	moveToMainAndReset: actions.moveToMainAndReset,
 	changeDayTimeOrder: actions.changeDayTimeOrder,
 	toggleNightAndDay: actions.toggleNightAndDay
 }))(DayTime);

@@ -1,6 +1,5 @@
 import React, { createContext, Component } from 'react';
 import createUseConsumer from '../lib/createUseConsumer';
-import { shuffle } from '../utils/shuffle';
 import { Object } from 'es6-shim';
 import { setRandomJob } from '../utils/setRandomJob';
 
