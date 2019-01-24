@@ -85,12 +85,45 @@ class GameProvider extends Component {
 			c_people.forEach((person) => {
 				Object.assign(person, { daytimeVoted: 0 });
 			});
-			this.setState({
-				people: c_people,
-				dayTimeOrder: 'result',
-				dayTimeVotedPerson: votedPerson
-				// gameOrder: 'night-time'
+			// 마피아인 사람
+			const mafias = c_people.filter((person) => {
+				return person.jobName === 'MAFIA';
 			});
+			// 마피아가 아닌 사람
+			const citizen = c_people.filter((person) => {
+				return person.jobName !== 'MAFIA';
+			});
+			// 만약 마피아가 1명도 없다면
+			if (mafias.length === 0) {
+				this.setState({
+					people: c_people,
+					dayTimeOrder: 'result',
+					dayTimeVotedPerson: votedPerson,
+					// 게임은 끝나고
+					isEndGame: true,
+					// 시민이 승리
+					victory: 'citizen'
+				});
+				// 만약 마피아가 마피아가 아닌 사람과 같거나 많으면
+			} else if (mafias.length >= citizen.length) {
+				this.setState({
+					people: c_people,
+					dayTimeOrder: 'result',
+					dayTimeVotedPerson: votedPerson,
+					// 게임은 끝나고
+					isEndGame: true,
+					// 마피아가 승리
+					victory: 'mafia'
+				});
+				// 위의 두 조건이 만족하지 않으면
+			} else {
+				// 그대로 게임 진행..
+				this.setState({
+					people: c_people,
+					dayTimeOrder: 'result',
+					dayTimeVotedPerson: votedPerson
+				});
+			}
 		},
 		changeDayTimeOrder: () => {
 			const { dayTimeOrder } = this.state;
@@ -155,6 +188,24 @@ class GameProvider extends Component {
 				}),
 				gameOrder: 'day-time',
 				nightTimeOrder: 'mafia'
+			});
+		},
+		moveToMainAndReset: () => {
+			this.setState({
+				people: [],
+				isEndGame: false,
+				gameOrder: 'day-time',
+				dayTimeOrder: 'discuss',
+				dayTimeVotedPerson: '',
+				nightTimeOrder: 'mafia',
+				isEndVoteDayTime: false,
+				votedByMafia: '',
+				votedByDoctor: ''
+			});
+		},
+		setNightOrder: (name) => {
+			this.setState({
+				nightTimeOrder: name
 			});
 		}
 	};

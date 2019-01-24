@@ -2,29 +2,8 @@ import React from 'react';
 import { useGame } from '../../context/GameContext';
 
 class Result extends React.Component {
-	state = {
-		victory: ''
-	};
-	componentWillMount() {
-		const { people, isEndGame } = this.props;
-		if (isEndGame) {
-			const mafias = people.filter((person) => {
-				return person.jobName === 'MAFIA';
-			});
-			if (mafias.length > 0) {
-				this.setState({
-					victory: 'mafia'
-				});
-			} else {
-				this.setState({
-					victory: 'citizen'
-				});
-			}
-		}
-	}
 	render() {
-		const { victory } = this.state;
-		const { dayTimeVotedPerson, isEndGame } = this.props;
+		const { dayTimeVotedPerson, isEndGame, victory } = this.props;
 		return (
 			<div>
 				<h1>낮투표 결과</h1>
@@ -48,6 +27,6 @@ class Result extends React.Component {
 
 export default useGame(({ state, actions }) => ({
 	isEndGame: state.isEndGame,
-	people: state.people,
+	victory: state.victory,
 	dayTimeVotedPerson: state.dayTimeVotedPerson
 }))(Result);

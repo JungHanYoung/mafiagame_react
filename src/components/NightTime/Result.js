@@ -21,7 +21,7 @@ class Result extends React.Component {
 	}
 }
 // 마피아는 <누구>를 죽이고 의사는 사람을 살리지 못하였습니다.
-// 마피아는 <누구>를 죽였으나 의사가 살렸습니다.
+// 마피아는 <누구>를 죽였이려 하였으나 의사가 살렸습니다.
 
 export default useGame(({ state, actions }) => ({
 	votedByMafia: state.votedByMafia,
