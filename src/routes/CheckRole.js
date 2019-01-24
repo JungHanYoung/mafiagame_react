@@ -10,9 +10,8 @@ class GameStart extends React.Component {
 		showIndex: 0
 	};
 	componentWillMount() {
-		const { people, jobs } = this.props.location.state;
 
-		this.props.setRolePeople(people, jobs);
+		this.props.setRolePeople();
 	}
 
 	handleShowRole = () => {
@@ -87,6 +86,8 @@ class GameStart extends React.Component {
 export default withRouter(
 	useGame(({ state, actions }) => ({
 		players: state.players,
+		people: state.people,
+		jobs: state.jobs,
 		gameStart: state.gameStart,
 		setRolePeople: actions.setRolePeople,
 		setGameStart: actions.setGameStart
