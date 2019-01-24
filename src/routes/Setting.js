@@ -29,15 +29,6 @@ class Setting extends Component {
 		num: 0,
 		people: []
 	};
-	// handleJobCount = (event) => {
-	//     this.state.jobs.find()
-	//     this.setState({
-	//         jobs: [
-	//             ...jobs,
-
-	//         ]
-	//     })
-	// }
 	handleJobCount = (e) => {
 		const code = Number(e.target.name);
 		const value = Number(e.target.value);
@@ -168,7 +159,7 @@ class Setting extends Component {
 							/>
 						</div>
 					))}
-				<button onClick={this.onSettingEnd}>submit</button>
+				<button onClick={this.onSettingEnd}>게임시작</button>
 			</div>
 		);
 	}
