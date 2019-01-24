@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import '../App.css';
 import { withRouter } from 'react-router-dom';
 
@@ -139,27 +139,30 @@ class Setting extends Component {
 				{/* {Array.from({ length: num }, (v, k) => k).map((v) => (
 					<input key={`name_${v}`} type="text" value={people.name} />
 				))} */}
-				{num > 3 &&
-					jobs.map((job) => (
-						<div key={job.code}>
-							<span
-								style={{
-									paddingRight: 15
-								}}
-								className="animated fadeInLeft"
-							>
-								{job.jobName}은 몇명?
-							</span>
-							<input
-								type="number"
-								name={job.code}
-								value={job.count}
-								onChange={this.handleJobCount}
-								className="animated fadeInRight"
-							/>
-						</div>
-					))}
-				<button onClick={this.onSettingEnd}>게임시작</button>
+				{num > 3 && (
+					<Fragment>
+						{jobs.map((job) => (
+							<div key={job.code}>
+								<span
+									style={{
+										paddingRight: 15
+									}}
+									className="animated fadeInLeft"
+								>
+									{job.jobName}은 몇명?
+								</span>
+								<input
+									type="number"
+									name={job.code}
+									value={job.count}
+									onChange={this.handleJobCount}
+									className="animated fadeInRight"
+								/>
+							</div>
+						))}
+						<button onClick={this.onSettingEnd}>게임시작</button>
+					</Fragment>
+				)}
 			</div>
 		);
 	}
