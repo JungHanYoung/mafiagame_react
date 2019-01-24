@@ -17,8 +17,7 @@ class GameStart extends React.Component {
 
 	handleShowRole = () => {
 		const { showRole, showIndex } = this.state;
-		const { people } = this.props;
-		//console.log(people);
+		const { players } = this.props;
 
 		showRole
 			? this.setState({
@@ -29,19 +28,19 @@ class GameStart extends React.Component {
 				});
 
 		showRole &&
-			people.length > showIndex + 1 &&
+			players.length > showIndex + 1 &&
 			this.setState({
 				showIndex: showIndex + 1
 			});
 
-		showRole && people.length === showIndex + 1 && this.props.history.push('/game');
+		showRole && players.length === showIndex + 1 && this.props.history.push('/game');
 
 		//console.log('show Index:', showIndex);
 	};
 
 	render() {
 		const { showRole, showIndex } = this.state;
-		const { people, gameStart } = this.props;
+		const { players, gameStart } = this.props;
 
 		// console.log(this.props.history);
 		// console.log('show Index in rendering', showIndex);
@@ -51,7 +50,7 @@ class GameStart extends React.Component {
 		if (gameStart) {
 			return <div>game</div>;
 		} else {
-			return people.length > 0 ? (
+			return players.length > 0 ? (
 				<div className="App-header">
 					{/* <div>nono : {value}</div>
 					<div>hello : {hello}</div>
@@ -63,8 +62,8 @@ class GameStart extends React.Component {
 						이제 각 사람 마다의 역할이 정해집니다.
 					</h1>
 
-					<h2>{people[showIndex].name}</h2>
-					{showRole && <h2 className="animated fadeInUp delay-.1s">{people[showIndex].jobName}</h2>}
+					<h2>{players[showIndex].name}</h2>
+					{showRole && <h2 className="animated fadeInUp delay-.1s">{players[showIndex].jobName}</h2>}
 
 					{/* {showIndex < people.length &&
 					second && <h1 className="animated fadeInUp delay-.1s">Enter를 눌러 당신의 역할을 확인하세요.</h1>}
@@ -76,7 +75,9 @@ class GameStart extends React.Component {
 						return <div key={`person_${i}`}>{person.code}</div>;
 					})*/}
 
-					<button onClick={this.handleShowRole} className="btn">다음</button>
+					<button onClick={this.handleShowRole} className="btn">
+						다음
+					</button>
 				</div>
 			) : null;
 		}
@@ -85,7 +86,7 @@ class GameStart extends React.Component {
 
 export default withRouter(
 	useGame(({ state, actions }) => ({
-		people: state.people,
+		players: state.players,
 		gameStart: state.gameStart,
 		setRolePeople: actions.setRolePeople,
 		setGameStart: actions.setGameStart

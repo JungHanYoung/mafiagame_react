@@ -10,6 +10,7 @@ const { Provider, Consumer: GameConsumer } = Context;
 class GameProvider extends Component {
 	state = {
 		people: [],
+		players: [],
 		isEndGame: false,
 		gameOrder: 'day-time',
 		dayTimeOrder: 'discuss',
@@ -45,17 +46,18 @@ class GameProvider extends Component {
 			//	}
 			//});
 
-			c_people = setRandomJob(c_people, jobs);
+			const players = setRandomJob(c_people, jobs);
 			// shuffle 함수 왜쓰는지 모르겠음.. 그대로임
 			//c_people = shuffle(c_people);
 			this.setState({
-				people: c_people
+				people: c_people,
+				players
 			});
 		},
 		setPeopleVoted: () => {
 			this.setState({
-				people: [
-					...this.state.people.map((person) => {
+				players: [
+					...this.state.players.map((person) => {
 						return Object.assign(person, { daytimeVoted: 0 });
 					})
 				]
@@ -63,7 +65,7 @@ class GameProvider extends Component {
 		},
 		votePerson: (name) => {
 			this.setState({
-				people: this.state.people.map((person) => {
+				players: this.state.players.map((person) => {
 					if (person.name === name) {
 						return {
 							...person,
@@ -79,11 +81,11 @@ class GameProvider extends Component {
 			// 투표 끝..
 			// 투표를 많이 받은 사람은 people에서 삭제
 			// 투표 수를 초기화시킴.
-			const { people } = this.state;
-			const maxVotedIndex = people.reduce((max, cur, index) => {
-				return people[max].daytimeVoted < cur.daytimeVoted ? index : max;
+			const { players } = this.state;
+			const maxVotedIndex = players.reduce((max, cur, index) => {
+				return players[max].daytimeVoted < cur.daytimeVoted ? index : max;
 			}, 0);
-			const c_people = [ ...people ];
+			const c_people = [ ...players ];
 			const votedPerson = c_people.splice(maxVotedIndex, 1)[0];
 			c_people.forEach((person) => {
 				Object.assign(person, { daytimeVoted: 0 });
@@ -99,7 +101,7 @@ class GameProvider extends Component {
 			// 만약 마피아가 1명도 없다면
 			if (mafias.length === 0) {
 				this.setState({
-					people: c_people,
+					players: c_people,
 					dayTimeOrder: 'result',
 					dayTimeVotedPerson: votedPerson,
 					// 게임은 끝나고
@@ -110,7 +112,7 @@ class GameProvider extends Component {
 				// 만약 마피아가 마피아가 아닌 사람과 같거나 많으면
 			} else if (mafias.length >= citizen.length) {
 				this.setState({
-					people: c_people,
+					players: c_people,
 					dayTimeOrder: 'result',
 					dayTimeVotedPerson: votedPerson,
 					// 게임은 끝나고
@@ -122,7 +124,7 @@ class GameProvider extends Component {
 			} else {
 				// 그대로 게임 진행..
 				this.setState({
-					people: c_people,
+					players: c_people,
 					dayTimeOrder: 'result',
 					dayTimeVotedPerson: votedPerson
 				});
@@ -163,14 +165,14 @@ class GameProvider extends Component {
 			});
 		},
 		votePersonAtDocter: (name) => {
-			const { votedByMafia, people } = this.state;
+			const { votedByMafia, players } = this.state;
 			if (votedByMafia !== name) {
 				// 여기서 마피아가 죽인 사람을 의사가 살리지 못함..
-				const removeIndex = people.findIndex((person) => person.name === votedByMafia);
-				const c_people = [ ...people ];
+				const removeIndex = players.findIndex((person) => person.name === votedByMafia);
+				const c_people = [ ...players ];
 				c_people.splice(removeIndex, 1);
 				this.setState({
-					people: c_people
+					players: c_people
 				});
 			}
 			this.setState({
@@ -184,9 +186,9 @@ class GameProvider extends Component {
 			});
 		},
 		setDayTime: () => {
-			const { people } = this.state;
+			const { players } = this.state;
 			this.setState({
-				people: people.map((person) => {
+				players: players.map((person) => {
 					return Object.assign(person, { daytimeVoted: 0 });
 				}),
 				gameOrder: 'day-time',
@@ -195,7 +197,7 @@ class GameProvider extends Component {
 		},
 		moveToMainAndReset: () => {
 			this.setState({
-				people: [],
+				players: [],
 				isEndGame: false,
 				gameOrder: 'day-time',
 				dayTimeOrder: 'discuss',
