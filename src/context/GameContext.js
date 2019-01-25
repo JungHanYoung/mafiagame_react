@@ -3,6 +3,12 @@ import createUseConsumer from '../lib/createUseConsumer';
 import { Object } from 'es6-shim';
 import { setPlayers } from '../utils/setPlayers';
 
+// Constant 상수
+// import { JOB_NAME_OF_MAFIA, JOB_NAME_OF_DOCTOR, JOB_NAME_OF_POLICE, JOB_NAME_OF_CITIZEN } from '../contants/Job';
+import { DAY_TIME, NIGHT_TIME } from '../contants/turnOfGame/Game';
+import { TURN_OF_DISCUSS_AT_DAY, TURN_OF_RESULT_AT_DAY, TURN_OF_VOTE_AT_DAY } from '../contants/turnOfGame/DayTime';
+import { JOB_NAME_OF_MAFIA } from '../contants/Job';
+
 const Context = createContext();
 
 const { Provider, Consumer: GameConsumer } = Context;
@@ -14,56 +20,50 @@ class GameProvider extends Component {
 		players: [],
 		jobs: [],
 		isEndGame: false,
-		gameOrder: 'day-time',
-		dayTimeOrder: 'discuss',
+		gameOrder: DAY_TIME,
+		dayTimeOrder: TURN_OF_DISCUSS_AT_DAY,
 		dayTimeVotedPerson: '',
-		nightTimeOrder: 'mafia',
+		nightTimeOrder: 0,
 		isEndVoteDayTime: false,
-		votedByMafia: '',
+		isEndVoteNight: false,
+		mafiaVotes: {},
+		doctorVotes: {},
 		votedByDoctor: ''
 	};
 
 	actions = {
-		setJobs: (jobs) => {
+		setPeopleNum: (value) => {
+			this.setState({
+				people: Array.from({ length: value }, (v, k) => k).map(() => '')
+			});
+		},
+		setJobsOnState: (jobs) => {
 			this.setState({
 				jobs
 			});
 		},
-		setPeople: (people) => {
+		onChangePeopleName: (i, value) => {
+			const { people } = this.state;
+
 			this.setState({
-				people
+				people: people.map((v, index1) => (i === index1 ? value : v))
 			});
 		},
+		onChangeJobCount: (code, value) => {
+			const { jobs } = this.state;
+
+			if (value >= 0) {
+				this.setState({
+					jobs: jobs.map((job) => (job.code === code ? { ...job, count: value } : job))
+				});
+			}
+		},
 		setRolePeople: () => {
-			const { people, jobs } = this.state;
-			let c_people = [ ...people ];
+			const { jobs, people } = this.state;
 
-			// people 순서가 바뀜
-			//jobs.forEach((job) => {
-			//	let flag_count = 0;
-			//	while (job.count !== flag_count) {
-			//		const randomIndex = Math.floor(Math.random() * people.length);
-			//		if (typeof c_people[randomIndex] === 'object') {
-			//			continue;
-			//		} else {
-			//			c_people = [
-			//				{
-			//					name: c_people.splice(randomIndex, 1)[0],
-			//					code: job.code,
-			//					jobName: job.jobName
-			//				},
-			//				...c_people
-			//			];
-			//			flag_count += 1;
-			//		}
-			//	}
-			//});
+			const players = setPlayers(people, jobs);
 
-			const players = setPlayers(c_people, jobs);
-			// shuffle 함수 왜쓰는지 모르겠음.. 그대로임
-			//c_people = shuffle(c_people);
 			this.setState({
-				people: c_people,
 				players
 			});
 		},
@@ -105,17 +105,17 @@ class GameProvider extends Component {
 			});
 			// 마피아인 사람
 			const mafias = c_people.filter((person) => {
-				return person.jobName === 'MAFIA';
+				return person.jobName === JOB_NAME_OF_MAFIA;
 			});
 			// 마피아가 아닌 사람
 			const citizen = c_people.filter((person) => {
-				return person.jobName !== 'MAFIA';
+				return person.jobName !== JOB_NAME_OF_MAFIA;
 			});
 			// 만약 마피아가 1명도 없다면
 			if (mafias.length === 0) {
 				this.setState({
 					players: c_people,
-					dayTimeOrder: 'result',
+					dayTimeOrder: TURN_OF_RESULT_AT_DAY,
 					dayTimeVotedPerson: votedPerson,
 					// 게임은 끝나고
 					isEndGame: true,
@@ -126,7 +126,7 @@ class GameProvider extends Component {
 			} else if (mafias.length >= citizen.length) {
 				this.setState({
 					players: c_people,
-					dayTimeOrder: 'result',
+					dayTimeOrder: TURN_OF_RESULT_AT_DAY,
 					dayTimeVotedPerson: votedPerson,
 					// 게임은 끝나고
 					isEndGame: true,
@@ -138,65 +138,95 @@ class GameProvider extends Component {
 				// 그대로 게임 진행..
 				this.setState({
 					players: c_people,
-					dayTimeOrder: 'result',
+					dayTimeOrder: TURN_OF_RESULT_AT_DAY,
 					dayTimeVotedPerson: votedPerson
 				});
 			}
 		},
 		changeDayTimeOrder: () => {
 			const { dayTimeOrder } = this.state;
-			if (dayTimeOrder === 'vote') {
+			if (dayTimeOrder === TURN_OF_VOTE_AT_DAY) {
 				this.setState({
-					dayTimeOrder: 'result'
+					dayTimeOrder: TURN_OF_RESULT_AT_DAY
 				});
-			} else if (dayTimeOrder === 'discuss') {
+			} else if (dayTimeOrder === TURN_OF_DISCUSS_AT_DAY) {
 				this.setState({
-					dayTimeOrder: 'vote'
+					dayTimeOrder: TURN_OF_VOTE_AT_DAY
 				});
-			} else if (dayTimeOrder === 'result') {
+			} else if (dayTimeOrder === TURN_OF_RESULT_AT_DAY) {
 				this.setState({
-					dayTimeOrder: 'discuss'
+					dayTimeOrder: TURN_OF_DISCUSS_AT_DAY
 				});
 			}
 		},
 		toggleNightAndDay: () => {
 			const { gameOrder } = this.state;
-			if (gameOrder === 'day-time') {
+			if (gameOrder === DAY_TIME) {
 				this.setState({
-					gameOrder: 'night-time'
+					gameOrder: NIGHT_TIME
 				});
-			} else if (gameOrder === 'night-time') {
+			} else if (gameOrder === NIGHT_TIME) {
 				this.setState({
-					gameOrder: 'day-time'
+					gameOrder: DAY_TIME
 				});
 			}
 		},
 		votePersonAtMafiaTime: (name) => {
-			this.setState({
-				votedByMafia: name,
-				nightTimeOrder: 'doctor'
-			});
-		},
-		votePersonAtDocter: (name) => {
-			const { votedByMafia, players } = this.state;
-			if (votedByMafia !== name) {
-				// 여기서 마피아가 죽인 사람을 의사가 살리지 못함..
-				const removeIndex = players.findIndex((person) => person.name === votedByMafia);
-				const c_people = [ ...players ];
-				c_people.splice(removeIndex, 1);
+			const { nightTimeOrder, players, mafiaVotes } = this.state;
+			if (nightTimeOrder < players.length - 1) {
 				this.setState({
-					players: c_people
+					mafiaVotes: {
+						...mafiaVotes,
+						[name]: mafiaVotes.hasOwnProperty(name) ? mafiaVotes[name] + 1 : 1
+					},
+					nightTimeOrder: nightTimeOrder + 1
+				});
+			} else {
+				this.setState({
+					mafiaVotes: {
+						...mafiaVotes,
+						[name]: mafiaVotes.hasOwnProperty(name) ? mafiaVotes[name] + 1 : 1
+					},
+					nightTimeOrder: 0,
+					isEndVoteNight: true
 				});
 			}
-			this.setState({
-				votedByDoctor: name,
-				nightTimeOrder: 'police'
-			});
 		},
-		moveToVoteResultAtNight: () => {
-			this.setState({
-				nightTimeOrder: 'result'
-			});
+		votePersonAtDoctor: (name) => {
+			const { players, nightTimeOrder, doctorVotes } = this.state;
+			if (nightTimeOrder < players.length - 1) {
+				this.setState({
+					doctorVotes: {
+						...doctorVotes,
+						[name]: doctorVotes.hasOwnProperty(name) ? doctorVotes[name] + 1 : 1
+					},
+					nightTimeOrder: nightTimeOrder + 1
+				});
+			} else {
+				this.setState({
+					doctorVotes: {
+						...doctorVotes,
+						[name]: doctorVotes.hasOwnProperty(name) ? doctorVotes[name] + 1 : 1
+					},
+					nightTimeOrder: 0,
+					isEndVoteNight: true
+				});
+			}
+			//
+			// if (votedByMafia !== name) {
+			// 	// 여기서 마피아가 죽인 사람을 의사가 살리지 못함..
+			// 	const removeIndex = players.findIndex((person) => person.name === votedByMafia);
+			// 	const c_people = [ ...players ];
+			// 	c_people.splice(removeIndex, 1);
+			// 	this.setState({
+			// 		players: c_people
+			// 	});
+			// } else {
+			// 	this.setState({
+			// 		votedByDoctor: name,
+			// 		nightTimeOrder: 'police'
+			// 	});
+			// }
 		},
 		setDayTime: () => {
 			const { players } = this.state;
@@ -204,27 +234,37 @@ class GameProvider extends Component {
 				players: players.map((person) => {
 					return Object.assign(person, { daytimeVoted: 0 });
 				}),
-				gameOrder: 'day-time',
-				nightTimeOrder: 'mafia'
+				gameOrder: DAY_TIME
 			});
 		},
 		moveToMainAndReset: () => {
-			this.setState({
-				players: [],
-				isEndGame: false,
-				gameOrder: 'day-time',
-				dayTimeOrder: 'discuss',
-				dayTimeVotedPerson: '',
-				nightTimeOrder: 'mafia',
-				isEndVoteDayTime: false,
-				votedByMafia: '',
-				votedByDoctor: ''
-			});
+			this.setState(
+				{
+					players: [],
+					isEndGame: false,
+					gameOrder: DAY_TIME,
+					dayTimeOrder: TURN_OF_DISCUSS_AT_DAY,
+					dayTimeVotedPerson: '',
+					nightTimeOrder: 'mafia',
+					isEndVoteDayTime: false,
+					votedByMafia: '',
+					votedByDoctor: ''
+				},
+				() => console.log(this.state.jobs)
+			);
 		},
-		setNightOrder: (name) => {
-			this.setState({
-				nightTimeOrder: name
-			});
+		nextOrder: () => {
+			const { nightTimeOrder, players } = this.state;
+			if (nightTimeOrder < players.length - 1) {
+				this.setState({
+					nightTimeOrder: nightTimeOrder + 1
+				});
+			} else {
+				this.setState({
+					nightTimeOrder: 0,
+					isEndVoteNight: true
+				});
+			}
 		}
 	};
 

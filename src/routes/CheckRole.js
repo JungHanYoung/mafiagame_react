@@ -1,16 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 // component
 import { useGame } from '../context/GameContext';
 
-class GameStart extends React.Component {
+class CheckRole extends React.Component {
 	state = {
 		showRole: false,
 		showIndex: 0
 	};
 	componentWillMount() {
-
 		this.props.setRolePeople();
 	}
 
@@ -83,13 +83,24 @@ class GameStart extends React.Component {
 	}
 }
 
+CheckRole.propTypes = {
+	players: PropTypes.array,
+	people: PropTypes.arrayOf(PropTypes.string),
+	jobs: PropTypes.arrayOf(
+		PropTypes.shape({
+			code: PropTypes.number,
+			jobName: PropTypes.string,
+			count: PropTypes.number
+		})
+	),
+	setRolePeople: PropTypes.func.isRequired
+};
+
 export default withRouter(
 	useGame(({ state, actions }) => ({
 		players: state.players,
 		people: state.people,
 		jobs: state.jobs,
-		gameStart: state.gameStart,
-		setRolePeople: actions.setRolePeople,
-		setGameStart: actions.setGameStart
-	}))(GameStart)
+		setRolePeople: actions.setRolePeople
+	}))(CheckRole)
 );

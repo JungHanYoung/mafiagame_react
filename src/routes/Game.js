@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useGame } from '../context/GameContext';
 
 // 컴포넌트
@@ -11,9 +12,7 @@ class Game extends React.Component {
 	}
 
 	render() {
-		const { people, gameOrder } = this.props;
-
-		console.log(people);
+		const { gameOrder } = this.props;
 
 		return (
 			<div className="animated fadeInUp">
@@ -33,8 +32,12 @@ class Game extends React.Component {
 	}
 }
 
+Game.propTypes = {
+	gameOrder: PropTypes.string,
+	setPeopleVoted: PropTypes.func.isRequired
+};
+
 export default useGame(({ state, actions }) => ({
-	people: state.people,
 	gameOrder: state.gameOrder,
 	setPeopleVoted: actions.setPeopleVoted
 }))(Game);

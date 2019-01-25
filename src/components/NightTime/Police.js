@@ -1,44 +1,54 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
 
 class Police extends React.Component {
-	componentWillMount() {
-		const { players, setNightOrder } = this.props;
-		if (players.filter((person) => person.jobName === 'POLICE').length <= 0) {
-			setNightOrder('result');
-		}
-	}
+	state = {
+		selected: false,
+		isMafia: false,
+		selectName: ''
+	};
 	detectingMafiaByPolice = (name) => {
 		const { players } = this.props;
 		players.find((person) => {
 			return person.name === name;
 		}).jobName === 'MAFIA'
 			? this.setState({
-					selected: name,
+					selected: true,
+					selectName: name,
 					isMafia: true
 				})
 			: this.setState({
-					selected: name,
+					selected: true,
+					selectName: name,
 					isMafia: false
 				});
 	};
+	handleNextOrder = () => {
+		const { nextOrder, handleConfirmAndCheck } = this.props;
+		handleConfirmAndCheck();
+		nextOrder();
+	};
 	render() {
-		const { isMafia, selected } = this.state;
-		const { players, setNightOrder } = this.props;
+		const { isMafia, selected, selectName } = this.state;
+		const { players } = this.props;
 		return (
 			<div>
 				경찰의 차례입니다. 경찰은 마피아로 의심되는 사람을 지목해 마피아가 맞는지 확인할 수 있습니다.
-				{players
-					.filter((person) => {
-						return person.jobName !== 'POLICE';
-					})
-					.map((person) => (
-						<button onClick={() => this.detectingMafiaByPolice(person.name)}>{person.name}</button>
-					))}
-				{isMafia !== undefined && (
+				{!selected &&
+					players
+						.filter((person) => {
+							return person.jobName !== 'POLICE';
+						})
+						.map((person, i) => (
+							<button key={`police-select-${i}`} onClick={() => this.detectingMafiaByPolice(person.name)}>
+								{person.name}
+							</button>
+						))}
+				{selected && (
 					<div>
-						{selected}은 마피아가 {isMafia ? '맞습니다.' : '아닙니다.'}
-						<button onClick={() => setNightOrder('result')}>밤 투표 결과</button>
+						{selectName}은 마피아가 {isMafia ? '맞습니다.' : '아닙니다.'}
+						<button onClick={this.handleNextOrder}>다음</button>
 					</div>
 				)}
 			</div>
@@ -46,7 +56,22 @@ class Police extends React.Component {
 	}
 }
 
+Police.propTypes = {
+	// context
+	players: PropTypes.arrayOf(
+		PropTypes.shape({
+			name: PropTypes.string.isRequired,
+			daytimeVoted: PropTypes.number,
+			jobName: PropTypes.string.isRequired,
+			code: PropTypes.number
+		})
+	).isRequired,
+	nextOrder: PropTypes.func.isRequired,
+	// parent
+	handleConfirmAndCheck: PropTypes.func.isRequired
+};
+
 export default useGame(({ state, actions }) => ({
 	players: state.players,
-	setNightOrder: actions.setNightOrder
+	nextOrder: actions.nextOrder
 }))(Police);
