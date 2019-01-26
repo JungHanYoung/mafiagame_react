@@ -3,16 +3,20 @@ import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
 
 class Doctor extends React.Component {
+	handleSelectBtn = (name) => {
+		const { handleConfirmAndCheck, votePersonAtDoctor } = this.props;
+		handleConfirmAndCheck();
+		votePersonAtDoctor(name);
+	};
 	render() {
-		const { players, votePersonAtDoctor } = this.props;
-		console.log(votePersonAtDoctor);
-		console.log(players);
+		const { players } = this.props;
+
 		return (
 			<div>
 				<h1>당신은 의사입니다.</h1>
 				<h2>누구를 살릴지 선택을 하세요.</h2>
 				{players.map((person, i) => (
-					<button key={`doctor-select-${i}`} onClick={() => votePersonAtDoctor(person.name)}>
+					<button key={`doctor-select-${i}`} onClick={() => this.handleSelectBtn(person.name)}>
 						{person.name}
 					</button>
 				))}

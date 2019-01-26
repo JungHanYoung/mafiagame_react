@@ -28,7 +28,7 @@ class GameProvider extends Component {
 		isEndVoteNight: false,
 		mafiaVotes: {},
 		doctorVotes: {},
-		votedByDoctor: ''
+		victory: ''
 	};
 
 	actions = {
@@ -139,6 +139,7 @@ class GameProvider extends Component {
 				this.setState({
 					players: c_people,
 					dayTimeOrder: TURN_OF_RESULT_AT_DAY,
+					isEndVoteDayTime: true,
 					dayTimeVotedPerson: votedPerson
 				});
 			}
@@ -159,17 +160,12 @@ class GameProvider extends Component {
 				});
 			}
 		},
-		toggleNightAndDay: () => {
-			const { gameOrder } = this.state;
-			if (gameOrder === DAY_TIME) {
-				this.setState({
-					gameOrder: NIGHT_TIME
-				});
-			} else if (gameOrder === NIGHT_TIME) {
-				this.setState({
-					gameOrder: DAY_TIME
-				});
-			}
+		setNightTime: () => {
+			this.setState({
+				gameOrder: NIGHT_TIME,
+				nightTimeOrder: 0,
+				isEndVoteDayTime: false
+			});
 		},
 		votePersonAtMafiaTime: (name) => {
 			const { nightTimeOrder, players, mafiaVotes } = this.state;
@@ -228,13 +224,80 @@ class GameProvider extends Component {
 			// 	});
 			// }
 		},
+		resultAtNight: () => {
+			const { players, doctorVotes, mafiaVotes } = this.state;
+			const votedMafia = Object.keys(mafiaVotes);
+			const votedDoctor = Object.keys(doctorVotes);
+			// 마피아가 만장일치를 했을 때
+			if (votedMafia.length === 1) {
+				const killName = votedMafia[0];
+				const afterKilled = players.filter((player) => player.name !== killName);
+				const mafias = afterKilled.filter((player) => player.jobName === JOB_NAME_OF_MAFIA);
+				const citizen = afterKilled.filter((player) => player.jobName !== JOB_NAME_OF_MAFIA);
+				// 의사가 만장일치 했을 때
+				if (votedDoctor.length === 1) {
+					const saveName = votedDoctor[0];
+
+					// 의사가 마피아로부터 시민을 지키지 못했을 때
+					if (killName !== saveName) {
+						// 마피아 승리조건을 충족 ( 마피아 수가 시민 수와 같으면 )
+						if (mafias.length >= citizen.length) {
+							this.setState({
+								players: afterKilled,
+								isEndGame: true,
+								victory: 'mafia'
+							});
+							// 아님 마피아는 사람을 죽임.
+						} else {
+							this.setState({
+								players: afterKilled
+							});
+						}
+						// 의사가 마피아로부터 시민을 지킴
+					} else {
+					}
+					// 의사가 만장일치되지 않으면..
+				} else {
+					// 마피아는 그대로 시민을 죽임.
+					this.setState({
+						players: afterKilled
+					});
+				}
+				// 마피아 의견이 일치되지 않으면.. 그냥 그대로 둠.
+			}
+			// if (votedMafia.length === 1 && votedDoctor.length === 1) {
+			// 	const killName = votedMafia[0];
+			// 	const saveName = votedDoctor[0];
+			// 	if (killName !== saveName) {
+			// 		const afterKilled = players.filter((player) => player.name !== killName);
+			// 		const mafias = afterKilled.filter((player) => player.jobName === JOB_NAME_OF_MAFIA);
+			// 		const citizen = afterKilled.filter((player) => player.jobName !== JOB_NAME_OF_MAFIA);
+			// 		if (mafias.length >= citizen.length) {
+			// 			this.setState({
+			// 				players: afterKilled,
+			// 				isEndGame: true,
+			// 				victory: 'mafia'
+			// 			});
+			// 		} else {
+			// 			this.setState({
+			// 				players: afterKilled
+			// 			});
+			// 		}
+			// 	}
+			// }
+		},
 		setDayTime: () => {
 			const { players } = this.state;
 			this.setState({
 				players: players.map((person) => {
 					return Object.assign(person, { daytimeVoted: 0 });
 				}),
-				gameOrder: DAY_TIME
+				isEndVoteDayTime: false,
+				isEndVoteNight: false,
+				gameOrder: DAY_TIME,
+				dayTimeOrder: TURN_OF_DISCUSS_AT_DAY,
+				mafiaVotes: {},
+				doctorVotes: {}
 			});
 		},
 		moveToMainAndReset: () => {
@@ -245,10 +308,11 @@ class GameProvider extends Component {
 					gameOrder: DAY_TIME,
 					dayTimeOrder: TURN_OF_DISCUSS_AT_DAY,
 					dayTimeVotedPerson: '',
-					nightTimeOrder: 'mafia',
+					nightTimeOrder: 0,
 					isEndVoteDayTime: false,
-					votedByMafia: '',
-					votedByDoctor: ''
+					isEndVoteNight: false,
+					mafiaVotes: {},
+					doctorVotes: {}
 				},
 				() => console.log(this.state.jobs)
 			);

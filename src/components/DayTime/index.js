@@ -6,28 +6,20 @@ import Discuss from './DayTimeDiscuss';
 import VoteTime from './VoteTime';
 import Result from './Result';
 import { useGame } from '../../context/GameContext';
+import WhetherVictory from '../common/WhetherVictory';
 
 class DayTime extends React.Component {
-	handleNext = () => {
-		const { dayTimeOrder, changeDayTimeOrder, toggleNightAndDay } = this.props;
-		if (dayTimeOrder === 'result') {
-			toggleNightAndDay();
-		}
-		changeDayTimeOrder();
-	};
-	handleMoveToMain = () => {
-		this.props.history.push('/');
-		this.props.moveToMainAndReset();
-	};
 	render() {
-		const { dayTimeOrder, isEndGame } = this.props;
+		const { dayTimeOrder } = this.props;
 		return (
 			<div>
 				{dayTimeOrder === 'discuss' && <Discuss />}
 				{dayTimeOrder === 'vote' && <VoteTime />}
 				{dayTimeOrder === 'result' && <Result />}
-				{dayTimeOrder !== 'vote' && !isEndGame && <button onClick={this.handleNext}>next</button>}
-				{isEndGame && <button onClick={this.handleMoveToMain}>메인으로</button>}
+				{/* 버튼 */}
+				<WhetherVictory />
+				{/* {dayTimeOrder !== 'vote' && !isEndGame && <button onClick={this.handleNext}>next</button>}
+				{isEndGame && <button onClick={this.handleMoveToMain}>메인으로</button>} */}
 			</div>
 		);
 	}
