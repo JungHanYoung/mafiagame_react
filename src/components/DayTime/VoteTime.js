@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
 
 class VoteTime extends React.Component {
@@ -42,6 +43,19 @@ class VoteTime extends React.Component {
 		);
 	}
 }
+
+VoteTime.propTypes = {
+	votePerson: PropTypes.func.isRequired,
+	endVoteTime: PropTypes.func.isRequired,
+	players: PropTypes.arrayOf(
+		PropTypes.shape({
+			name: PropTypes.string.isRequired,
+			daytimeVoted: PropTypes.number,
+			jobName: PropTypes.string.isRequired,
+			code: PropTypes.number
+		})
+	)
+};
 
 export default useGame(({ state, actions }) => ({
 	votePerson: actions.votePerson,

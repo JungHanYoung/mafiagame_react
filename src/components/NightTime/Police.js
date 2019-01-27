@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
 
-class Police extends React.Component {
+class Police extends Component {
 	state = {
 		selected: false,
 		isMafia: false,
@@ -46,10 +46,14 @@ class Police extends React.Component {
 							</button>
 						))}
 				{selected && (
-					<div>
-						{selectName}은 마피아가 {isMafia ? '맞습니다.' : '아닙니다.'}
-						<button onClick={this.handleNextOrder}>다음</button>
-					</div>
+					<Fragment>
+						<div>
+							{selectName}은 마피아가 {isMafia ? '맞습니다.' : '아닙니다.'}
+						</div>
+						<div>
+							<button onClick={this.handleNextOrder}>다음</button>
+						</div>
+					</Fragment>
 				)}
 			</div>
 		);

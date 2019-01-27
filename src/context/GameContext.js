@@ -25,6 +25,7 @@ class GameProvider extends Component {
 		dayTimeVotedPerson: '',
 		nightTimeOrder: 0,
 		isEndVoteDayTime: false,
+		isReVoted: false,
 		isEndVoteNight: false,
 		mafiaVotes: {},
 		doctorVotes: {},
@@ -208,21 +209,6 @@ class GameProvider extends Component {
 					isEndVoteNight: true
 				});
 			}
-			//
-			// if (votedByMafia !== name) {
-			// 	// 여기서 마피아가 죽인 사람을 의사가 살리지 못함..
-			// 	const removeIndex = players.findIndex((person) => person.name === votedByMafia);
-			// 	const c_people = [ ...players ];
-			// 	c_people.splice(removeIndex, 1);
-			// 	this.setState({
-			// 		players: c_people
-			// 	});
-			// } else {
-			// 	this.setState({
-			// 		votedByDoctor: name,
-			// 		nightTimeOrder: 'police'
-			// 	});
-			// }
 		},
 		resultAtNight: () => {
 			const { players, doctorVotes, mafiaVotes } = this.state;
@@ -263,28 +249,21 @@ class GameProvider extends Component {
 						players: afterKilled
 					});
 				}
-				// 마피아 의견이 일치되지 않으면.. 그냥 그대로 둠.
+				// 마피아 의견이 일치되지 않으면.. 다시 재투표.
+			} else {
+				// 재투표
+				this.setState({
+					isReVoted: true
+				});
 			}
-			// if (votedMafia.length === 1 && votedDoctor.length === 1) {
-			// 	const killName = votedMafia[0];
-			// 	const saveName = votedDoctor[0];
-			// 	if (killName !== saveName) {
-			// 		const afterKilled = players.filter((player) => player.name !== killName);
-			// 		const mafias = afterKilled.filter((player) => player.jobName === JOB_NAME_OF_MAFIA);
-			// 		const citizen = afterKilled.filter((player) => player.jobName !== JOB_NAME_OF_MAFIA);
-			// 		if (mafias.length >= citizen.length) {
-			// 			this.setState({
-			// 				players: afterKilled,
-			// 				isEndGame: true,
-			// 				victory: 'mafia'
-			// 			});
-			// 		} else {
-			// 			this.setState({
-			// 				players: afterKilled
-			// 			});
-			// 		}
-			// 	}
-			// }
+		},
+		voteAgainAtNight: () => {
+			this.setState({
+				nightTimeOrder: 0,
+				isReVoted: false,
+				mafiaVotes: {},
+				doctorVotes: {}
+			});
 		},
 		setDayTime: () => {
 			const { players } = this.state;

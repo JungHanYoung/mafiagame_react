@@ -11,7 +11,7 @@ class Citizen extends React.Component {
 			this.setState({
 				disableBtn: false
 			});
-		}, 1000);
+		}, 3000);
 	}
 	handleSelectBtn = () => {
 		const { handleConfirmAndCheck, nextOrder } = this.props;
@@ -32,8 +32,10 @@ class Citizen extends React.Component {
 }
 
 Citizen.propTypes = {
-	handleConfirmAndCheck: PropTypes.func.isRequired,
-	nextOrder: PropTypes.func.isRequired
+	// context
+	nextOrder: PropTypes.func.isRequired,
+	// parent
+	handleConfirmAndCheck: PropTypes.func.isRequired
 };
 
 export default useGame(({ state, actions }) => ({
