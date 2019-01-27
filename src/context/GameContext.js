@@ -13,6 +13,36 @@ const Context = createContext();
 
 const { Provider, Consumer: GameConsumer } = Context;
 
+// State Interface
+/**
+ * people: [string]		- 세팅시 입력받은 플레이어들의 이름
+ * players: [{			- people과 jobs를 합쳐서 무작위로 역할지정된 다음의 플레이어들
+ * 	code: number,
+ * 	name: string,
+ * 	jobName: string,
+ * 	daytimeVoted: number
+ * }]
+ * jobs: [{				- 세팅 시에 정한 직업과 그 직업의 수
+ * 	code: number
+ * 	jobName: string
+ * 	count: number
+ * }]
+ * isEndGame: boolean	- 게임이 끝나는 조건을 충족했을 때의 값
+ * gameOrder: DAY_TIME | NIGHT_TIME		- 낮과 밤 설정
+ * 
+ * - 낮일 때 현재 게임 순서 (토론, 투표, 투표결과)
+ * dayTimeOrder: TURN_OF_DISCUSS_AT_DAY | TURN_OF_VOTE_AT_DAY | TURN_OF_RESULT_AT_DAY
+ * 
+ * dayTimeVotedPerson: string	- 낮에 투표를 가장 많이 받은 사람
+ * nightTimeOrder: number		- 밤에서의 플레이어 순서(인덱스)
+ * isEndVoteDayTime: boolean	- 낮에 투표가 끝났는지의 여부
+ * isReVoted: boolean			- 밤에 재투표를 해야되는 지의 여부
+ * isEndVoteNight: boolean		- 밤에 투표가 끝났는지 여부
+ * mafiaVotes: Empty object | { [string]: number }	- 밤에 마피아에게 투표받은 사람이름과 투표갯수
+ * doctorVotes: Empty object | { [string]: number }	- 밤에 의사에게 투표받은 사람이름과 투표갯수
+ * victory: 'mafia' | 'citizen'	- 게임이 끝났을 때 누가 이겼는 지
+ */
+
 class GameProvider extends Component {
 	// 데이터
 	state = {
@@ -33,16 +63,19 @@ class GameProvider extends Component {
 	};
 
 	actions = {
+		// Setting > onPeopleChange - 드롭박스로 사람인원을 정했을 때, people에 배열 요소 할당
 		setPeopleNum: (value) => {
 			this.setState({
 				people: Array.from({ length: value }, (v, k) => k).map(() => '')
 			});
 		},
+		// Setting > onSettingEnd - 세팅이 끝났을 때, Setting의 state>jobs로 Context의 state>jobs업데이트
 		setJobsOnState: (jobs) => {
 			this.setState({
 				jobs
 			});
 		},
+		// Setting > render > input - 세팅에서 플레이어이름 입력 인풋 핸들링
 		onChangePeopleName: (i, value) => {
 			const { people } = this.state;
 
@@ -50,15 +83,7 @@ class GameProvider extends Component {
 				people: people.map((v, index1) => (i === index1 ? value : v))
 			});
 		},
-		onChangeJobCount: (code, value) => {
-			const { jobs } = this.state;
-
-			if (value >= 0) {
-				this.setState({
-					jobs: jobs.map((job) => (job.code === code ? { ...job, count: value } : job))
-				});
-			}
-		},
+		// CheckRole > componentWillMount - 세팅 끝난 후, players 무작위 역할지정
 		setRolePeople: () => {
 			const { jobs, people } = this.state;
 
@@ -68,6 +93,7 @@ class GameProvider extends Component {
 				players
 			});
 		},
+		// Game > componentWillMount - 게임이 시작되었을 때, 플레이어들의 낮 투표수 초기화
 		setPeopleVoted: () => {
 			this.setState({
 				players: [
@@ -77,6 +103,7 @@ class GameProvider extends Component {
 				]
 			});
 		},
+		// VoteTime > handleVote 	- 낮 투표
 		votePerson: (name) => {
 			this.setState({
 				players: this.state.players.map((person) => {
@@ -91,6 +118,7 @@ class GameProvider extends Component {
 				})
 			});
 		},
+		// VoteTime > handleVote	- 모든 플레이어가 투표를 끝내면 가장 많은 투표를 받은 인원을 제외시킴, 승리여부판단까지
 		endVoteTime: () => {
 			// 투표 끝..
 			// 투표를 많이 받은 사람은 people에서 삭제
@@ -105,13 +133,9 @@ class GameProvider extends Component {
 				Object.assign(person, { daytimeVoted: 0 });
 			});
 			// 마피아인 사람
-			const mafias = c_people.filter((person) => {
-				return person.jobName === JOB_NAME_OF_MAFIA;
-			});
+			const mafias = c_people.filter((person) => person.jobName === JOB_NAME_OF_MAFIA);
 			// 마피아가 아닌 사람
-			const citizen = c_people.filter((person) => {
-				return person.jobName !== JOB_NAME_OF_MAFIA;
-			});
+			const citizen = c_people.filter((person) => person.jobName !== JOB_NAME_OF_MAFIA);
 			// 만약 마피아가 1명도 없다면
 			if (mafias.length === 0) {
 				this.setState({
@@ -145,6 +169,7 @@ class GameProvider extends Component {
 				});
 			}
 		},
+		// DayTimeDiscuss > button	- 토론 끝나고 투표로 넘어갈 때
 		changeDayTimeOrder: () => {
 			const { dayTimeOrder } = this.state;
 			if (dayTimeOrder === TURN_OF_VOTE_AT_DAY) {
@@ -161,6 +186,7 @@ class GameProvider extends Component {
 				});
 			}
 		},
+		// WhetherVictory > button	- 낮 투표결과 후 밤으로 갈때
 		setNightTime: () => {
 			this.setState({
 				gameOrder: NIGHT_TIME,
@@ -168,6 +194,7 @@ class GameProvider extends Component {
 				isEndVoteDayTime: false
 			});
 		},
+		// Mafia > handleSelectBtn	- 마피아가 제외시킬 사람 투표
 		votePersonAtMafiaTime: (name) => {
 			const { nightTimeOrder, players, mafiaVotes } = this.state;
 			if (nightTimeOrder < players.length - 1) {
@@ -189,6 +216,7 @@ class GameProvider extends Component {
 				});
 			}
 		},
+		// Doctor > handleSelectBtn - 의사가 투표
 		votePersonAtDoctor: (name) => {
 			const { players, nightTimeOrder, doctorVotes } = this.state;
 			if (nightTimeOrder < players.length - 1) {
@@ -210,6 +238,7 @@ class GameProvider extends Component {
 				});
 			}
 		},
+		// Result(Night) > componentWillMount - 밤 투표 결과 셋팅, 승리여부, 마피아, 의사
 		resultAtNight: () => {
 			const { players, doctorVotes, mafiaVotes } = this.state;
 			const votedMafia = Object.keys(mafiaVotes);
@@ -257,6 +286,7 @@ class GameProvider extends Component {
 				});
 			}
 		},
+		// WhetherVictory > button - 재투표하기로 결과가 나왔을 때, 재투표 버튼 핸들링
 		voteAgainAtNight: () => {
 			this.setState({
 				nightTimeOrder: 0,
@@ -265,6 +295,7 @@ class GameProvider extends Component {
 				doctorVotes: {}
 			});
 		},
+		// WhetherVictory > button - 낮으로 전환
 		setDayTime: () => {
 			const { players } = this.state;
 			this.setState({
@@ -279,6 +310,7 @@ class GameProvider extends Component {
 				doctorVotes: {}
 			});
 		},
+		// WhetherVictory > moveToMain - 게임 마무리 됬을 때, 메인화면으로 나옴.
 		moveToMainAndReset: () => {
 			this.setState(
 				{
@@ -296,6 +328,7 @@ class GameProvider extends Component {
 				() => console.log(this.state.jobs)
 			);
 		},
+		// Citizen | Police > handleNextOrder - 다음 플레이어 투표로 넘어감 (Mafia는 따로 핸들링)
 		nextOrder: () => {
 			const { nightTimeOrder, players } = this.state;
 			if (nightTimeOrder < players.length - 1) {

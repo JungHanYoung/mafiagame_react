@@ -29,15 +29,13 @@ DayTime.propTypes = {
 	// context
 	isEndGame: PropTypes.bool.isRequired,
 	dayTimeOrder: PropTypes.oneOf([ TURN_OF_DISCUSS_AT_DAY, TURN_OF_VOTE_AT_DAY, TURN_OF_RESULT_AT_DAY ]),
-	moveToMainAndReset: PropTypes.func.isRequired,
-	changeDayTimeOrder: PropTypes.func.isRequired
+	moveToMainAndReset: PropTypes.func.isRequired
 };
 
 export default withRouter(
 	useGame(({ state, actions }) => ({
 		isEndGame: state.isEndGame,
 		dayTimeOrder: state.dayTimeOrder,
-		moveToMainAndReset: actions.moveToMainAndReset,
-		changeDayTimeOrder: actions.changeDayTimeOrder
+		moveToMainAndReset: actions.moveToMainAndReset
 	}))(DayTime)
 );

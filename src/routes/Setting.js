@@ -52,8 +52,6 @@ class Setting extends Component {
 		const value = Number(e.target.value);
 
 		const { jobs } = this.state;
-		// const { onChangeJobCount } = this.props;
-		// onChangeJobCount(code, value);
 		if (value >= 0) {
 			this.setState({
 				jobs: jobs.map((job) => (job.code === code ? { ...job, count: value } : job))
@@ -62,7 +60,6 @@ class Setting extends Component {
 	};
 	// 총인원 핸들링 메소드
 	onPeopleChange = (e) => {
-		// console.log(e.target);
 		const { setPeopleNum } = this.props;
 		const value = Number(e.target.value);
 
@@ -84,7 +81,6 @@ class Setting extends Component {
 			})
 			.reduce((accu, count) => accu + count);
 
-		// console.log(jobs);
 		// 각 직업의 인원을 합한 수와 총인원이 같아야 세팅 마무리
 		if (counts === num) {
 			setJobsOnState(jobs);
@@ -96,7 +92,6 @@ class Setting extends Component {
 	render() {
 		const { people, onChangePeopleName } = this.props;
 		const { num, jobs } = this.state;
-		// console.log(this.props);
 		return (
 			<div className="App-header">
 				<div>
@@ -116,9 +111,6 @@ class Setting extends Component {
 						onChange={(e) => onChangePeopleName(i, e.target.value)}
 					/>
 				))}
-				{/* {Array.from({ length: num }, (v, k) => k).map((v) => (
-					<input key={`name_${v}`} type="text" value={people.name} />
-				))} */}
 				{num > 3 && (
 					<Fragment>
 						{jobs.map((job) => (
@@ -138,27 +130,13 @@ class Setting extends Component {
 				)}
 			</div>
 		);
-		// const { people } = this.props;
-		// people undefined
 	}
 }
-
-Setting.defaultProps = {
-	people: [ 'Props를 받지 못하였습니다.' ]
-};
 
 Setting.propTypes = {
 	people: PropTypes.arrayOf(PropTypes.string),
 	setPeopleNum: PropTypes.func.isRequired,
-	// jobs: PropTypes.arrayOf(
-	// 	PropTypes.shape({
-	// 		code: PropTypes.number,
-	// 		jobName: PropTypes.string,
-	// 		count: PropTypes.number
-	// 	})
-	// ),
 	onChangePeopleName: PropTypes.func.isRequired,
-	onChangeJobCount: PropTypes.func.isRequired,
 	setJobsOnState: PropTypes.func.isRequired
 };
 
@@ -166,9 +144,7 @@ export default withRouter(
 	useGame(({ state, actions }) => ({
 		people: state.people,
 		setPeopleNum: actions.setPeopleNum,
-		// jobs: state.jobs,
 		onChangePeopleName: actions.onChangePeopleName,
-		onChangeJobCount: actions.onChangeJobCount,
 		setJobsOnState: actions.setJobsOnState
 	}))(Setting)
 );
