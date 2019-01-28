@@ -7,7 +7,7 @@ import { setPlayers } from '../utils/setPlayers';
 // import { JOB_NAME_OF_MAFIA, JOB_NAME_OF_DOCTOR, JOB_NAME_OF_POLICE, JOB_NAME_OF_CITIZEN } from '../contants/Job';
 import { DAY_TIME, NIGHT_TIME } from '../contants/turnOfGame/Game';
 import { TURN_OF_DISCUSS_AT_DAY, TURN_OF_RESULT_AT_DAY, TURN_OF_VOTE_AT_DAY } from '../contants/turnOfGame/DayTime';
-import { JOB_NAME_OF_MAFIA } from '../contants/Job';
+import { JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE, JOB_NAME_OF_DOCTOR, JOB_NAME_OF_CITIZEN } from '../contants/Job';
 
 const Context = createContext();
 
@@ -36,7 +36,7 @@ const { Provider, Consumer: GameConsumer } = Context;
  * dayTimeVotedPerson: string	- 낮에 투표를 가장 많이 받은 사람
  * nightTimeOrder: number		- 밤에서의 플레이어 순서(인덱스)
  * isEndVoteDayTime: boolean	- 낮에 투표가 끝났는지의 여부
- * isReVoted: boolean			- 밤에 재투표를 해야되는 지의 여부
+ * isReVoted: boolean			- 재투표를 해야되는 지의 여부
  * isEndVoteNight: boolean		- 밤에 투표가 끝났는지 여부
  * mafiaVotes: Empty object | { [string]: number }	- 밤에 마피아에게 투표받은 사람이름과 투표갯수
  * doctorVotes: Empty object | { [string]: number }	- 밤에 의사에게 투표받은 사람이름과 투표갯수
@@ -48,7 +48,28 @@ class GameProvider extends Component {
 	state = {
 		people: [],
 		players: [],
-		jobs: [],
+		jobs: [
+			{
+				code: 1,
+				jobName: JOB_NAME_OF_MAFIA,
+				count: 0
+			},
+			{
+				code: 2,
+				jobName: JOB_NAME_OF_POLICE,
+				count: 0
+			},
+			{
+				code: 3,
+				jobName: JOB_NAME_OF_DOCTOR,
+				count: 0
+			},
+			{
+				code: 4,
+				jobName: JOB_NAME_OF_CITIZEN,
+				count: 0
+			}
+		],
 		isEndGame: false,
 		gameOrder: DAY_TIME,
 		dayTimeOrder: TURN_OF_DISCUSS_AT_DAY,
@@ -69,11 +90,14 @@ class GameProvider extends Component {
 				people: Array.from({ length: value }, (v, k) => k).map(() => '')
 			});
 		},
-		// Setting > onSettingEnd - 세팅이 끝났을 때, Setting의 state>jobs로 Context의 state>jobs업데이트
-		setJobsOnState: (jobs) => {
-			this.setState({
-				jobs
-			});
+		// Setting > input:number - job의 수를 입력받아 핸들링
+		onChangeJobCount: (code, value) => {
+			const { jobs } = this.state;
+			if (value >= 0) {
+				this.setState({
+					jobs: jobs.map(job => job.code === code ? { ...job, count: value } : job)
+				})
+			}
 		},
 		// Setting > render > input - 세팅에서 플레이어이름 입력 인풋 핸들링
 		onChangePeopleName: (i, value) => {
@@ -124,49 +148,68 @@ class GameProvider extends Component {
 			// 투표를 많이 받은 사람은 people에서 삭제
 			// 투표 수를 초기화시킴.
 			const { players } = this.state;
-			const maxVotedIndex = players.reduce((max, cur, index) => {
-				return players[max].daytimeVoted < cur.daytimeVoted ? index : max;
-			}, 0);
-			const c_people = [ ...players ];
-			const votedPerson = c_people.splice(maxVotedIndex, 1)[0];
-			c_people.forEach((person) => {
-				Object.assign(person, { daytimeVoted: 0 });
-			});
-			// 마피아인 사람
-			const mafias = c_people.filter((person) => person.jobName === JOB_NAME_OF_MAFIA);
-			// 마피아가 아닌 사람
-			const citizen = c_people.filter((person) => person.jobName !== JOB_NAME_OF_MAFIA);
-			// 만약 마피아가 1명도 없다면
-			if (mafias.length === 0) {
-				this.setState({
-					players: c_people,
-					dayTimeOrder: TURN_OF_RESULT_AT_DAY,
-					dayTimeVotedPerson: votedPerson,
-					// 게임은 끝나고
-					isEndGame: true,
-					// 시민이 승리
-					victory: 'citizen'
+			const maxNumOfVotes = players.reduce(
+				(max, cur) => max.daytimeVoted > cur.daytimeVoted ? max : cur
+			).daytimeVoted;
+			// console.log(maxNumOfVotes)
+			const maxOfVotesPlayers = players.filter(player => player.daytimeVoted === maxNumOfVotes)
+
+			const c_people = [...players];
+
+			if (maxOfVotesPlayers.length === 1) {
+				const maxVotedIndex = players.reduce((max, cur, index) =>
+					players[max].daytimeVoted < cur.daytimeVoted ? index : max
+					, 0);
+				const votedPerson = c_people.splice(maxVotedIndex, 1)[0];
+				c_people.forEach((person) => {
+					Object.assign(person, { daytimeVoted: 0 });
 				});
-				// 만약 마피아가 마피아가 아닌 사람과 같거나 많으면
-			} else if (mafias.length >= citizen.length) {
-				this.setState({
-					players: c_people,
-					dayTimeOrder: TURN_OF_RESULT_AT_DAY,
-					dayTimeVotedPerson: votedPerson,
-					// 게임은 끝나고
-					isEndGame: true,
-					// 마피아가 승리
-					victory: 'mafia'
-				});
-				// 위의 두 조건이 만족하지 않으면
+
+				// 마피아인 사람
+				const mafias = c_people.filter((person) => person.jobName === JOB_NAME_OF_MAFIA);
+				// 마피아가 아닌 사람
+				const citizen = c_people.filter((person) => person.jobName !== JOB_NAME_OF_MAFIA);
+				// 만약 마피아가 1명도 없다면
+				if (mafias.length === 0) {
+					this.setState({
+						players: c_people,
+						dayTimeOrder: TURN_OF_RESULT_AT_DAY,
+						dayTimeVotedPerson: votedPerson,
+						// 게임은 끝나고
+						isEndGame: true,
+						// 시민이 승리
+						victory: 'citizen'
+					});
+					// 만약 마피아가 마피아가 아닌 사람과 같거나 많으면
+				} else if (mafias.length >= citizen.length) {
+					this.setState({
+						players: c_people,
+						dayTimeOrder: TURN_OF_RESULT_AT_DAY,
+						dayTimeVotedPerson: votedPerson,
+						// 게임은 끝나고
+						isEndGame: true,
+						// 마피아가 승리
+						victory: 'mafia'
+					});
+					// 위의 두 조건이 만족하지 않으면
+				} else {
+					// 그대로 게임 진행..
+					this.setState({
+						players: c_people,
+						dayTimeOrder: TURN_OF_RESULT_AT_DAY,
+						isEndVoteDayTime: true,
+						dayTimeVotedPerson: votedPerson
+					});
+				}
 			} else {
-				// 그대로 게임 진행..
+				c_people.forEach((person) => {
+					Object.assign(person, { daytimeVoted: 0 });
+				});
 				this.setState({
 					players: c_people,
 					dayTimeOrder: TURN_OF_RESULT_AT_DAY,
-					isEndVoteDayTime: true,
-					dayTimeVotedPerson: votedPerson
-				});
+					isReVoted: true
+				})
 			}
 		},
 		// DayTimeDiscuss > button	- 토론 끝나고 투표로 넘어갈 때
@@ -182,7 +225,8 @@ class GameProvider extends Component {
 				});
 			} else if (dayTimeOrder === TURN_OF_RESULT_AT_DAY) {
 				this.setState({
-					dayTimeOrder: TURN_OF_DISCUSS_AT_DAY
+					dayTimeOrder: TURN_OF_DISCUSS_AT_DAY,
+					isReVoted: false
 				});
 			}
 		},

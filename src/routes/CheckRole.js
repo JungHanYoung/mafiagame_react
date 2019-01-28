@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -21,11 +21,11 @@ class CheckRole extends React.Component {
 
 		showRole
 			? this.setState({
-					showRole: false
-				})
+				showRole: false
+			})
 			: this.setState({
-					showRole: true
-				});
+				showRole: true
+			});
 
 		showRole &&
 			players.length > showIndex + 1 &&
@@ -51,12 +51,18 @@ class CheckRole extends React.Component {
 
 					<h2>{players[showIndex].name}</h2>
 					{showRole && <h2 className="animated fadeInUp delay-.1s">{players[showIndex].jobName}</h2>}
-					{players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
-						players.filter((player) => player.jobName === JOB_NAME_OF_MAFIA).map((player, i) => (
-							<div key={`mafia-show-${i}`}>
-								{player.name} : {}
-							</div>
-						))}
+					{showRole && players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
+						<Fragment>
+							<h3>동료 마피아</h3>
+							{players.filter((player) => players[showIndex].name !== player.name
+								&& player.jobName === JOB_NAME_OF_MAFIA)
+								.map((player, i) => (
+									<div key={`mafia-show-${i}`}>
+										{player.name}
+									</div>
+								))}
+						</Fragment>
+					}
 
 					<button onClick={this.handleShowRole} className="btn">
 						다음
