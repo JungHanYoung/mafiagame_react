@@ -1,128 +1,104 @@
 import React, { Component, Fragment } from 'react';
-import '../App.css';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { useGame } from '../context/GameContext';
 
+// 상수
+import { SELECT_OF_PEOPLE_NUM_START, SELECT_OF_PEOPLE_NUM_END } from '../contants/Setting';
+import { JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE, JOB_NAME_OF_CITIZEN, JOB_NAME_OF_DOCTOR } from '../contants/Job';
+
+const PeopleNumSelectList = () => {
+	const range = _.range(SELECT_OF_PEOPLE_NUM_START, SELECT_OF_PEOPLE_NUM_END);
+	return range.map((num) => (
+		<option key={num} value={num}>
+			{num}
+		</option>
+	));
+};
+
 class Setting extends Component {
-	state = {
-		jobs: [
-			{
-				code: 1,
-				jobName: 'MAFIA',
-				count: 0
-			},
-			{
-				code: 2,
-				jobName: 'POLICE',
-				count: 0
-			},
-			{
-				code: 3,
-				jobName: 'DOCTOR',
-				count: 0
-			},
-			{
-				code: 4,
-				jobName: 'CITIZEN',
-				count: 0
-			}
-		],
-		num: 0,
-		people: []
-	};
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			num: 0,
+			jobs: [
+				{
+					code: 1,
+					jobName: JOB_NAME_OF_MAFIA,
+					count: 0
+				},
+				{
+					code: 2,
+					jobName: JOB_NAME_OF_POLICE,
+					count: 0
+				},
+				{
+					code: 3,
+					jobName: JOB_NAME_OF_DOCTOR,
+					count: 0
+				},
+				{
+					code: 4,
+					jobName: JOB_NAME_OF_CITIZEN,
+					count: 0
+				}
+			]
+		};
+	}
 	handleJobCount = (e) => {
 		const code = Number(e.target.name);
 		const value = Number(e.target.value);
 
-		// console.log([ ...this.state.jobs ]);
-
+		const { jobs } = this.state;
 		if (value >= 0) {
-			this.setState(
-				(prevState) => ({
-					...prevState,
-					jobs: [ ...prevState.jobs.map((job) => (job.code === code ? { ...job, count: value } : job)) ]
-				}) /*,
-				() => {
-					const { jobs } = this.state;
-					if (jobs.find((job) => job.code === code).count < 0) {
-						console.log('nonoooooo');
-					} else {
-						console.log('정수얌');
-					}
-				}*/
-			);
-		}
-	};
-	onPeopleCheck = (e) => {
-		const { num } = this.state;
-		if (num > 3) {
 			this.setState({
-				selectPeopleCheck: true
+				jobs: jobs.map((job) => (job.code === code ? { ...job, count: value } : job))
 			});
-		} else {
-			alert('People num must be over 3');
-			// console.dir(this.refs.pp);
-			// this.setState({
-			// 	num: 0
-			// });
 		}
 	};
+	// 총인원 핸들링 메소드
 	onPeopleChange = (e) => {
-		// console.log(e.target);
+		const { setPeopleNum } = this.props;
 		const value = Number(e.target.value);
-		this.setState({
-			num: value,
-			people: [ ...Array.from({ length: value }, (v, k) => k).map(() => '') ]
-		});
-	};
-	onChangePersonName = (i, value) => {
-		const { people } = this.state;
 
-		this.setState({
-			people: people.map((v, index1) => (i === index1 ? value : v))
-		});
+		this.setState(
+			{
+				num: value
+			},
+			() => {
+				setPeopleNum(value);
+			}
+		);
 	};
 	onSettingEnd = () => {
-		const { history, setJobs, setPeople } = this.props;
-		const { jobs, num, people } = this.state;
+		const { num, jobs } = this.state;
+		const { history, setJobsOnState } = this.props;
 		const counts = jobs
 			.map((job) => {
 				return job.count;
 			})
 			.reduce((accu, count) => accu + count);
-		// console.log(counts);
 
+		// 각 직업의 인원을 합한 수와 총인원이 같아야 세팅 마무리
 		if (counts === num) {
-			setJobs(jobs);
-			setPeople(people);
+			setJobsOnState(jobs);
 			history.push('/check');
 		} else {
 			alert('총인원과 전체 게임인원이 맞지 않습니다.');
 		}
 	};
 	render() {
-		const { jobs, num, people } = this.state;
-
-		// console.log(this.props);
+		const { people, onChangePeopleName } = this.props;
+		const { num, jobs } = this.state;
 		return (
 			<div className="App-header">
 				<div>
 					몇명이서 할건데?&nbsp;
-					{/* <input
-						type="number"
-						value={num}
-						onBlur={this.onPeopleCheck}
-						onChange={this.onPeopleChange}
-						ref="pp"
-					/> */}
-					{/* <select>{(1)['..'](10)}</select> */}
 					<select value={num} onChange={this.onPeopleChange}>
 						<option>select number</option>
-						{Array.from({ length: 9 }, (v, k) => k + 4).map((num) => (
-							<option key={num} value={num}>
-								{num}
-							</option>
-						))}
+						<PeopleNumSelectList />
 					</select>
 				</div>
 				{people.map((person, i) => (
@@ -132,19 +108,14 @@ class Setting extends Component {
 						autoComplete="off"
 						name={`person_${i}`}
 						value={person}
-						onChange={(e) => this.onChangePersonName(i, e.target.value)}
+						onChange={(e) => onChangePeopleName(i, e.target.value)}
 					/>
 				))}
-				{/* {Array.from({ length: num }, (v, k) => k).map((v) => (
-					<input key={`name_${v}`} type="text" value={people.name} />
-				))} */}
 				{num > 3 && (
 					<Fragment>
 						{jobs.map((job) => (
 							<div key={job.code}>
-								<span className="animated fadeInLeft">
-									{job.jobName}은 몇명?&nbsp;
-								</span>
+								<span className="animated fadeInLeft">{job.jobName}은 몇명?&nbsp;</span>
 								<input
 									type="number"
 									name={job.code}
@@ -162,9 +133,18 @@ class Setting extends Component {
 	}
 }
 
+Setting.propTypes = {
+	people: PropTypes.arrayOf(PropTypes.string),
+	setPeopleNum: PropTypes.func.isRequired,
+	onChangePeopleName: PropTypes.func.isRequired,
+	setJobsOnState: PropTypes.func.isRequired
+};
+
 export default withRouter(
 	useGame(({ state, actions }) => ({
-		setJobs: actions.setJobs,
-		setPeople: actions.setPeople
+		people: state.people,
+		setPeopleNum: actions.setPeopleNum,
+		onChangePeopleName: actions.onChangePeopleName,
+		setJobsOnState: actions.setJobsOnState
 	}))(Setting)
 );

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 // Component
@@ -6,39 +7,35 @@ import Discuss from './DayTimeDiscuss';
 import VoteTime from './VoteTime';
 import Result from './Result';
 import { useGame } from '../../context/GameContext';
+import WhetherVictory from '../common/WhetherVictory';
+import { TURN_OF_DISCUSS_AT_DAY, TURN_OF_VOTE_AT_DAY, TURN_OF_RESULT_AT_DAY } from '../../contants/turnOfGame/DayTime';
 
 class DayTime extends React.Component {
-	handleNext = () => {
-		const { dayTimeOrder, changeDayTimeOrder, toggleNightAndDay } = this.props;
-		if (dayTimeOrder === 'result') {
-			toggleNightAndDay();
-		}
-		changeDayTimeOrder();
-	};
-	handleMoveToMain = () => {
-		this.props.history.push('/');
-		this.props.moveToMainAndReset();
-	};
 	render() {
-		const { dayTimeOrder, isEndGame } = this.props;
+		const { dayTimeOrder } = this.props;
 		return (
 			<div>
 				{dayTimeOrder === 'discuss' && <Discuss />}
 				{dayTimeOrder === 'vote' && <VoteTime />}
 				{dayTimeOrder === 'result' && <Result />}
-				{dayTimeOrder !== 'vote' && !isEndGame && <button onClick={this.handleNext}>next</button>}
-				{isEndGame && <button onClick={this.handleMoveToMain}>메인으로</button>}
+				{/* 게임 종료 여부에 따른 버튼 */}
+				<WhetherVictory />
 			</div>
 		);
 	}
 }
 
+DayTime.propTypes = {
+	// context
+	isEndGame: PropTypes.bool.isRequired,
+	dayTimeOrder: PropTypes.oneOf([ TURN_OF_DISCUSS_AT_DAY, TURN_OF_VOTE_AT_DAY, TURN_OF_RESULT_AT_DAY ]),
+	moveToMainAndReset: PropTypes.func.isRequired
+};
+
 export default withRouter(
 	useGame(({ state, actions }) => ({
 		isEndGame: state.isEndGame,
 		dayTimeOrder: state.dayTimeOrder,
-		moveToMainAndReset: actions.moveToMainAndReset,
-		changeDayTimeOrder: actions.changeDayTimeOrder,
-		toggleNightAndDay: actions.toggleNightAndDay
+		moveToMainAndReset: actions.moveToMainAndReset
 	}))(DayTime)
 );

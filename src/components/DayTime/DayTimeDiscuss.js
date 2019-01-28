@@ -1,12 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
 
 class DayTimeDiscuss extends React.Component {
 	render() {
-		return <div>낮 토론 시간입니다. 토론을 통해 마피아를 찾으세욥.</div>;
+		const { changeDayTimeOrder } = this.props;
+		return (
+			<div>
+				<h2>낮 토론 시간입니다. 토론을 통해 마피아를 찾으세욥.</h2>
+				<button onClick={changeDayTimeOrder}>투표로 이동</button>
+			</div>
+		);
 	}
 }
 
+DayTimeDiscuss.propTypes = {
+	changeDayTimeOrder: PropTypes.func.isRequired
+};
+
 export default useGame(({ state, actions }) => ({
-	order: state.gameOrder
+	changeDayTimeOrder: actions.changeDayTimeOrder
 }))(DayTimeDiscuss);

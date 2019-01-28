@@ -15,7 +15,7 @@ class App extends Component {
 				<header className="App-header">
 					<h1>Hello Mafia</h1>
 					{people.length > 0 && (
-						<Link className="btn" to="/start">
+						<Link className="btn" to="/check">
 							게임 시작
 						</Link>
 					)}
