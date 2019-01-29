@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
 
@@ -23,7 +23,7 @@ class VoteTime extends React.Component {
 		const { players } = this.props;
 
 		return (
-			<div>
+			<Fragment>
 				<h1>마피아로 의심되는 사람을 투표합니다.</h1>
 				<div>{players[voteOrder].name}님의 투표</div>
 				<div>
@@ -39,7 +39,7 @@ class VoteTime extends React.Component {
 						}
 					})}
 				</div>
-			</div>
+			</Fragment>
 		);
 	}
 }

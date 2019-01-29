@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
 
@@ -6,10 +6,10 @@ class DayTimeDiscuss extends React.Component {
 	render() {
 		const { changeDayTimeOrder } = this.props;
 		return (
-			<div>
+			<Fragment>
 				<h2>낮 토론 시간입니다. 토론을 통해 마피아를 찾으세욥.</h2>
 				<button onClick={changeDayTimeOrder}>투표로 이동</button>
-			</div>
+			</Fragment>
 		);
 	}
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -14,13 +14,13 @@ class DayTime extends React.Component {
 	render() {
 		const { dayTimeOrder } = this.props;
 		return (
-			<div>
+			<Fragment>
 				{dayTimeOrder === 'discuss' && <Discuss />}
 				{dayTimeOrder === 'vote' && <VoteTime />}
 				{dayTimeOrder === 'result' && <Result />}
 				{/* 게임 종료 여부에 따른 버튼 */}
 				<WhetherVictory />
-			</div>
+			</Fragment>
 		);
 	}
 }
@@ -28,7 +28,7 @@ class DayTime extends React.Component {
 DayTime.propTypes = {
 	// context
 	isEndGame: PropTypes.bool.isRequired,
-	dayTimeOrder: PropTypes.oneOf([ TURN_OF_DISCUSS_AT_DAY, TURN_OF_VOTE_AT_DAY, TURN_OF_RESULT_AT_DAY ]),
+	dayTimeOrder: PropTypes.oneOf([TURN_OF_DISCUSS_AT_DAY, TURN_OF_VOTE_AT_DAY, TURN_OF_RESULT_AT_DAY]),
 	moveToMainAndReset: PropTypes.func.isRequired
 };
 

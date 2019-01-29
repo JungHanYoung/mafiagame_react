@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
 
@@ -11,7 +11,7 @@ class Citizen extends React.Component {
 			this.setState({
 				disableBtn: false
 			});
-		}, 3000);
+		}, 1000);
 	}
 	handleSelectBtn = () => {
 		const { handleConfirmAndCheck, nextOrder } = this.props;
@@ -21,12 +21,12 @@ class Citizen extends React.Component {
 	render() {
 		const { disableBtn } = this.state;
 		return (
-			<div>
+			<Fragment>
 				<h1>당신은 시민입니다.</h1>
 				<button disabled={disableBtn} onClick={this.handleSelectBtn}>
 					다음
 				</button>
-			</div>
+			</Fragment>
 		);
 	}
 }

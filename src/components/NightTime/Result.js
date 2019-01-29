@@ -1,40 +1,32 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
-import { Object } from 'es6-shim';
 import WhetherVictory from '../common/WhetherVictory';
 import { JOB_NAME_OF_DOCTOR } from '../../contants/Job';
 
 class Result extends React.Component {
-	constructor(props) {
-		super(props);
-		const { mafiaVotes, doctorVotes } = props;
-
-		const votedPeopleToMafia = Object.keys(mafiaVotes);
-		const votedPeopleToDoctor = Object.keys(doctorVotes);
-		this.state = {
-			doMafiaKill: votedPeopleToMafia.length === 1,
-			doDoctorSave: votedPeopleToDoctor.length === 1,
-			nameVotedByMafia: votedPeopleToMafia[0],
-			nameVotedByDoctor: votedPeopleToDoctor[0]
-		};
-	}
 	componentWillMount() {
 		this.props.resultAtNight();
 	}
 	render() {
-		const { doMafiaKill, doDoctorSave, nameVotedByMafia, nameVotedByDoctor } = this.state;
-		const { players } = this.props;
+		const { players, killed } = this.props;
 		const existsDoctor = players.filter((player) => player.jobName === JOB_NAME_OF_DOCTOR).length > 0;
 		return (
 			<Fragment>
 				<span>밤 투표 결과</span>
-
-				{doMafiaKill && doDoctorSave ? (
-					// {/* 1. 마피아의 의견이 일치하였고*/}
-					// {/* 2. 의사의 의견이 일치하였다.*/}
-					// 1. 마피아의 의견이 일치하였고
-					// 2. 의사의 의견이 일치하였다.
+				{!!killed
+					? (
+						<div>
+							마피아는 {killed}를 죽{existsDoctor ? `이고, 의사는 살리지 못하였습니다.` : `였습니다.`}
+						</div>
+					) : (
+						<div>의사가 마피아로부터 시민을 살렸습니다.</div>
+					)}
+				{/*doMafiaKill && doDoctorSave ? 
+				//  1. 마피아의 의견이 일치하였고
+				//  2. 의사의 의견이 일치하였다.
+				(
+					
 					<Fragment>
 						{nameVotedByDoctor === nameVotedByMafia ? (
 							<div>의사가 마피아로부터 {nameVotedByDoctor}님을 살렸습니다.</div>
@@ -58,7 +50,7 @@ class Result extends React.Component {
 							<div>마피아들의 의견이 일치하지 않았습니다.</div>
 						)}
 					</Fragment>
-				)}
+				)*/}
 				<WhetherVictory />
 			</Fragment>
 		);
@@ -89,5 +81,7 @@ export default useGame(({ state, actions }) => ({
 	players: state.players,
 	mafiaVotes: state.mafiaVotes,
 	doctorVotes: state.doctorVotes,
-	resultAtNight: actions.resultAtNight
+	resultAtNight: actions.resultAtNight,
+	//
+	killed: state.killed
 }))(Result);

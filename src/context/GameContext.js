@@ -38,7 +38,11 @@ const { Provider, Consumer: GameConsumer } = Context;
  * isEndVoteDayTime: boolean	- 낮에 투표가 끝났는지의 여부
  * isReVoted: boolean			- 재투표를 해야되는 지의 여부
  * isEndVoteNight: boolean		- 밤에 투표가 끝났는지 여부
- * mafiaVotes: Empty object | { [string]: number }	- 밤에 마피아에게 투표받은 사람이름과 투표갯수
+ * mafiaVotes: [{
+ * 	name: string
+ * 	voter: [string]
+ * }]
+ * // Empty object | { [string]: number }	- 밤에 마피아에게 투표받은 사람이름과 투표갯수
  * doctorVotes: Empty object | { [string]: number }	- 밤에 의사에게 투표받은 사람이름과 투표갯수
  * victory: 'mafia' | 'citizen'	- 게임이 끝났을 때 누가 이겼는 지
  */
@@ -78,9 +82,11 @@ class GameProvider extends Component {
 		isEndVoteDayTime: false,
 		isReVoted: false,
 		isEndVoteNight: false,
-		mafiaVotes: {},
-		doctorVotes: {},
-		victory: ''
+		mafiaVotes: [],
+		doctorVotes: [],
+		victory: '',
+		//
+		killed: ''
 	};
 
 	actions = {
@@ -107,7 +113,7 @@ class GameProvider extends Component {
 				people: people.map((v, index1) => (i === index1 ? value : v))
 			});
 		},
-		// CheckRole > componentWillMount - 세팅 끝난 후, players 무작위 역할지정
+		// CheckRole > componentWillMount - 세팅 끝난 후, players 무작위 역할지정 및 마피아,의사투표 초기화
 		setRolePeople: () => {
 			const { jobs, people } = this.state;
 
@@ -232,29 +238,44 @@ class GameProvider extends Component {
 		},
 		// WhetherVictory > button	- 낮 투표결과 후 밤으로 갈때
 		setNightTime: () => {
+			const { players } = this.state;
 			this.setState({
 				gameOrder: NIGHT_TIME,
 				nightTimeOrder: 0,
-				isEndVoteDayTime: false
+				isEndVoteDayTime: false,
+				mafiaVotes: players.map(person => ({
+					name: person.name,
+					voter: []
+				})),
+				doctorVotes: players.map(person => ({
+					name: person.name,
+					voter: []
+				}))
 			});
 		},
 		// Mafia > handleSelectBtn	- 마피아가 제외시킬 사람 투표
 		votePersonAtMafiaTime: (name) => {
 			const { nightTimeOrder, players, mafiaVotes } = this.state;
+			const mafiaName = players[nightTimeOrder].name
 			if (nightTimeOrder < players.length - 1) {
 				this.setState({
-					mafiaVotes: {
-						...mafiaVotes,
-						[name]: mafiaVotes.hasOwnProperty(name) ? mafiaVotes[name] + 1 : 1
-					},
+					mafiaVotes: mafiaVotes.map(person =>
+						person.name === name ? { ...person, voter: person.voter.concat(mafiaName) } : person
+					),
 					nightTimeOrder: nightTimeOrder + 1
-				});
+				})
+				// this.setState({
+				// 	mafiaVotes: {
+				// 		...mafiaVotes,
+				// 		[name]: mafiaVotes.hasOwnProperty(name) ? mafiaVotes[name] + 1 : 1
+				// 	},
+				// 	nightTimeOrder: nightTimeOrder + 1
+				// });
 			} else {
 				this.setState({
-					mafiaVotes: {
-						...mafiaVotes,
-						[name]: mafiaVotes.hasOwnProperty(name) ? mafiaVotes[name] + 1 : 1
-					},
+					mafiaVotes: mafiaVotes.map(person =>
+						person.name === name ? { ...person, voter: person.voter.concat(mafiaName) } : person
+					),
 					nightTimeOrder: 0,
 					isEndVoteNight: true
 				});
@@ -263,20 +284,15 @@ class GameProvider extends Component {
 		// Doctor > handleSelectBtn - 의사가 투표
 		votePersonAtDoctor: (name) => {
 			const { players, nightTimeOrder, doctorVotes } = this.state;
+			const doctorName = players[nightTimeOrder].name
 			if (nightTimeOrder < players.length - 1) {
 				this.setState({
-					doctorVotes: {
-						...doctorVotes,
-						[name]: doctorVotes.hasOwnProperty(name) ? doctorVotes[name] + 1 : 1
-					},
+					doctorVotes: doctorVotes.map(person => person.name === name ? { ...person, voter: person.voter.concat(doctorName) } : person),
 					nightTimeOrder: nightTimeOrder + 1
 				});
 			} else {
 				this.setState({
-					doctorVotes: {
-						...doctorVotes,
-						[name]: doctorVotes.hasOwnProperty(name) ? doctorVotes[name] + 1 : 1
-					},
+					doctorVotes: doctorVotes.map(person => person.name === name ? { ...person, voter: person.voter.concat(doctorName) } : person),
 					nightTimeOrder: 0,
 					isEndVoteNight: true
 				});
@@ -285,49 +301,67 @@ class GameProvider extends Component {
 		// Result(Night) > componentWillMount - 밤 투표 결과 셋팅, 승리여부, 마피아, 의사
 		resultAtNight: () => {
 			const { players, doctorVotes, mafiaVotes } = this.state;
-			const votedMafia = Object.keys(mafiaVotes);
-			const votedDoctor = Object.keys(doctorVotes);
-			// 마피아가 만장일치를 했을 때
-			if (votedMafia.length === 1) {
-				const killName = votedMafia[0];
+
+			const maxNumOfVotedByMafia = mafiaVotes.reduce(
+				(max, cur) =>
+					max.voter.length > cur.voter.length
+						? max
+						: cur
+			).voter.length
+			const isOverlapOfMafia = mafiaVotes.filter(person => person.voter.length === maxNumOfVotedByMafia).length !== 1
+			const maxNumOfVotedByDoctor = doctorVotes.reduce(
+				(max, cur) =>
+					max.voter.length > cur.voter.length
+						? max
+						: cur
+			).voter.length
+			const isOverlapOfDoctor = doctorVotes.filter(person => person.voter.length === maxNumOfVotedByDoctor).length !== 1
+
+			if (isOverlapOfMafia) {
+				this.setState({
+					isReVoted: true
+				})
+			} else {
+				const killName = mafiaVotes.find(person => person.voter.length === maxNumOfVotedByMafia).name
 				const afterKilled = players.filter((player) => player.name !== killName);
 				const mafias = afterKilled.filter((player) => player.jobName === JOB_NAME_OF_MAFIA);
 				const citizen = afterKilled.filter((player) => player.jobName !== JOB_NAME_OF_MAFIA);
-				// 의사가 만장일치 했을 때
-				if (votedDoctor.length === 1) {
-					const saveName = votedDoctor[0];
-
-					// 의사가 마피아로부터 시민을 지키지 못했을 때
+				if (isOverlapOfDoctor) {
+					// 마피아는 그대로 시민을 죽임.
+					if (mafias.length >= citizen.length) {
+						this.setState({
+							players: afterKilled,
+							isEndGame: true,
+							victory: 'mafia',
+							killed: killName
+						});
+						// 아님 마피아는 사람을 죽임.
+					} else {
+						this.setState({
+							players: afterKilled,
+							killed: killName
+						});
+					}
+				} else {
+					const saveName = doctorVotes.find(person => person.voter.length === maxNumOfVotedByDoctor).name
 					if (killName !== saveName) {
 						// 마피아 승리조건을 충족 ( 마피아 수가 시민 수와 같으면 )
 						if (mafias.length >= citizen.length) {
 							this.setState({
 								players: afterKilled,
 								isEndGame: true,
-								victory: 'mafia'
+								victory: 'mafia',
+								killed: killName
 							});
 							// 아님 마피아는 사람을 죽임.
 						} else {
 							this.setState({
-								players: afterKilled
+								players: afterKilled,
+								killed: killName
 							});
 						}
-						// 의사가 마피아로부터 시민을 지킴
-					} else {
 					}
-					// 의사가 만장일치되지 않으면..
-				} else {
-					// 마피아는 그대로 시민을 죽임.
-					this.setState({
-						players: afterKilled
-					});
 				}
-				// 마피아 의견이 일치되지 않으면.. 다시 재투표.
-			} else {
-				// 재투표
-				this.setState({
-					isReVoted: true
-				});
 			}
 		},
 		// WhetherVictory > button - 재투표하기로 결과가 나왔을 때, 재투표 버튼 핸들링
@@ -349,9 +383,7 @@ class GameProvider extends Component {
 				isEndVoteDayTime: false,
 				isEndVoteNight: false,
 				gameOrder: DAY_TIME,
-				dayTimeOrder: TURN_OF_DISCUSS_AT_DAY,
-				mafiaVotes: {},
-				doctorVotes: {}
+				dayTimeOrder: TURN_OF_DISCUSS_AT_DAY
 			});
 		},
 		// WhetherVictory > moveToMain - 게임 마무리 됬을 때, 메인화면으로 나옴.

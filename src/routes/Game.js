@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useGame } from '../context/GameContext';
 
@@ -17,16 +17,16 @@ class Game extends React.Component {
 		return (
 			<div className="animated fadeInUp">
 				{gameOrder === 'day-time' ? (
-					<div>
+					<Fragment>
 						<h1>낮</h1>
 						<DayTime />
-					</div>
+					</Fragment>
 				) : (
-					<div className="App-header">
-						<h1>밤</h1>
-						<NightTime />
-					</div>
-				)}
+						<Fragment>
+							<h1>밤</h1>
+							<NightTime />
+						</Fragment>
+					)}
 			</div>
 		);
 	}
