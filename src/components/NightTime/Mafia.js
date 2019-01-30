@@ -52,7 +52,12 @@ Mafia.propTypes = {
 	nightTimeOrder: PropTypes.number.isRequired,
 	votePersonAtMafiaTime: PropTypes.func.isRequired,
 	// parent
-	handleConfirmAndCheck: PropTypes.func.isRequired
+	handleConfirmAndCheck: PropTypes.func.isRequired,
+	//
+	mafiaVotes: PropTypes.arrayOf(PropTypes.shape({
+		name: PropTypes.string.isRequired,
+		voter: PropTypes.arrayOf(PropTypes.string).isRequired
+	}))
 };
 
 export default useGame(({ state, actions }) => ({

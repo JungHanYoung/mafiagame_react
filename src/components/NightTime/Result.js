@@ -74,7 +74,8 @@ Result.propTypes = {
 	doctorVotes: PropTypes.shape({
 		[PropTypes.string]: PropTypes.number
 	}),
-	resultAtNight: PropTypes.func.isRequired
+	resultAtNight: PropTypes.func.isRequired,
+	killed: PropTypes.string
 };
 
 export default useGame(({ state, actions }) => ({

@@ -37,7 +37,10 @@ class WhetherVictory extends Component {
 				<button onClick={this.moveToMain}>메인으로</button>
 			</Fragment>
 		) : isReVoted ?
-				gameOrder === DAY_TIME ? <button onClick={changeDayTimeOrder}>재투표를 합니다.</button> : <button onClick={voteAgainAtNight}>재투표를 합니다.</button>
+				gameOrder === DAY_TIME ? <Fragment>
+					<button onClick={changeDayTimeOrder}>재투표를 합니다.</button>
+					<button onClick={setNightTime}>밤이 됩니다.</button>
+				</Fragment> : <button onClick={voteAgainAtNight}>재투표를 합니다.</button>
 				: isEndVoteDayTime ? (
 					<button onClick={setNightTime}>밤이 됩니다.</button>
 				) : isEndVoteNight ? (

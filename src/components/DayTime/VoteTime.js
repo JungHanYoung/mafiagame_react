@@ -9,14 +9,17 @@ class VoteTime extends React.Component {
 	handleVote = (name) => {
 		const { votePerson, players, endVoteTime } = this.props;
 		const { voteOrder } = this.state;
-		if (voteOrder < players.length - 1) {
-			this.setState({
-				voteOrder: voteOrder + 1
-			});
-			votePerson(name);
-		} else {
-			endVoteTime();
-		}
+		votePerson(name).then(() => {
+			voteOrder < players.length - 1
+				?
+				this.setState({
+					voteOrder: voteOrder + 1
+				})
+				:
+				endVoteTime();
+		})
+
+
 	};
 	render() {
 		const { voteOrder } = this.state;

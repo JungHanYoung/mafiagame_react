@@ -14,15 +14,15 @@ class Police extends Component {
 			return person.name === name;
 		}).jobName === 'MAFIA'
 			? this.setState({
-					selected: true,
-					selectName: name,
-					isMafia: true
-				})
+				selected: true,
+				selectName: name,
+				isMafia: true
+			})
 			: this.setState({
-					selected: true,
-					selectName: name,
-					isMafia: false
-				});
+				selected: true,
+				selectName: name,
+				isMafia: false
+			});
 	};
 	handleNextOrder = () => {
 		const { nextOrder, handleConfirmAndCheck } = this.props;
@@ -36,15 +36,17 @@ class Police extends Component {
 			<div>
 				경찰의 차례입니다. 경찰은 마피아로 의심되는 사람을 지목해 마피아가 맞는지 확인할 수 있습니다.
 				{!selected &&
-					players
-						.filter((person) => {
-							return person.jobName !== 'POLICE';
-						})
-						.map((person, i) => (
-							<button key={`police-select-${i}`} onClick={() => this.detectingMafiaByPolice(person.name)}>
-								{person.name}
-							</button>
-						))}
+					<div>
+						{
+							players
+								.filter((person) => person.jobName !== 'POLICE')
+								.map((person, i) => (
+									<button key={`police-select-${i}`} onClick={() => this.detectingMafiaByPolice(person.name)}>
+										{person.name}
+									</button>
+								))}
+					</div>
+				}
 				{selected && (
 					<Fragment>
 						<div>

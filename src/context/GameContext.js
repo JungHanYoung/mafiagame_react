@@ -135,18 +135,22 @@ class GameProvider extends Component {
 		},
 		// VoteTime > handleVote 	- 낮 투표
 		votePerson: (name) => {
-			this.setState({
-				players: this.state.players.map((person) => {
-					if (person.name === name) {
-						return {
-							...person,
-							daytimeVoted: person.daytimeVoted + 1
-						};
-					} else {
-						return person;
-					}
-				})
-			});
+			return new Promise((resolve, reject) => {
+				this.setState({
+					players: this.state.players.map((person) => {
+						if (person.name === name) {
+							return {
+								...person,
+								daytimeVoted: person.daytimeVoted + 1
+							};
+						} else {
+							return person;
+						}
+					})
+				});
+				resolve()
+			})
+
 		},
 		// VoteTime > handleVote	- 모든 플레이어가 투표를 끝내면 가장 많은 투표를 받은 인원을 제외시킴, 승리여부판단까지
 		endVoteTime: () => {
@@ -154,12 +158,13 @@ class GameProvider extends Component {
 			// 투표를 많이 받은 사람은 people에서 삭제
 			// 투표 수를 초기화시킴.
 			const { players } = this.state;
+			console.table(players)
 			const maxNumOfVotes = players.reduce(
 				(max, cur) => max.daytimeVoted > cur.daytimeVoted ? max : cur
 			).daytimeVoted;
-			// console.log(maxNumOfVotes)
+			console.log(maxNumOfVotes)
 			const maxOfVotesPlayers = players.filter(player => player.daytimeVoted === maxNumOfVotes)
-
+			console.log(maxOfVotesPlayers)
 			const c_people = [...players];
 
 			if (maxOfVotesPlayers.length === 1) {
@@ -250,7 +255,8 @@ class GameProvider extends Component {
 				doctorVotes: players.map(person => ({
 					name: person.name,
 					voter: []
-				}))
+				})),
+				isReVoted: false
 			});
 		},
 		// Mafia > handleSelectBtn	- 마피아가 제외시킬 사람 투표

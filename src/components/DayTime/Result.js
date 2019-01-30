@@ -9,7 +9,7 @@ class Result extends React.Component {
 		return (
 			<Fragment>
 				<h1>투표 결과</h1>
-				{isReVoted ? <h2>다수결 결과가 되지 않아 재투표를 합니다.</h2>
+				{isReVoted ? <h2>투표가 동률이 났습니다.</h2>
 					: <h2>{dayTimeVotedPerson.name}님이 죽으셨습니다.</h2>}
 			</Fragment>
 		);
