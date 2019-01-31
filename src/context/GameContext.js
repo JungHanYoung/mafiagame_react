@@ -74,6 +74,28 @@ class GameProvider extends Component {
 				count: 0
 			}
 		],
+		randomJobs: [
+			{
+				code: 1,
+				jobName: JOB_NAME_OF_MAFIA,
+				count: 0
+			},
+			{
+				code: 2,
+				jobName: JOB_NAME_OF_POLICE,
+				count: 0
+			},
+			{
+				code: 3,
+				jobName: JOB_NAME_OF_DOCTOR,
+				count: 0
+			},
+			{
+				code: 4,
+				jobName: JOB_NAME_OF_CITIZEN,
+				count: 0
+			}
+		],
 		isEndGame: false,
 		gameOrder: DAY_TIME,
 		dayTimeOrder: TURN_OF_DISCUSS_AT_DAY,
@@ -105,6 +127,14 @@ class GameProvider extends Component {
 				})
 			}
 		},
+		onChangeRandomJobCount: (code, value) => {
+			const { randomJobs } = this.state;
+			if (value >= 0) {
+				this.setState({
+					randomJobs: randomJobs.map(job => job.code === code ? { ...job, count: value } : job)
+				})
+			}
+		},
 		// Setting > render > input - 세팅에서 플레이어이름 입력 인풋 핸들링
 		onChangePeopleName: (i, value) => {
 			const { people } = this.state;
@@ -115,9 +145,11 @@ class GameProvider extends Component {
 		},
 		// CheckRole > componentWillMount - 세팅 끝난 후, players 무작위 역할지정 및 마피아,의사투표 초기화
 		setRolePeople: () => {
-			const { jobs, people } = this.state;
+			const { jobs, people, randomJobs } = this.state;
 
-			const players = setPlayers(people, jobs);
+			// console.log(randomJobs)
+
+			const players = setPlayers(people, jobs, randomJobs);
 
 			this.setState({
 				players
