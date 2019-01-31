@@ -340,32 +340,46 @@ class GameProvider extends Component {
 		resultAtNight: () => {
 			const { players, doctorVotes, mafiaVotes } = this.state;
 
+			// 마피아에게 받은 가장 많은 투표수 - 동률체크
 			const maxNumOfVotedByMafia = mafiaVotes.reduce(
 				(max, cur) =>
 					max.voter.length > cur.voter.length
 						? max
 						: cur
 			).voter.length
+			// 
 			const isOverlapOfMafia = mafiaVotes.filter(person => person.voter.length === maxNumOfVotedByMafia).length !== 1
-			const maxNumOfVotedByDoctor = doctorVotes.reduce(
-				(max, cur) =>
-					max.voter.length > cur.voter.length
-						? max
-						: cur
-			).voter.length
-			const isOverlapOfDoctor = doctorVotes.filter(person => person.voter.length === maxNumOfVotedByDoctor).length !== 1
 
 			if (isOverlapOfMafia) {
 				this.setState({
 					isReVoted: true
 				})
 			} else {
+
 				const killName = mafiaVotes.find(person => person.voter.length === maxNumOfVotedByMafia).name
+
 				const afterKilled = players.filter((player) => player.name !== killName);
 				const mafias = afterKilled.filter((player) => player.jobName === JOB_NAME_OF_MAFIA);
 				const citizen = afterKilled.filter((player) => player.jobName !== JOB_NAME_OF_MAFIA);
-				if (isOverlapOfDoctor) {
-					// 마피아는 그대로 시민을 죽임.
+
+
+				/**
+				 * doctorVotes: [
+				 * 	{
+					* 	name: '1',
+					* 	voter: ['2', '3']
+					* }
+				 * ]
+				 */
+
+				const savePeople = doctorVotes
+					.filter(person => person.voter.length > 0)
+					.map(person => person.name)
+
+				console.table(savePeople);
+				console.log('killName:', killName)
+				if (!savePeople.includes(killName)) {
+					// 마피아 승리조건을 충족 ( 마피아 수가 시민 수와 같으면 )
 					if (mafias.length >= citizen.length) {
 						this.setState({
 							players: afterKilled,
@@ -379,25 +393,6 @@ class GameProvider extends Component {
 							players: afterKilled,
 							killed: killName
 						});
-					}
-				} else {
-					const saveName = doctorVotes.find(person => person.voter.length === maxNumOfVotedByDoctor).name
-					if (killName !== saveName) {
-						// 마피아 승리조건을 충족 ( 마피아 수가 시민 수와 같으면 )
-						if (mafias.length >= citizen.length) {
-							this.setState({
-								players: afterKilled,
-								isEndGame: true,
-								victory: 'mafia',
-								killed: killName
-							});
-							// 아님 마피아는 사람을 죽임.
-						} else {
-							this.setState({
-								players: afterKilled,
-								killed: killName
-							});
-						}
 					}
 				}
 			}

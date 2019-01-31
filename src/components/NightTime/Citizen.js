@@ -3,15 +3,7 @@ import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
 
 class Citizen extends React.Component {
-	state = {
-		disableBtn: true
-	};
 	componentWillMount() {
-		setTimeout(() => {
-			this.setState({
-				disableBtn: false
-			});
-		}, 1000);
 	}
 	handleSelectBtn = () => {
 		const { handleConfirmAndCheck, nextOrder } = this.props;
@@ -19,11 +11,10 @@ class Citizen extends React.Component {
 		nextOrder();
 	};
 	render() {
-		const { disableBtn } = this.state;
 		return (
 			<Fragment>
 				<h1>당신은 시민입니다.</h1>
-				<button disabled={disableBtn} onClick={this.handleSelectBtn}>
+				<button onClick={this.handleSelectBtn}>
 					다음
 				</button>
 			</Fragment>
