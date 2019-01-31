@@ -21,7 +21,7 @@ export const setPlayers = (people, jobs, randomJobs) => {
 			tmpJobs.splice(randomJobsIndex, 1);
 		}
 		// 필수 직업 배치 후 나머지 랜덤직업으로 세팅
-		if(tmpJobs.length === 0 && randomJobs && randomJobs.length){
+		if(tmpJobs.length === 0 && randomJobs && randomJobs.length && index < people.length -1){
 			tmpJobs = randomJobs.map((job) => ({ ...job }));
 		}
 	});
