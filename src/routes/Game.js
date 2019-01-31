@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { useGame } from '../context/GameContext';
 
@@ -12,9 +13,9 @@ class Game extends React.Component {
 	}
 
 	render() {
-		const { gameOrder } = this.props;
+		const { gameOrder, players } = this.props;
 
-		return (
+		return players.length > 0 ? (
 			<div className="animated fadeInUp">
 				{gameOrder === 'day-time' ? (
 					<Fragment>
@@ -28,7 +29,7 @@ class Game extends React.Component {
 						</Fragment>
 					)}
 			</div>
-		);
+		) : <Redirect to="/setting" />;
 	}
 }
 
@@ -38,6 +39,7 @@ Game.propTypes = {
 };
 
 export default useGame(({ state, actions }) => ({
+	players: state.players,
 	gameOrder: state.gameOrder,
 	setPeopleVoted: actions.setPeopleVoted
 }))(Game);

@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import { Redirect as MyRedirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -17,7 +18,7 @@ class CheckRole extends React.Component {
 
 	handleShowRole = () => {
 		const { showRole, showIndex } = this.state;
-		const { players } = this.props;
+		const { players, people } = this.props;
 
 		showRole
 			? this.setState({
@@ -38,12 +39,12 @@ class CheckRole extends React.Component {
 
 	render() {
 		const { showRole, showIndex } = this.state;
-		const { players, gameStart } = this.props;
+		const { players, gameStart, people } = this.props;
 
 		if (gameStart) {
 			return <div>game</div>;
 		} else {
-			return players.length > 0 ? (
+			return people.length > 0 ? players.length > 0 ? (
 				<div className="App-header">
 					<h1 className="animated" ref="title">
 						이제 각 사람 마다의 역할이 정해집니다.
@@ -52,7 +53,7 @@ class CheckRole extends React.Component {
 					<h2>{players[showIndex].name}</h2>
 					{showRole && <h2 className="animated fadeInUp delay-.1s">{players[showIndex].jobName}</h2>}
 					{showRole && players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
-						<Fragment>
+						<>
 							<h3>동료 마피아</h3>
 							{players.filter((player) => players[showIndex].name !== player.name
 								&& player.jobName === JOB_NAME_OF_MAFIA)
@@ -61,14 +62,14 @@ class CheckRole extends React.Component {
 										{player.name}
 									</div>
 								))}
-						</Fragment>
+						</>
 					}
 
 					<button onClick={this.handleShowRole} className="btn">
 						다음
 					</button>
 				</div>
-			) : null;
+			) : null : <MyRedirect to="/setting" />;
 		}
 	}
 }
