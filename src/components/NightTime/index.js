@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 // Component
 import Mafia from './Mafia';
@@ -24,14 +24,14 @@ class Night extends React.Component {
 		const { nightTimeOrder, players, isEndVoteNight } = this.props;
 
 		return (
-			<Fragment>
+			<>
 				{isEndVoteNight ? (
 					<Result />
 				) : (
-						<Fragment>
+						<>
 							<h1>{players[nightTimeOrder].name}의 차례입니다.</h1>
 							{confirmed ? (
-								<Fragment>
+								<>
 									{players[nightTimeOrder].jobName === JOB_NAME_OF_MAFIA ? (
 										<Mafia handleConfirmAndCheck={this.handleConfirmAndCheck} />
 									) : players[nightTimeOrder].jobName === JOB_NAME_OF_POLICE ? (
@@ -41,17 +41,17 @@ class Night extends React.Component {
 									) : players[nightTimeOrder].jobName === JOB_NAME_OF_CITIZEN ? (
 										<Citizen handleConfirmAndCheck={this.handleConfirmAndCheck} />
 									) : null}
-								</Fragment>
+								</>
 							) : (
 									<button onClick={this.handleConfirmAndCheck}>다음</button>
 								)}
-						</Fragment>
+						</>
 					)}
 				{/* {nightTimeOrder === 'mafia' && <Mafia />}
 				{nightTimeOrder === 'doctor' && <Doctor />}
 				{nightTimeOrder === 'police' && <Police />}
 				{nightTimeOrder === 'result' && <Result />} */}
-			</Fragment>
+			</>
 		);
 	}
 }

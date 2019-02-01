@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
 
@@ -48,14 +48,14 @@ class Police extends Component {
 					</div>
 				}
 				{selected && (
-					<Fragment>
+					<>
 						<div>
 							{selectName}은 마피아가 {isMafia ? '맞습니다.' : '아닙니다.'}
 						</div>
 						<div>
 							<button onClick={this.handleNextOrder}>다음</button>
 						</div>
-					</Fragment>
+					</>
 				)}
 			</div>
 		);

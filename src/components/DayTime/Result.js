@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
 import { JOB_NAME_OF_CITIZEN, JOB_NAME_OF_DOCTOR, JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE } from '../../contants/Job';
@@ -7,11 +7,11 @@ class Result extends React.Component {
 	render() {
 		const { dayTimeVotedPerson, isReVoted } = this.props;
 		return (
-			<Fragment>
+			<>
 				<h1>투표 결과</h1>
 				{isReVoted ? <h2>투표가 동률이 났습니다.</h2>
 					: <h2>{dayTimeVotedPerson.name}님이 죽으셨습니다.</h2>}
-			</Fragment>
+			</>
 		);
 	}
 }

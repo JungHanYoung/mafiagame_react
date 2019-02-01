@@ -18,7 +18,7 @@ class CheckRole extends React.Component {
 
 	handleShowRole = () => {
 		const { showRole, showIndex } = this.state;
-		const { players, people } = this.props;
+		const { players } = this.props;
 
 		showRole
 			? this.setState({

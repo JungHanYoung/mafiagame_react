@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { withRouter } from 'react-router-dom';
@@ -98,7 +98,7 @@ class Setting extends Component {
 					/>
 				))}
 				{num > 3 && (
-					<Fragment>
+					<>
 						{jobs.map((job) => (
 							<div key={job.code}>
 								<span className="animated fadeInLeft">{job.jobName}은 몇명?&nbsp;</span>
@@ -124,7 +124,7 @@ class Setting extends Component {
 							</div>
 						))}
 						<button onClick={this.onSettingEnd}>게임시작</button>
-					</Fragment>
+					</>
 				)}
 			</div>
 		);

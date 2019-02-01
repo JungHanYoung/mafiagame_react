@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -14,13 +14,13 @@ class DayTime extends React.Component {
 	render() {
 		const { dayTimeOrder } = this.props;
 		return (
-			<Fragment>
+			<>
 				{dayTimeOrder === 'discuss' && <Discuss />}
 				{dayTimeOrder === 'vote' && <VoteTime />}
 				{dayTimeOrder === 'result' && <Result />}
 				{/* 게임 종료 여부에 따른 버튼 */}
 				<WhetherVictory />
-			</Fragment>
+			</>
 		);
 	}
 }

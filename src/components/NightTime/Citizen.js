@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
 
@@ -12,12 +12,12 @@ class Citizen extends React.Component {
 	};
 	render() {
 		return (
-			<Fragment>
+			<>
 				<h1>당신은 시민입니다.</h1>
 				<button onClick={this.handleSelectBtn}>
 					다음
 				</button>
-			</Fragment>
+			</>
 		);
 	}
 }

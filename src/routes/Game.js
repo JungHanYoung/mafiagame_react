@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { useGame } from '../context/GameContext';
@@ -18,15 +18,15 @@ class Game extends React.Component {
 		return players.length > 0 ? (
 			<div className="animated fadeInUp">
 				{gameOrder === 'day-time' ? (
-					<Fragment>
+					<>
 						<h1>낮</h1>
 						<DayTime />
-					</Fragment>
+					</>
 				) : (
-						<Fragment>
+						<>
 							<h1>밤</h1>
 							<NightTime />
-						</Fragment>
+						</>
 					)}
 			</div>
 		) : <Redirect to="/setting" />;

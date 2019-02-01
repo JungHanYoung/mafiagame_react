@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
 
@@ -11,7 +11,7 @@ class Mafia extends React.Component {
 	render() {
 		const { players, mafiaVotes } = this.props;
 		return (
-			<Fragment>
+			<>
 				<h1>당신은 마피아 입니다.</h1>
 				<div>마피아 투표 현황</div>
 				{mafiaVotes.map(person => person.voter.length > 0 ? (
@@ -34,7 +34,7 @@ class Mafia extends React.Component {
 							</button>
 						))}
 				</div>
-			</Fragment>
+			</>
 		);
 	}
 }

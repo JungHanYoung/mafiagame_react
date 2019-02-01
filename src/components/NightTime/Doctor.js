@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
 
@@ -12,7 +12,7 @@ class Doctor extends React.Component {
 		const { players } = this.props;
 
 		return (
-			<Fragment>
+			<>
 				<h1>당신은 의사입니다.</h1>
 				<h2>누구를 살릴지 선택을 하세요.</h2>
 				{players.map((person, i) => (
@@ -20,7 +20,7 @@ class Doctor extends React.Component {
 						{person.name}
 					</button>
 				))}
-			</Fragment>
+			</>
 		);
 	}
 }
