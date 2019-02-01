@@ -2,7 +2,12 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Anton', 'Noto Sans KR', sans-serif;
-  background: black;
+  font-weight: 900;
+  background: #000;
+}
+
+#root {
+  height: 100vh;
 }
 
 .main-container {
@@ -20,17 +25,122 @@ body {
 .main-title {
   font-size: 60px;
   margin-bottom: 40px;
-  color: white;
+  color: #fff;
 }
 
 .btn-main {
   padding: 10px 20px;
   margin-bottom: 20px;
-  background: red;
-  color: black;
+  background: #ff0000;
+  color: #000;
   font-size: 20px;
   width: 190px;
   text-align: center;
   text-decoration: none;
   font-weight: bold;
+}
+
+.setting-title {
+  padding: 30px 0;
+  margin: 0;
+  color: #ff0000;
+  text-align: center;
+}
+
+.setting-step {
+  display: flex;
+  justify-content: space-evenly;
+  position: relative;
+}
+
+.setting-step::before {
+  content: '';
+  width: 100%;
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+  border: solid 1px #fff;
+  top: 7px;
+}
+
+.setting-step-bar {
+  width:15px;
+  height:15px;
+  box-sizing: border-box;
+  border: solid 2px #fff;
+  border-radius: 50%;
+  background: #666;
+  z-index: 999;
+}
+
+.setting-step-bar.active {
+  width:15px;
+  height:15px;
+  box-sizing: border-box;
+  border: solid 2px #fff;
+  border-radius: 50%;
+  background: #666;
+  z-index: 999;
+  background: #ff0000;
+}
+
+.setting-container {
+  padding: 40px 25px;
+  color: red;
+}
+
+.setting-subtitle {
+  width: 135px;
+  word-break: break-all;
+}
+
+.setting-people-select {
+  border: none;
+  border-bottom: 2px solid #fff;
+  padding: 0px;
+  margin: 0px;
+  border-radius: 0;
+  background: inherit;
+  color: white;
+  font-size: 10px;
+  width: 160px;
+  font-weight: 100;
+  outline: none;
+  background: url("./assets/arrow.png") no-repeat right;
+  /* background-position-x: 120px; */
+  background-size: 10%;
+  -webkit-appearance: none;
+  line-height: 200%;
+}
+
+.setting-btn-group {
+  position: absolute;
+  bottom: 50px;
+  right: 25px;
+  display: flex;
+  justify-content: flex-end;
+  /* margin-top: 250px;
+  padding: 0 25px;
+  display: flex;
+  justify-content: flex-end; */
+}
+
+.setting-prev-btn {
+  background: transparent;
+  padding: 15px 35px;
+  outline: none;
+  border: none;
+  color: #fff;
+}
+
+.setting-next-btn {
+  /* position: absolute;
+  bottom: 50px;
+  right: 25px; */
+  margin-left: 15px;
+  background: #ff0000;
+  padding: 15px 35px;
+  outline: none;
+  border: none;
+  color: #fff;
 }

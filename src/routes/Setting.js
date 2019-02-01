@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import classNames from 'classnames'
 import { withRouter } from 'react-router-dom';
 import { useGame } from '../context/GameContext';
 
@@ -23,7 +24,8 @@ class Setting extends Component {
 
 		const { people } = props;
 		this.state = {
-			num: people.length
+			num: people.length,
+			step: 0
 		};
 	}
 	handleJobCount = (e) => {
@@ -77,9 +79,29 @@ class Setting extends Component {
 	};
 	render() {
 		const { people, jobs, randomJobs, onChangePeopleName } = this.props;
-		const { num } = this.state;
+		const { num, step } = this.state;
 		return (
-			<div className="App-header">
+			<>
+				<h1 className="setting-title">게임 설정</h1>
+				<div className="setting-step">
+					<span className={classNames('setting-step-bar', { active: step >= 0 })}></span>
+					<span className={classNames('setting-step-bar', { active: step >= 1 })}></span>
+					<span className={classNames('setting-step-bar', { active: step >= 2 })}></span>
+				</div>
+				<div className="setting-container">
+					<h3 className="setting-subtitle">
+						인원 수 및 이름을 선택해주세요.
+					</h3>
+					<select className="setting-people-select">
+						<option>SELECT NUMBER</option>
+					</select>
+				</div>
+				<div className="setting-btn-group">
+					{step > 0 &&
+						<button className="setting-prev-btn">이 전</button>
+					}
+					<button className="setting-next-btn">다 음</button>
+				</div>
 				<div>
 					몇명이서 할건데?&nbsp;
 					<select value={num} onChange={this.onPeopleChange}>
@@ -126,7 +148,7 @@ class Setting extends Component {
 						<button onClick={this.onSettingEnd}>게임시작</button>
 					</>
 				)}
-			</div>
+			</>
 		);
 	}
 }
