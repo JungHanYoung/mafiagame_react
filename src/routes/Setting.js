@@ -9,6 +9,11 @@ import { useGame } from '../context/GameContext';
 import { SELECT_OF_PEOPLE_NUM_START, SELECT_OF_PEOPLE_NUM_END } from '../contants/Setting';
 import { JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE, JOB_NAME_OF_CITIZEN, JOB_NAME_OF_DOCTOR } from '../contants/Job';
 
+// Component
+import InputPeople from '../components/setting/InputPeople'
+import JobSetting from '../components/setting/JobSetting'
+import RandomJobSetting from '../components/setting/RandomJobSetting'
+
 const PeopleNumSelectList = () => {
 	const range = _.range(SELECT_OF_PEOPLE_NUM_START, SELECT_OF_PEOPLE_NUM_END);
 	return range.map((num) => (
@@ -17,6 +22,19 @@ const PeopleNumSelectList = () => {
 		</option>
 	));
 };
+
+const getContent = (step) => {
+	switch (step) {
+		case 0:
+			return <InputPeople />
+		case 1:
+			return <JobSetting />
+		case 2:
+			return <RandomJobSetting />
+		default:
+			return null;
+	}
+}
 
 class Setting extends Component {
 	constructor(props) {
@@ -27,6 +45,16 @@ class Setting extends Component {
 			num: people.length,
 			step: 0
 		};
+	}
+	handleNext = () => {
+		this.setState(state => ({
+			step: state.step + 1
+		}))
+	}
+	handleBack = () => {
+		this.setState(state => ({
+			step: state.step - 1
+		}))
 	}
 	handleJobCount = (e) => {
 		const code = Number(e.target.name);
@@ -84,23 +112,27 @@ class Setting extends Component {
 			<>
 				<h1 className="setting-title">게임 설정</h1>
 				<div className="setting-step">
-					<span className={classNames('setting-step-bar', { active: step >= 0 })}></span>
-					<span className={classNames('setting-step-bar', { active: step >= 1 })}></span>
-					<span className={classNames('setting-step-bar', { active: step >= 2 })}></span>
+					{Array
+						.from({ length: 3 }, (v, k) => k)
+						.map(number => (
+							<span
+								className={classNames(
+									'setting-step-bar',
+									{ active: number <= step })}
+							></span>
+						))}
 				</div>
-				<div className="setting-container">
-					<h3 className="setting-subtitle">
-						인원 수 및 이름을 선택해주세요.
-					</h3>
-					<select className="setting-people-select">
-						<option>SELECT NUMBER</option>
-					</select>
-				</div>
+				{getContent(step)}
 				<div className="setting-btn-group">
+
 					{step > 0 &&
-						<button className="setting-prev-btn">이 전</button>
+						<button className="setting-prev-btn" onClick={this.handleBack}>이 전</button>
 					}
-					<button className="setting-next-btn">다 음</button>
+					{step === 2 ?
+						<button className="setting-next-btn setting-end" onClick={this.onSettingEnd}>게임시작</button>
+						:
+						<button className="setting-next-btn" onClick={this.handleNext}>다 음</button>
+					}
 				</div>
 				<div>
 					몇명이서 할건데?&nbsp;

@@ -90,8 +90,7 @@ body {
 }
 
 .setting-subtitle {
-  width: 135px;
-  word-break: break-all;
+  
 }
 
 .setting-people-select {
@@ -111,6 +110,16 @@ body {
   background-size: 10%;
   -webkit-appearance: none;
   line-height: 200%;
+}
+
+.setting-people-name {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.setting-people-name > * {
+  flex: 1;
 }
 
 .setting-btn-group {
@@ -143,4 +152,99 @@ body {
   outline: none;
   border: none;
   color: #fff;
+}
+
+.setting-job-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.setting-job-name {
+  width: 50%;
+  text-align: center;
+}
+
+.setting-job-input-container {
+  width: 50%;
+  box-sizing: border-box;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.setting-job-input {
+  width: 90px;
+  border: 0;
+  background: transparent;
+  border-bottom: 1px solid #fff;
+  line-height: 250%;
+  outline: none;
+  color: #fff;
+  text-align: right;
+}
+
+.setting-job-input-unit {
+  margin-left: 22px;
+  color: #fff;
+}
+
+
+/* Check Role */
+
+.check {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: #fff;
+  text-align: center;
+}
+
+.game-title {
+  color: #ff0000;
+  text-align: center;
+  margin: 0;
+  padding: 20px 0;
+}
+
+.game-subtitle {
+  color: #ff0000;
+  text-align: center;
+  margin-top: 116px;
+  font-size: 18px;
+}
+
+.check-player-name {
+  color: #fff;
+  text-align: center;
+  margin-top: 58px;
+}
+
+.check-job-container {
+  height: 200px;
+}
+
+.check-player-job {
+  color: #ff0000;
+  text-align: center;
+}
+
+.check-mafia-co {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.check-mafia-co > *{
+  flex: 1;
+  color: #fff;
+  text-align: center;
+}
+
+.check-btn {
+  display: block;
+  padding: 15px 65px;
+  background: #ff0000;
+  font-size: 15px;
+  border: 0;
+  outline: 0;
+  margin: 0 auto;
 }
