@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import classNames from 'classnames'
 import { withRouter } from 'react-router-dom';
 import { useGame } from '../context/GameContext';
 
 // 상수
-import { SELECT_OF_PEOPLE_NUM_START, SELECT_OF_PEOPLE_NUM_END } from '../contants/Setting';
 import { JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE, JOB_NAME_OF_CITIZEN, JOB_NAME_OF_DOCTOR } from '../contants/Job';
 
 // Component
@@ -14,14 +12,6 @@ import InputPeople from '../components/setting/InputPeople'
 import JobSetting from '../components/setting/JobSetting'
 import RandomJobSetting from '../components/setting/RandomJobSetting'
 
-const PeopleNumSelectList = () => {
-	const range = _.range(SELECT_OF_PEOPLE_NUM_START, SELECT_OF_PEOPLE_NUM_END);
-	return range.map((num) => (
-		<option key={num} value={num}>
-			{num}
-		</option>
-	));
-};
 
 const getContent = (step) => {
 	switch (step) {
@@ -134,23 +124,6 @@ class Setting extends Component {
 						<button className="setting-next-btn" onClick={this.handleNext}>다 음</button>
 					}
 				</div>
-				<div>
-					몇명이서 할건데?&nbsp;
-					<select value={num} onChange={this.onPeopleChange}>
-						<option>select number</option>
-						<PeopleNumSelectList />
-					</select>
-				</div>
-				{people.map((person, i) => (
-					<input
-						key={`name_${i}`}
-						type="text"
-						autoComplete="off"
-						name={`person_${i}`}
-						value={person}
-						onChange={(e) => onChangePeopleName(i, e.target.value)}
-					/>
-				))}
 				{num > 3 && (
 					<>
 						{jobs.map((job) => (

@@ -40,6 +40,8 @@ body {
   font-weight: bold;
 }
 
+/* Setting */
+
 .setting-title {
   padding: 30px 0;
   margin: 0;
@@ -74,13 +76,6 @@ body {
 }
 
 .setting-step-bar.active {
-  width:15px;
-  height:15px;
-  box-sizing: border-box;
-  border: solid 2px #fff;
-  border-radius: 50%;
-  background: #666;
-  z-index: 999;
   background: #ff0000;
 }
 
@@ -112,14 +107,32 @@ body {
   line-height: 200%;
 }
 
-.setting-people-name {
+.setting-people-name-container {
   display: flex;
   flex-wrap: wrap;
   margin-top: 30px;
 }
 
-.setting-people-name > * {
-  flex: 1;
+.setting-people-name {
+  position: relative;
+  margin: 5px 10% 0 0;
+  box-sizing: border-box;
+  width: 40%;
+}
+
+.people-name-placeholder {
+  color: #888;
+  font-size: 10px;
+  padding-right: 20px;
+}
+
+.setting-people-name > input {
+  background: transparent;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #fff;
+  color: white;
+  line-height: 200%;
 }
 
 .setting-btn-group {
@@ -248,3 +261,31 @@ body {
   outline: 0;
   margin: 0 auto;
 }
+
+/* Game */
+.daytime {
+  height: 100%;
+  background: #fff;
+  text-align: center;
+}
+
+.daytime > h1 {
+  margin: 0;
+  padding: 20px 0;
+}
+
+.daytime .subtitle {
+  margin-top: 115px;  
+}
+
+.night {
+  height: 100%;
+  background: #000;
+  text-align: center;
+}
+
+.night > h1 {
+  margin: 0;
+  padding: 20px 0;
+}
+

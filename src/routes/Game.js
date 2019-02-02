@@ -15,21 +15,17 @@ class Game extends React.Component {
 	render() {
 		const { gameOrder, players } = this.props;
 
-		return players.length > 0 ? (
-			<div className="animated fadeInUp">
-				{gameOrder === 'day-time' ? (
-					<>
-						<h1>낮</h1>
-						<DayTime />
-					</>
-				) : (
-						<>
-							<h1>밤</h1>
-							<NightTime />
-						</>
-					)}
-			</div>
-		) : <Redirect to="/setting" />;
+		return players.length > 0 ? gameOrder === 'day-time' ? (
+			<main className="daytime">
+				<h1>낮</h1>
+				<DayTime />
+			</main>
+		) : (
+				<main className="night">
+					<h1>밤</h1>
+					<NightTime />
+				</main>
+			) : <Redirect to="/setting" />;
 	}
 }
 

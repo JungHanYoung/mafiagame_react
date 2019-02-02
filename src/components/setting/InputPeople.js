@@ -44,9 +44,18 @@ class InputPeople extends Component {
                         <option key={`people_select__${number}`} value={number}>{number}</option>
                     ))}
                 </select>
-                <div className="setting-people-name">
+                <div className="setting-people-name-container">
                     {people.map((person, i) => (
-                        <input type="number" name={`person_${i}`} value={person} onChange={(e) => onChangePeopleName(i, e.target.value)} />
+                        <div className="setting-people-name">
+                            <span className="people-name-placeholder">{`플레이어 ${i + 1}`}</span>
+                            <input
+                                type="text"
+                                name={`person_${i}`}
+                                value={person}
+                                autoComplete="off"
+                                onChange={(e) => onChangePeopleName(i, e.target.value)}
+                            />
+                        </div>
                     ))}
                 </div>
             </div>

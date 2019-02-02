@@ -40,23 +40,56 @@ class CheckRole extends React.Component {
 
 	render() {
 		const { showRole, showIndex } = this.state;
-		const { players, gameStart } = this.props;
+		const { players, gameStart, people } = this.props;
 
 		if (gameStart) {
 			return <div>game</div>;
 		} else {
 			// return people.length > 0 ? players.length > 0 ? (
-			return <div className="check">
-				<h2 className="game-title">HELLO MAFIA</h2>
-				<p className="game-subtitle">이제 각 사람 마다의<br />역할이 정해집니다.</p>
+			return people.length > 0 ?
+				players.length > 0 ?
+					(<div className="check">
+						<h2 className="game-title">HELLO MAFIA</h2>
+						<p className="game-subtitle">이제 각 사람 마다의<br />역할이 정해집니다.</p>
 
-				<h3 className="check-player-name">{players[showIndex].name}</h3>
-				<div className="check-job-container">
-					{showRole && <h3 className="check-player-job">{players[showIndex].jobName}</h3>}
-					{showRole && players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
-						<>
-							<h3>동료 마피아</h3>
-							<div className="check-mafia-co">
+						<h3 className="check-player-name">{players[showIndex].name}</h3>
+						<div className="check-job-container">
+							{showRole && <h3 className="check-player-job">{players[showIndex].jobName}</h3>}
+							{showRole && players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
+								<>
+									<h3>동료 마피아</h3>
+									<div className="check-mafia-co">
+										{players.filter((player) => players[showIndex].name !== player.name
+											&& player.jobName === JOB_NAME_OF_MAFIA)
+											.map((player, i) => (
+												<div key={`mafia-show-${i}`}>
+													{player.name}
+												</div>
+											))}
+										{/* {players.filter((player) => players[showIndex].name !== player.name
+								&& player.jobName === JOB_NAME_OF_MAFIA)
+								.map((player, i) => (
+									<div key={`mafia-show-${i}`}>
+										{player.name}
+									</div>
+								))} */}
+									</div>
+								</>
+							}
+						</div>
+						<button onClick={this.handleShowRole} className="check-btn">
+							{showRole ? '다음' : '확인 하기'}
+						</button>
+						{/* <div className="App-header">
+						<h1 className="animated" ref="title">
+							이제 각 사람 마다의 역할이 정해집니다.
+						</h1>
+
+						<h2>{players[showIndex].name}</h2>
+						{showRole && <h2 className="animated fadeInUp delay-.1s">{players[showIndex].jobName}</h2>}
+						{showRole && players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
+							<>
+								<h3>동료 마피아</h3>
 								{players.filter((player) => players[showIndex].name !== player.name
 									&& player.jobName === JOB_NAME_OF_MAFIA)
 									.map((player, i) => (
@@ -64,46 +97,14 @@ class CheckRole extends React.Component {
 											{player.name}
 										</div>
 									))}
-								{/* {players.filter((player) => players[showIndex].name !== player.name
-							&& player.jobName === JOB_NAME_OF_MAFIA)
-							.map((player, i) => (
-								<div key={`mafia-show-${i}`}>
-									{player.name}
-								</div>
-							))} */}
-							</div>
-						</>
-					}
-				</div>
-				<button onClick={this.handleShowRole} className="check-btn">
-					{showRole ? '다음' : '확인 하기'}
-				</button>
-				{/* <div className="App-header">
-					<h1 className="animated" ref="title">
-						이제 각 사람 마다의 역할이 정해집니다.
-					</h1>
+							</>
+						}
 
-					<h2>{players[showIndex].name}</h2>
-					{showRole && <h2 className="animated fadeInUp delay-.1s">{players[showIndex].jobName}</h2>}
-					{showRole && players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
-						<>
-							<h3>동료 마피아</h3>
-							{players.filter((player) => players[showIndex].name !== player.name
-								&& player.jobName === JOB_NAME_OF_MAFIA)
-								.map((player, i) => (
-									<div key={`mafia-show-${i}`}>
-										{player.name}
-									</div>
-								))}
-						</>
-					}
-
-					<button onClick={this.handleShowRole} className="btn">
-						다음
-					</button>
-				</div> */}
-			</div>
-			// ) : null : <MyRedirect to="/setting" />;
+						<button onClick={this.handleShowRole} className="btn">
+							다음
+						</button>
+					</div> */}
+					</div>) : null : <MyRedirect to="/setting" />;
 		}
 	}
 }
