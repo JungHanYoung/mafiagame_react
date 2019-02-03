@@ -13,6 +13,7 @@ class Result extends React.Component {
 		const existsDoctor = players.filter((player) => player.jobName === JOB_NAME_OF_DOCTOR).length > 0;
 		return (
 			<>
+
 				<span>밤 투표 결과</span>
 				{!!killed
 					? (

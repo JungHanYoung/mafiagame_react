@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
+import { JOB_NAME_OF_MAFIA } from '../../contants/Job';
 
 class Mafia extends React.Component {
 	handleSelectBtn = (name) => {
@@ -12,8 +13,19 @@ class Mafia extends React.Component {
 		const { players, mafiaVotes } = this.props;
 		return (
 			<>
-				<h1>당신은 마피아 입니다.</h1>
+				<h2>당신은 마피아 입니다.<br />죽일 사람을 선택하십시오.</h2>
+
 				<div>마피아 투표 현황</div>
+				<div className="night-mafia-vote-btn-container">
+					{players
+						.filter((person) => person.jobName !== JOB_NAME_OF_MAFIA)
+						.map((person, i) => (
+							<button className="mafia-vote-btn" key={`mafia-select-${i}`} onClick={() => this.handleSelectBtn(person.name)}>
+								{person.name}
+							</button>
+						))}
+				</div>
+
 				{mafiaVotes.map(person => person.voter.length > 0 ? (
 					<div>
 						<h3>{person.name}을 죽인다.</h3>
@@ -22,7 +34,6 @@ class Mafia extends React.Component {
 						</ul>
 					</div>
 				) : null)}
-				<h2>죽일 사람을 선택하십시오.</h2>
 				<div>
 					{players
 						.filter((person) => {

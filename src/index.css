@@ -10,6 +10,17 @@ body {
   height: 100vh;
 }
 
+/* common */
+
+
+.btn {
+  font-weight: bold;
+}
+
+
+/* main page */
+
+
 .main-container {
   display: flex;
   flex-direction: column;
@@ -274,14 +285,49 @@ body {
   padding: 20px 0;
 }
 
-.daytime .subtitle {
+.daytime .container, .night .container {
   margin-top: 115px;  
+  height: 375px;
+}
+
+.daytime .voter {
+  color: #ff0000;
+  font-size: 24px;
+  margin-top: 140px;
+}
+
+.daytime .vote-btn-container {
+  margin: 71px auto 0px;
+  width: 275px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.daytime .vote-btn-container > .btn {
+  width: 45px;
+  height: 45px;
+  color: #ff0000;
+  background: #000;
+  text-align: center;
+  outline: none;
+}
+
+.daytime > .btn {
+  display: block;
+  padding: 15px 65px;
+  background: #000;
+  color: #ff0000;
+  font-size: 15px;
+  border: 0;
+  outline: 0;
+  margin: 0 auto;
 }
 
 .night {
   height: 100%;
   background: #000;
   text-align: center;
+  color: #ff0000;
 }
 
 .night > h1 {
@@ -289,3 +335,75 @@ body {
   padding: 20px 0;
 }
 
+.night > h2 {
+  margin-top: 115px;
+}
+
+.night > .btn {
+  display: block;
+  padding: 15px 65px;
+  background: #ff0000;
+  color: #000;
+  font-size: 15px;
+  border: 0;
+  outline: 0;
+  margin: 0 auto;
+}
+
+.night .night-mafia-vote-btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 275px;
+  height: 196px;
+  margin: 20px auto 0;
+}
+
+.night .night-mafia-vote-btn-container .mafia-vote-btn {
+  width: 45px;
+  height: 45px;
+  background: #ff0000;
+  color: #fff;
+  text-align: center;
+  border: 0;
+  outline: 0;
+}
+
+/* Police */
+
+.police-btn-container {
+  margin: 80px auto 0;
+  width: 275px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.police-btn {
+  width: 45px;
+  height: 45px;
+  background: #ff0000;
+  color: #fff;
+  text-align: center;
+  border: 0;
+  outline: 0;
+}
+
+/* Doctor */
+.btn-container {
+  display: flex;
+  width: 275px;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 50px auto 0;
+}
+
+.btn-container .btn {
+  width: 45px;
+  height: 45px;
+  background: #ff0000;
+  color: #fff;
+  text-align: center;
+  border: 0;
+  outline: 0;
+}

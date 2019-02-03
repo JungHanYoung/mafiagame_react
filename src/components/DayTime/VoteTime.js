@@ -27,15 +27,15 @@ class VoteTime extends React.Component {
 
 		return (
 			<>
-				<h1>마피아로 의심되는 사람을 투표합니다.</h1>
-				<div>{players[voteOrder].name}님의 투표</div>
-				<div>
+				<h3>마피아로 의심되는 사람을 투표합니다.</h3>
+				<div className="voter">{players[voteOrder].name}</div>
+				<div className="vote-btn-container">
 					{players.map((person, i) => {
 						if (i === voteOrder) {
 							return null;
 						} else {
 							return (
-								<button key={`vote-btn-${i}`} onClick={() => this.handleVote(person.name)}>
+								<button className="btn" key={`vote-btn-${i}`} onClick={() => this.handleVote(person.name)}>
 									{person.name}
 								</button>
 							);

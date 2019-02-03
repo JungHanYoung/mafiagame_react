@@ -17,12 +17,12 @@ class Game extends React.Component {
 
 		return players.length > 0 ? gameOrder === 'day-time' ? (
 			<main className="daytime">
-				<h1>낮</h1>
+				<h1>HELLO MAFIA</h1>
 				<DayTime />
 			</main>
 		) : (
 				<main className="night">
-					<h1>밤</h1>
+					<h1>HELLO MAFIA</h1>
 					<NightTime />
 				</main>
 			) : <Redirect to="/setting" />;

@@ -13,13 +13,21 @@ class Doctor extends React.Component {
 
 		return (
 			<>
-				<h1>당신은 의사입니다.</h1>
-				<h2>누구를 살릴지 선택을 하세요.</h2>
-				{players.map((person, i) => (
-					<button key={`doctor-select-${i}`} onClick={() => this.handleSelectBtn(person.name)}>
-						{person.name}
-					</button>
-				))}
+				<div className="container">
+					<h2>당신은 의사입니다.</h2>
+					<p>누구를 살릴지 선택을 하세요.</p>
+					<div className="btn-container">
+						{players.map((person, i) => (
+							<button
+								key={`doctor-select-${i}`}
+								onClick={() => this.handleSelectBtn(person.name)}
+								className="btn"
+							>
+								{person.name}
+							</button>
+						))}
+					</div>
+				</div>
 			</>
 		);
 	}

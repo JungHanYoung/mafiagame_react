@@ -10,9 +10,7 @@ class Police extends Component {
 	};
 	detectingMafiaByPolice = (name) => {
 		const { players } = this.props;
-		players.find((person) => {
-			return person.name === name;
-		}).jobName === 'MAFIA'
+		players.find((person) => person.name === name).jobName === 'MAFIA'
 			? this.setState({
 				selected: true,
 				selectName: name,
@@ -33,31 +31,29 @@ class Police extends Component {
 		const { isMafia, selected, selectName } = this.state;
 		const { players } = this.props;
 		return (
-			<div>
-				경찰의 차례입니다. 경찰은 마피아로 의심되는 사람을 지목해 마피아가 맞는지 확인할 수 있습니다.
-				{!selected &&
-					<div>
-						{
-							players
-								.filter((person) => person.jobName !== 'POLICE')
-								.map((person, i) => (
-									<button key={`police-select-${i}`} onClick={() => this.detectingMafiaByPolice(person.name)}>
-										{person.name}
-									</button>
-								))}
-					</div>
-				}
-				{selected && (
-					<>
-						<div>
+			<>
+				<div className="container">
+					<h2>경찰의 차례입니다.</h2>
+					<p>경찰은 마피아로 의심되는 사람을 지목해 마피아가 맞는지 확인할 수 있습니다.</p>
+					{!selected ?
+						<div className="police-btn-container">
+							{
+								players
+									.filter((person) => person.jobName !== 'POLICE')
+									.map((person, i) => (
+										<button className="police-btn" key={`police-select-${i}`} onClick={() => this.detectingMafiaByPolice(person.name)}>
+											{person.name}
+										</button>
+									))}
+						</div>
+						:
+						<p>
 							{selectName}은 마피아가 {isMafia ? '맞습니다.' : '아닙니다.'}
-						</div>
-						<div>
-							<button onClick={this.handleNextOrder}>다음</button>
-						</div>
-					</>
-				)}
-			</div>
+						</p>
+					}
+				</div>
+				{selected && <button className="btn" onClick={this.handleNextOrder}>다음</button>}
+			</>
 		);
 	}
 }
