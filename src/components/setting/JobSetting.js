@@ -20,17 +20,17 @@ class JobSetting extends Component {
                 <div className="setting-job-container">
                     {jobs.map(job => (
                         <>
-                            <h3 className="setting-job-name">{job.jobName}</h3>
-                            <div className="setting-job-input-container">
+                            <h3 className="job-name">{job.jobName}</h3>
+                            <div className="job-input-container">
                                 <input
-                                    className="setting-job-input"
+                                    className="job-input"
                                     type="text"
                                     name={job.code}
                                     value={job.count}
                                     onChange={this.handleJobCount}
                                     autoComplete="off"
                                 />
-                                <span className="setting-job-input-unit">명</span>
+                                <span className="job-input-unit">명</span>
                             </div>
                         </>
                     ))}

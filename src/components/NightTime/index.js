@@ -41,7 +41,9 @@ class Night extends React.Component {
 			<>
 
 				{isEndVoteNight ? (
+
 					<Result />
+
 				) : (
 						<>
 							{confirmed ? (
@@ -58,16 +60,18 @@ class Night extends React.Component {
 								</>
 							) : (
 									<>
-										<div className="container">
+										<div className="game-content">
 											<h2>{players[nightTimeOrder].name}의 차례입니다.</h2>
 										</div>
 										<button
-											className="btn"
+											className="btn-lg"
 											onClick={this.handleConfirmAndCheck}>역할 확인</button>
 									</>
 								)}
 						</>
 					)}
+
+
 				{/* {nightTimeOrder === 'mafia' && <Mafia />}
 					{nightTimeOrder === 'doctor' && <Doctor />}
 					{nightTimeOrder === 'police' && <Police />}

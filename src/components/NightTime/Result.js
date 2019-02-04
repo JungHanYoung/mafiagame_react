@@ -13,17 +13,17 @@ class Result extends React.Component {
 		const existsDoctor = players.filter((player) => player.jobName === JOB_NAME_OF_DOCTOR).length > 0;
 		return (
 			<>
-
-				<span>밤 투표 결과</span>
-				{!!killed
-					? (
-						<div>
-							마피아는 {killed}를 죽{existsDoctor ? `이고, 의사는 살리지 못하였습니다.` : `였습니다.`}
-						</div>
-					) : (
-						<div>의사가 마피아로부터 시민을 살렸습니다.</div>
-					)}
-				{/*doMafiaKill && doDoctorSave ? 
+				<div className="game-content">
+					<p className="content-description">밤 투표 결과</p>
+					{!!killed
+						? (
+							<div>
+								마피아는 {killed}를 죽{existsDoctor ? `이고, 의사는 살리지 못하였습니다.` : `였습니다.`}
+							</div>
+						) : (
+							<div>의사가 마피아로부터 시민을 살렸습니다.</div>
+						)}
+					{/*doMafiaKill && doDoctorSave ? 
 				//  1. 마피아의 의견이 일치하였고
 				//  2. 의사의 의견이 일치하였다.
 				(
@@ -52,8 +52,11 @@ class Result extends React.Component {
 						)}
 					</>
 				)*/}
+
+				</div>
 				<WhetherVictory />
 			</>
+
 		);
 	}
 }

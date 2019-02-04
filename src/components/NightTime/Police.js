@@ -32,16 +32,15 @@ class Police extends Component {
 		const { players } = this.props;
 		return (
 			<>
-				<div className="container">
-					<h2>경찰의 차례입니다.</h2>
-					<p>경찰은 마피아로 의심되는 사람을 지목해 마피아가 맞는지 확인할 수 있습니다.</p>
+				<div className="game-content">
+					<p className="content-description">경찰의 차례입니다.<br />경찰은 마피아로 의심되는 사람을 지목해 마피아가 맞는지 확인할 수 있습니다.</p>
 					{!selected ?
-						<div className="police-btn-container">
+						<div className="vote-btn-container">
 							{
 								players
 									.filter((person) => person.jobName !== 'POLICE')
 									.map((person, i) => (
-										<button className="police-btn" key={`police-select-${i}`} onClick={() => this.detectingMafiaByPolice(person.name)}>
+										<button className="btn-sm" key={`police-select-${i}`} onClick={() => this.detectingMafiaByPolice(person.name)}>
 											{person.name}
 										</button>
 									))}
@@ -52,7 +51,7 @@ class Police extends Component {
 						</p>
 					}
 				</div>
-				{selected && <button className="btn" onClick={this.handleNextOrder}>다음</button>}
+				{selected && <button className="btn-lg" onClick={this.handleNextOrder}>다음</button>}
 			</>
 		);
 	}

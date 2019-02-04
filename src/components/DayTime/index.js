@@ -12,11 +12,11 @@ import { TURN_OF_DISCUSS_AT_DAY, TURN_OF_VOTE_AT_DAY, TURN_OF_RESULT_AT_DAY } fr
 const getBtn = (order, handler) => {
 	switch (order) {
 		case TURN_OF_DISCUSS_AT_DAY:
-			return <button className="btn" onClick={handler.changeDayTimeOrder}>투표 하기</button>
+			return <button className="btn-lg" onClick={handler.changeDayTimeOrder}>투표 하기</button>
 		case TURN_OF_VOTE_AT_DAY:
 			return null;
 		case TURN_OF_RESULT_AT_DAY:
-			return <button className="btn" onClick={handler.setNightTime}>투표 하기</button>
+			return <button className="btn-lg" onClick={handler.setNightTime}>밤이 됩니다.</button>
 		default:
 			return null;
 	}
@@ -27,7 +27,7 @@ class DayTime extends React.Component {
 		const { dayTimeOrder, setNightTime, changeDayTimeOrder } = this.props;
 		return (
 			<>
-				<div className="container">
+				<div className="game-content">
 					{dayTimeOrder === 'discuss' && <Discuss />}
 					{dayTimeOrder === 'vote' && <VoteTime />}
 					{dayTimeOrder === 'result' && <Result />}

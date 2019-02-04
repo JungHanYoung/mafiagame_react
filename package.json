@@ -5,6 +5,7 @@
 	"dependencies": {
 		"animate.css": "^3.7.0",
 		"classnames": "^2.2.6",
+		"initialize-css": "^1.4.0",
 		"lodash": "^4.17.11",
 		"node-sass": "^4.11.0",
 		"prop-types": "^15.6.2",

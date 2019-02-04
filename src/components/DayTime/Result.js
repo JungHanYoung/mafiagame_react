@@ -8,9 +8,10 @@ class Result extends React.Component {
 		const { dayTimeVotedPerson, isReVoted } = this.props;
 		return (
 			<>
-				<h1>투표 결과</h1>
-				{isReVoted ? <h2>투표가 동률이 났습니다.</h2>
-					: <h2>{dayTimeVotedPerson.name}님이 죽으셨습니다.</h2>}
+				<h2>투표 결과</h2>
+				{isReVoted ? <p className="content-description">투표가 동률이 났습니다.</p>
+
+					: <p className="content-description"><span style={{ color: "#ff0000" }}>{dayTimeVotedPerson.name}</span> 님이 죽으셨습니다.</p>}
 			</>
 		);
 	}

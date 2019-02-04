@@ -17,7 +17,7 @@ class Game extends React.Component {
 
 		return players.length > 0 ? gameOrder === 'day-time' ? (
 			<main className="daytime">
-				<h1>HELLO MAFIA</h1>
+				<h2 className="game-title">HELLO MAFIA</h2>
 				<DayTime />
 			</main>
 		) : (

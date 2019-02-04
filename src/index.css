@@ -29,13 +29,13 @@ body {
 }
 
 .main-img {
-  margin-top: 75px;
-  width: 150px;
+  margin-top: 50px;
+  width: 120px;
 }
 
 .main-title {
   font-size: 60px;
-  margin-bottom: 40px;
+  margin: 40px 0;
   color: #fff;
 }
 
@@ -91,19 +91,21 @@ body {
 }
 
 .setting-container {
-  padding: 40px 25px;
+  height: 462px;
+  padding: 55px 24px 0;
   color: red;
+
 }
 
-.setting-subtitle {
-  
+.setting-container .setting-subtitle {
+  margin: 0;
 }
 
 .setting-people-select {
   border: none;
   border-bottom: 2px solid #fff;
   padding: 0px;
-  margin: 0px;
+  margin-top: 50px;
   border-radius: 0;
   background: inherit;
   color: white;
@@ -121,14 +123,13 @@ body {
 .setting-people-name-container {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .setting-people-name {
   position: relative;
-  margin: 5px 10% 0 0;
   box-sizing: border-box;
-  width: 40%;
+  flex: 1
 }
 
 .people-name-placeholder {
@@ -144,51 +145,53 @@ body {
   border-bottom: 1px solid #fff;
   color: white;
   line-height: 200%;
+  font-weight: 600;
 }
 
 .setting-btn-group {
-  position: absolute;
-  bottom: 50px;
-  right: 25px;
-  display: flex;
-  justify-content: flex-end;
+  margin: 0 25px;
+  text-align: right;
   /* margin-top: 250px;
   padding: 0 25px;
   display: flex;
   justify-content: flex-end; */
 }
 
-.setting-prev-btn {
+.setting-btn-group .setting-prev-btn {
   background: transparent;
-  padding: 15px 35px;
   outline: none;
   border: none;
   color: #fff;
+  font-weight: bolder;
+  font-size: 15px;
 }
 
-.setting-next-btn {
-  /* position: absolute;
-  bottom: 50px;
-  right: 25px; */
-  margin-left: 15px;
+.setting-btn-group .setting-next-btn {
+  
+  margin-left: 20px;
   background: #ff0000;
-  padding: 15px 35px;
+  width: 163px;
+  height: 50px;
   outline: none;
   border: none;
   color: #fff;
+  font-weight: bolder;
+  font-size: 15px;
 }
 
 .setting-job-container {
+  margin-top: 50px;
   display: flex;
   flex-wrap: wrap;
 }
 
-.setting-job-name {
+.job-name {
+  margin: 10px 0;
   width: 50%;
   text-align: center;
 }
 
-.setting-job-input-container {
+.job-input-container {
   width: 50%;
   box-sizing: border-box;
   margin: 0;
@@ -196,7 +199,7 @@ body {
   align-items: center;
 }
 
-.setting-job-input {
+.job-input {
   width: 90px;
   border: 0;
   background: transparent;
@@ -207,7 +210,7 @@ body {
   text-align: right;
 }
 
-.setting-job-input-unit {
+.job-input-unit {
   margin-left: 22px;
   color: #fff;
 }
@@ -215,69 +218,99 @@ body {
 
 /* Check Role */
 
-.check {
-  display: flex;
-  flex-direction: column;
+.daytime {
   height: 100%;
+  background: #fff;
+  color: #000;
+}
+
+.night {
+  height: 100%;
+  background: #000;
   color: #fff;
-  text-align: center;
+}
+
+.check {
+  color: #ff0000;
 }
 
 .game-title {
-  color: #ff0000;
   text-align: center;
   margin: 0;
   padding: 20px 0;
 }
 
-.game-subtitle {
-  color: #ff0000;
+.game-content {
+  height: 375px;
+  margin-top: 100px;
   text-align: center;
-  margin-top: 116px;
+}
+
+.game-content .content-description {
   font-size: 18px;
+  height: 160px;
 }
 
-.check-player-name {
+.game-content .player-name {
   color: #fff;
-  text-align: center;
-  margin-top: 58px;
+  height: 70px;
+  font-size: 24px;
 }
 
-.check-job-container {
-  height: 200px;
-}
-
-.check-player-job {
+.game-content .player-job {
   color: #ff0000;
-  text-align: center;
+  font-size: 24px;
 }
 
-.check-mafia-co {
+.game-content .check-mafia-sub {
+  color: #fff;
+  font-size: 14px;
+  margin: 20px 0;
+}
+
+.game-content .check-mafia-co {
   display: flex;
   flex-wrap: wrap;
+  width: 280px;
+  margin: 0 auto;
+  text-align: center;
+  justify-content: space-evenly;
+  font-weight: 500;
 }
 
-.check-mafia-co > *{
+.check-mafia-co .mafia-co-person {
   flex: 1;
   color: #fff;
   text-align: center;
 }
 
-.check-btn {
+.btn-lg {
   display: block;
-  padding: 15px 65px;
+  width: 190px;
+  height: 44px;
   background: #ff0000;
   font-size: 15px;
   border: 0;
   outline: 0;
   margin: 0 auto;
+  font-weight: bolder;
 }
 
 /* Game */
+
 .daytime {
   height: 100%;
   background: #fff;
   text-align: center;
+  color: #000;
+}
+
+.daytime .game-title {
+
+}
+
+.daytime .game-content {
+
 }
 
 .daytime > h1 {
@@ -290,37 +323,49 @@ body {
   height: 375px;
 }
 
-.daytime .voter {
+.daytime .game-content .voter {
   color: #ff0000;
   font-size: 24px;
-  margin-top: 140px;
 }
 
-.daytime .vote-btn-container {
+.game-content .vote-btn-container {
   margin: 71px auto 0px;
   width: 275px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-.daytime .vote-btn-container > .btn {
-  width: 45px;
+.btn-sm {
+  width: 90px;
   height: 45px;
-  color: #ff0000;
-  background: #000;
   text-align: center;
   outline: none;
+  font-weight: bolder;
+  font-size: 16px;
+  border: 0;
 }
 
-.daytime > .btn {
+.btn-lg {
   display: block;
-  padding: 15px 65px;
-  background: #000;
-  color: #ff0000;
+  width: 190px;
+  height: 45px;
   font-size: 15px;
   border: 0;
   outline: 0;
   margin: 0 auto;
+  border: 0;
+}
+
+.daytime .game-content .vote-btn-container .btn-sm {
+  color: #ff0000;
+  background: #000;
+}
+
+.daytime .btn-lg {
+  background: #000;
+  color: #ff0000;
 }
 
 .night {
@@ -339,15 +384,14 @@ body {
   margin-top: 115px;
 }
 
-.night > .btn {
-  display: block;
-  padding: 15px 65px;
+.night .btn-sm {
+  background: #ff0000;
+  color: #fff;
+}
+
+.night .btn-lg {
   background: #ff0000;
   color: #000;
-  font-size: 15px;
-  border: 0;
-  outline: 0;
-  margin: 0 auto;
 }
 
 .night .night-mafia-vote-btn-container {
