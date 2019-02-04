@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // Component
 import Mafia from './Mafia';
@@ -10,18 +10,10 @@ import { useGame } from '../../context/GameContext';
 import { JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE, JOB_NAME_OF_DOCTOR, JOB_NAME_OF_CITIZEN } from '../../contants/Job';
 
 class Night extends React.Component {
-	state = {
-		confirmed: false
-	};
-	handleConfirmAndCheck = () => {
-		const { confirmed } = this.state;
-		this.setState({
-			confirmed: !confirmed
-		});
-	};
 	render() {
-		const { confirmed } = this.state;
-		const { nightTimeOrder, players, isEndVoteNight } = this.props;
+		const { players, isEndVoteNight, setIsEndVoteAtNight } = this.props;
+		const [nightTimeOrder, setNightTimeOrder] = useState(0);
+		const [confirmed, setConfirmed] = useState(false);
 
 		return (
 			<>
@@ -33,17 +25,29 @@ class Night extends React.Component {
 							{confirmed ? (
 								<>
 									{players[nightTimeOrder].jobName === JOB_NAME_OF_MAFIA ? (
-										<Mafia handleConfirmAndCheck={this.handleConfirmAndCheck} />
+										<Mafia
+											handleConfirmAndCheck={() => setConfirmed(false)}
+											nextOrder={nightTimeOrder === 3 ? setIsEndVoteAtNight().then(setNightTimeOrder) : setNightTimeOrder(nightTimeOrder + 1)}
+										/>
 									) : players[nightTimeOrder].jobName === JOB_NAME_OF_POLICE ? (
-										<Police handleConfirmAndCheck={this.handleConfirmAndCheck} />
+										<Police
+											handleConfirmAndCheck={() => setConfirmed(false)}
+											nextOrder={nightTimeOrder === 3 ? setIsEndVoteAtNight().then(setNightTimeOrder) : setNightTimeOrder(nightTimeOrder + 1)}
+										/>
 									) : players[nightTimeOrder].jobName === JOB_NAME_OF_DOCTOR ? (
-										<Doctor handleConfirmAndCheck={this.handleConfirmAndCheck} />
+										<Doctor
+											handleConfirmAndCheck={() => setConfirmed(false)}
+											nextOrder={nightTimeOrder === 3 ? setIsEndVoteAtNight().then(setNightTimeOrder) : setNightTimeOrder(nightTimeOrder + 1)}
+										/>
 									) : players[nightTimeOrder].jobName === JOB_NAME_OF_CITIZEN ? (
-										<Citizen handleConfirmAndCheck={this.handleConfirmAndCheck} />
+										<Citizen
+											handleConfirmAndCheck={() => setConfirmed(false)}
+											nextOrder={nightTimeOrder === 3 ? setIsEndVoteAtNight().then(setNightTimeOrder) : setNightTimeOrder(nightTimeOrder + 1)}
+										/>
 									) : null}
 								</>
 							) : (
-									<button onClick={this.handleConfirmAndCheck}>다음</button>
+									<button onClick={() => setConfirmed(true)}>역할 확인</button>
 								)}
 						</>
 					)}
@@ -72,5 +76,6 @@ Night.propTypes = {
 export default useGame(({ state, actions }) => ({
 	players: state.players,
 	isEndVoteNight: state.isEndVoteNight,
-	nightTimeOrder: state.nightTimeOrder
+	nightTimeOrder: state.nightTimeOrder,
+	setIsEndVoteAtNight: actions.setIsEndVoteAtNight
 }))(Night);

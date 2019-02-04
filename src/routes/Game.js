@@ -25,7 +25,7 @@ class Game extends React.Component {
 				) : (
 						<>
 							<h1>밤</h1>
-							<NightTime />
+							<NightTime players={players} />
 						</>
 					)}
 			</div>
@@ -34,6 +34,7 @@ class Game extends React.Component {
 }
 
 Game.propTypes = {
+	players: PropTypes.array,
 	gameOrder: PropTypes.string,
 	setPeopleVoted: PropTypes.func.isRequired
 };
