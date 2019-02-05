@@ -51,31 +51,34 @@ class WhetherVictory extends Component {
 }
 
 WhetherVictory.propTypes = {
-	isEndGame: PropTypes.bool.isRequired,
-	victory: PropTypes.oneOf(['', 'mafia', 'citizen']),
-	isEndVoteDayTime: PropTypes.bool.isRequired,
-	isEndVoteNight: PropTypes.bool.isRequired,
-	isReVoted: PropTypes.bool.isRequired,
-	gameOrder: PropTypes.oneOf([DAY_TIME, NIGHT_TIME]),
-	moveToMainAndReset: PropTypes.func.isRequired,
-	setDayTime: PropTypes.func.isRequired,
-	setNightTime: PropTypes.func.isRequired,
-	voteAgainAtNight: PropTypes.func.isRequired,
+	// isEndGame: PropTypes.bool.isRequired,
+	// victory: PropTypes.oneOf(['', 'mafia', 'citizen']),
+	// isEndVoteDayTime: PropTypes.bool.isRequired,
+	// isEndVoteNight: PropTypes.bool.isRequired,
+	// isReVoted: PropTypes.bool.isRequired,
+	// gameOrder: PropTypes.oneOf([DAY_TIME, NIGHT_TIME]),
+	// moveToMainAndReset: PropTypes.func.isRequired,
+	// setDayTime: PropTypes.func.isRequired,
+	// setNightTime: PropTypes.func.isRequired,
+	// voteAgainAtNight: PropTypes.func.isRequired,
+	//
 	changeDayTimeOrder: PropTypes.func.isRequired
 };
 
-export default withRouter(
-	useGame(({ state, actions }) => ({
-		isEndGame: state.isEndGame,
-		victory: state.victory,
-		isEndVoteDayTime: state.isEndVoteDayTime,
-		isEndVoteNight: state.isEndVoteNight,
-		isReVoted: state.isReVoted,
-		gameOrder: state.gameOrder,
-		moveToMainAndReset: actions.moveToMainAndReset,
-		setDayTime: actions.setDayTime,
-		setNightTime: actions.setNightTime,
-		voteAgainAtNight: actions.voteAgainAtNight,
-		changeDayTimeOrder: actions.changeDayTimeOrder
-	}))(WhetherVictory)
-);
+export default withRouter(WhetherVictory)
+
+// export default withRouter(
+// 	useGame(({ state, actions }) => ({
+// 		// isEndGame: state.isEndGame,
+// 		// victory: state.victory,
+// 		// isEndVoteDayTime: state.isEndVoteDayTime,
+// 		// isEndVoteNight: state.isEndVoteNight,
+// 		// isReVoted: state.isReVoted,
+// 		// gameOrder: state.gameOrder,
+// 		// moveToMainAndReset: actions.moveToMainAndReset,
+// 		// setDayTime: actions.setDayTime,
+// 		// setNightTime: actions.setNightTime,
+// 		// voteAgainAtNight: actions.voteAgainAtNight,
+// 		// changeDayTimeOrder: actions.changeDayTimeOrder
+// 	}))(WhetherVictory)
+// );

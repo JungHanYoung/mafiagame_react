@@ -3,21 +3,25 @@ import PropTypes from 'prop-types';
 import { useGame } from '../../context/GameContext';
 
 class VoteTime extends React.Component {
-	state = {
-		voteOrder: 0
-	};
+	constructor(props) {
+		super(props)
+
+		this.state = {
+			voteOrder: 0
+		}
+	}
 	handleVote = (name) => {
-		const { votePerson, players, endVoteTime } = this.props;
-		const { voteOrder } = this.state;
-		votePerson(name).then(() => {
-			voteOrder < players.length - 1
-				?
-				this.setState({
-					voteOrder: voteOrder + 1
-				})
-				:
-				endVoteTime();
-		})
+		// const { votePerson, players, endVoteTime } = this.props;
+		// const { voteOrder } = this.state;
+		// votePerson(name).then(() => {
+		// 	voteOrder < players.length - 1
+		// 		?
+		// 		this.setState({
+		// 			voteOrder: voteOrder + 1
+		// 		})
+		// 		:
+		// 		endVoteTime();
+		// })
 
 
 	};
@@ -48,16 +52,18 @@ class VoteTime extends React.Component {
 }
 
 VoteTime.propTypes = {
-	votePerson: PropTypes.func.isRequired,
-	endVoteTime: PropTypes.func.isRequired,
-	players: PropTypes.arrayOf(
-		PropTypes.shape({
-			name: PropTypes.string.isRequired,
-			daytimeVoted: PropTypes.number,
-			jobName: PropTypes.string.isRequired,
-			code: PropTypes.number
-		})
-	)
+	// votePerson: PropTypes.func.isRequired,
+	// endVoteTime: PropTypes.func.isRequired,
+	// players: PropTypes.arrayOf(
+	// 	PropTypes.shape({
+	// 		name: PropTypes.string.isRequired,
+	// 		daytimeVoted: PropTypes.number,
+	// 		jobName: PropTypes.string.isRequired,
+	// 		code: PropTypes.number
+	// 	})
+	// )
+	players: PropTypes.array.isRequired,
+	changeDayTimeOrder: PropTypes.func.isRequired
 };
 
 export default useGame(({ state, actions }) => ({

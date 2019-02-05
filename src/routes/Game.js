@@ -1,46 +1,61 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom'
-import PropTypes from 'prop-types';
-import { useGame } from '../context/GameContext';
+// import PropTypes from 'prop-types';
+
 
 // 컴포넌트
 import DayTime from '../components/DayTime';
 import NightTime from '../components/NightTime';
 
+// constant
+import { DAY_TIME, NIGHT_TIME } from '../contants/turnOfGame/Game';
+
 class Game extends React.Component {
-	componentWillMount() {
-		this.props.setPeopleVoted();
+	constructor(props) {
+		super(props)
+
+		const { history } = props;
+		const players = history.location.state.players
+		this.state = {
+			players: players.map(player => Object.assign(player, { daytimeVoted: 0 })),
+			gameOrder: DAY_TIME
+		}
+	}
+
+	changeDayAndNight = () => {
+		this.setState(state => ({
+			gameOrder: state.gameOrder === DAY_TIME ?
+				NIGHT_TIME : DAY_TIME
+		}))
 	}
 
 	render() {
-		const { gameOrder, players } = this.props;
-
-		return players.length > 0 ? (
-			<div className="animated fadeInUp">
-				{gameOrder === 'day-time' ? (
+		console.log(this.state)
+		const { players, gameOrder } = this.state;
+		if (players) {
+			return <div className="animated fadeInUp">
+				{gameOrder === DAY_TIME ? (
 					<>
 						<h1>낮</h1>
-						<DayTime />
+						<DayTime
+							players={players}
+							changeDayAndNight={this.changeDayAndNight}
+						/>
 					</>
 				) : (
 						<>
 							<h1>밤</h1>
-							<NightTime players={players} />
+							<NightTime
+								players={players}
+								changeDayAndNight={this.changeDayAndNight}
+							/>
 						</>
 					)}
 			</div>
-		) : <Redirect to="/setting" />;
+		} else {
+			return <Redirect to="/setting" />
+		}
 	}
 }
 
-Game.propTypes = {
-	players: PropTypes.array,
-	gameOrder: PropTypes.string,
-	setPeopleVoted: PropTypes.func.isRequired
-};
-
-export default useGame(({ state, actions }) => ({
-	players: state.players,
-	gameOrder: state.gameOrder,
-	setPeopleVoted: actions.setPeopleVoted
-}))(Game);
+export default Game;
