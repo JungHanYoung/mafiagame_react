@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'immutable-prop-types';
 
 // Component
 import Discuss from './DayTimeDiscuss';
@@ -58,7 +59,7 @@ class DayTime extends React.Component {
 
 DayTime.propTypes = {
 	//
-	players: PropTypes.array.isRequired,
+	players: ImmutablePropTypes.list,
 	changeDayAndNight: PropTypes.func.isRequired
 };
 

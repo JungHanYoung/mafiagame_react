@@ -1,4 +1,5 @@
 import React from 'react';
+import { List, Map } from 'immutable'
 import { Redirect } from 'react-router-dom'
 // import PropTypes from 'prop-types';
 
@@ -17,7 +18,9 @@ class Game extends React.Component {
 		const { history } = props;
 		const players = history.location.state.players
 		this.state = {
-			players: players.map(player => Object.assign(player, { daytimeVoted: 0 })),
+			// players: players.map(player => Object.assign(player, { daytimeVoted: 0 })),
+			// gameOrder: DAY_TIME
+			players: List(players.map(player => Map(player).set('daytimeVoted', 0))),
 			gameOrder: DAY_TIME
 		}
 	}
@@ -32,7 +35,7 @@ class Game extends React.Component {
 	render() {
 		console.log(this.state)
 		const { players, gameOrder } = this.state;
-		if (players) {
+		if (players.size) {
 			return <div className="animated fadeInUp">
 				{gameOrder === DAY_TIME ? (
 					<>
