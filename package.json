@@ -5,6 +5,7 @@
 	"dependencies": {
 		"animate.css": "^3.7.0",
 		"immutable": "^4.0.0-rc.12",
+		"immutable-prop-types": "^0.0.3",
 		"lodash": "^4.17.11",
 		"prop-types": "^15.6.2",
 		"react": "^16.7.0",
