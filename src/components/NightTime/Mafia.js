@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useGame } from '../../context/GameContext';
+import ImmutablePropTypes from 'react-immutable-proptypes'
+import { JOB_NAME_OF_MAFIA } from '../../contants/Job';
+
 
 class Mafia extends React.Component {
 	handleSelectBtn = (name) => {
-		const { handleConfirmAndCheck, votePersonAtMafiaTime } = this.props;
-		handleConfirmAndCheck();
-		votePersonAtMafiaTime(name);
+		const { toggleConfirmed, handleVote, changeNightTimeOrder } = this.props;
+		toggleConfirmed()
+		handleVote(name)
+		changeNightTimeOrder()
 	};
 	render() {
 		const { players, mafiaVotes } = this.props;
@@ -25,12 +28,10 @@ class Mafia extends React.Component {
 				<h2>죽일 사람을 선택하십시오.</h2>
 				<div>
 					{players
-						.filter((person) => {
-							return person.jobName !== 'MAFIA';
-						})
+						.filter((person) => person.get('jobName') !== JOB_NAME_OF_MAFIA)
 						.map((person, i) => (
-							<button key={`mafia-select-${i}`} onClick={() => this.handleSelectBtn(person.name)}>
-								{person.name}
+							<button key={`mafia-select-${i}`} onClick={() => this.handleSelectBtn(person.get('name'))}>
+								{person.get('name')}
 							</button>
 						))}
 				</div>
@@ -40,30 +41,28 @@ class Mafia extends React.Component {
 }
 
 Mafia.propTypes = {
-	// context
-	players: PropTypes.arrayOf(
-		PropTypes.shape({
-			name: PropTypes.string.isRequired,
-			daytimeVoted: PropTypes.number,
-			jobName: PropTypes.string.isRequired,
-			code: PropTypes.number
-		})
-	).isRequired,
-	nightTimeOrder: PropTypes.number.isRequired,
-	votePersonAtMafiaTime: PropTypes.func.isRequired,
-	// parent
-	handleConfirmAndCheck: PropTypes.func.isRequired,
-	//
-	mafiaVotes: PropTypes.arrayOf(PropTypes.shape({
-		name: PropTypes.string.isRequired,
-		voter: PropTypes.arrayOf(PropTypes.string).isRequired
-	}))
+	// // context
+	// players: PropTypes.arrayOf(
+	// 	PropTypes.shape({
+	// 		name: PropTypes.string.isRequired,
+	// 		daytimeVoted: PropTypes.number,
+	// 		jobName: PropTypes.string.isRequired,
+	// 		code: PropTypes.number
+	// 	})
+	// ).isRequired,
+	// nightTimeOrder: PropTypes.number.isRequired,
+	// votePersonAtMafiaTime: PropTypes.func.isRequired,
+	// // parent
+	// handleConfirmAndCheck: PropTypes.func.isRequired,
+	// //
+	// mafiaVotes: PropTypes.arrayOf(PropTypes.shape({
+	// 	name: PropTypes.string.isRequired,
+	// 	voter: PropTypes.arrayOf(PropTypes.string).isRequired
+	// }))
+	players: ImmutablePropTypes.list,
+	handleVote: PropTypes.func.isRequired,
+	toggleConfirmed: PropTypes.func.isRequired,
+	changeNightTimeOrder: PropTypes.func.isRequired
 };
 
-export default useGame(({ state, actions }) => ({
-	players: state.players,
-	nightTimeOrder: state.nightTimeOrder,
-	votePersonAtMafiaTime: actions.votePersonAtMafiaTime,
-	//
-	mafiaVotes: state.mafiaVotes
-}))(Mafia);
+export default Mafia

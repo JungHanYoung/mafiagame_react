@@ -25,15 +25,7 @@ class Game extends React.Component {
 		}
 	}
 
-	changeDayAndNight = () => {
-		this.setState(state => ({
-			gameOrder: state.gameOrder === DAY_TIME ?
-				NIGHT_TIME : DAY_TIME
-		}))
-	}
-
 	render() {
-		console.log(this.state)
 		const { players, gameOrder } = this.state;
 		if (players.size) {
 			return <div className="animated fadeInUp">
@@ -42,7 +34,9 @@ class Game extends React.Component {
 						<h1>낮</h1>
 						<DayTime
 							players={players}
+							votePerson={this.votePerson}
 							changeDayAndNight={this.changeDayAndNight}
+							deletePlayer={this.deletePlayer}
 						/>
 					</>
 				) : (
@@ -58,6 +52,27 @@ class Game extends React.Component {
 		} else {
 			return <Redirect to="/setting" />
 		}
+	}
+
+	changeDayAndNight = () => {
+		this.setState(state => ({
+			gameOrder: state.gameOrder === DAY_TIME ?
+				NIGHT_TIME : DAY_TIME
+		}))
+	}
+
+	votePerson = (name) => {
+		const { players } = this.state;
+		this.setState({
+			players: players.updateIn([players.findIndex(player => player.get('name') === name), 'daytimeVoted'], val => val + 1)
+		})
+	}
+
+	deletePlayer = (name) => {
+		const { players } = this.state;
+		this.setState({
+			players: players.delete(players.findIndex(player => player.get('name') === name))
+		})
 	}
 }
 

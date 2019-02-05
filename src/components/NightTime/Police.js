@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { useGame } from '../../context/GameContext';
 
 class Police extends Component {
@@ -10,9 +11,7 @@ class Police extends Component {
 	};
 	detectingMafiaByPolice = (name) => {
 		const { players } = this.props;
-		players.find((person) => {
-			return person.name === name;
-		}).jobName === 'MAFIA'
+		players.find((person) => person.name === name).jobName === 'MAFIA'
 			? this.setState({
 				selected: true,
 				selectName: name,
@@ -25,9 +24,9 @@ class Police extends Component {
 			});
 	};
 	handleNextOrder = () => {
-		const { nextOrder, handleConfirmAndCheck } = this.props;
-		handleConfirmAndCheck();
-		nextOrder();
+		const { changeNightTimeOrder, toggleConfirmed } = this.props;
+		toggleConfirmed()
+		changeNightTimeOrder()
 	};
 	render() {
 		const { isMafia, selected, selectName } = this.state;
@@ -35,7 +34,7 @@ class Police extends Component {
 		return (
 			<div>
 				경찰의 차례입니다. 경찰은 마피아로 의심되는 사람을 지목해 마피아가 맞는지 확인할 수 있습니다.
-				{!selected &&
+				{!selected ?
 					<div>
 						{
 							players
@@ -46,8 +45,7 @@ class Police extends Component {
 									</button>
 								))}
 					</div>
-				}
-				{selected && (
+					:
 					<>
 						<div>
 							{selectName}은 마피아가 {isMafia ? '맞습니다.' : '아닙니다.'}
@@ -56,25 +54,28 @@ class Police extends Component {
 							<button onClick={this.handleNextOrder}>다음</button>
 						</div>
 					</>
-				)}
+				}
 			</div>
 		);
 	}
 }
 
 Police.propTypes = {
-	// context
-	players: PropTypes.arrayOf(
-		PropTypes.shape({
-			name: PropTypes.string.isRequired,
-			daytimeVoted: PropTypes.number,
-			jobName: PropTypes.string.isRequired,
-			code: PropTypes.number
-		})
-	).isRequired,
-	nextOrder: PropTypes.func.isRequired,
-	// parent
-	handleConfirmAndCheck: PropTypes.func.isRequired
+	// // context
+	// players: PropTypes.arrayOf(
+	// 	PropTypes.shape({
+	// 		name: PropTypes.string.isRequired,
+	// 		daytimeVoted: PropTypes.number,
+	// 		jobName: PropTypes.string.isRequired,
+	// 		code: PropTypes.number
+	// 	})
+	// ).isRequired,
+	// nextOrder: PropTypes.func.isRequired,
+	// // parent
+	// handleConfirmAndCheck: PropTypes.func.isRequired
+	players: ImmutablePropTypes.list,
+	toggleConfirmed: PropTypes.func.isRequired,
+	changeNightTimeOrder: PropTypes.func.isRequired
 };
 
 export default useGame(({ state, actions }) => ({

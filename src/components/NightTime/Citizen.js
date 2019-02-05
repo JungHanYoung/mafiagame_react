@@ -1,20 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useGame } from '../../context/GameContext';
 
 class Citizen extends React.Component {
-	componentWillMount() {
-	}
 	handleSelectBtn = () => {
-		const { handleConfirmAndCheck, nextOrder } = this.props;
-		handleConfirmAndCheck();
-		nextOrder();
+		const { toggleConfirmed, changeNightTimeOrder } = this.props;
+		toggleConfirmed()
+		changeNightTimeOrder()
 	};
 	render() {
 		return (
 			<>
 				<h1>당신은 시민입니다.</h1>
-				<button onClick={this.handleSelectBtn}>
+				<button
+					onClick={this.handleSelectBtn}>
 					다음
 				</button>
 			</>
@@ -23,12 +21,8 @@ class Citizen extends React.Component {
 }
 
 Citizen.propTypes = {
-	// context
-	nextOrder: PropTypes.func.isRequired,
-	// parent
-	handleConfirmAndCheck: PropTypes.func.isRequired
+	toggleConfirmed: PropTypes.func.isRequired,
+	changeNightTimeOrder: PropTypes.func.isRequired
 };
 
-export default useGame(({ state, actions }) => ({
-	nextOrder: actions.nextOrder
-}))(Citizen);
+export default Citizen

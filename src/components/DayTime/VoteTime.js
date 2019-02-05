@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { useGame } from '../../context/GameContext';
 
 class VoteTime extends React.Component {
@@ -11,18 +12,20 @@ class VoteTime extends React.Component {
 		}
 	}
 	handleVote = (name) => {
-		// const { votePerson, players, endVoteTime } = this.props;
-		// const { voteOrder } = this.state;
-		// votePerson(name).then(() => {
-		// 	voteOrder < players.length - 1
-		// 		?
-		// 		this.setState({
-		// 			voteOrder: voteOrder + 1
-		// 		})
-		// 		:
-		// 		endVoteTime();
-		// })
 
+		const { voteOrder } = this.state;
+		const { votePerson, players, changeDayTimeOrder } = this.props
+		votePerson(name)
+		if (players.size - 1 === voteOrder) {
+			this.setState({
+				voteOrder: 0
+			})
+			changeDayTimeOrder()
+		} else {
+			this.setState({
+				voteOrder: voteOrder + 1
+			})
+		}
 
 	};
 	render() {
@@ -32,19 +35,16 @@ class VoteTime extends React.Component {
 		return (
 			<>
 				<h1>마피아로 의심되는 사람을 투표합니다.</h1>
-				<div>{players[voteOrder].name}님의 투표</div>
+				<div>{players.getIn([voteOrder, 'name'])}님의 투표</div>
 				<div>
-					{players.map((person, i) => {
-						if (i === voteOrder) {
-							return null;
-						} else {
-							return (
-								<button key={`vote-btn-${i}`} onClick={() => this.handleVote(person.name)}>
-									{person.name}
-								</button>
-							);
-						}
-					})}
+					{players
+						.filter((person, i) => i !== voteOrder)
+						.map(person => (
+							<button key={`vote-btn-${person.get('name')}`} onClick={() => this.handleVote(person.get('name'))}>
+								{person.get('name')}
+							</button>
+						))
+					}
 				</div>
 			</>
 		);
@@ -62,7 +62,7 @@ VoteTime.propTypes = {
 	// 		code: PropTypes.number
 	// 	})
 	// )
-	players: PropTypes.array.isRequired,
+	players: ImmutablePropTypes.list,
 	changeDayTimeOrder: PropTypes.func.isRequired
 };
 

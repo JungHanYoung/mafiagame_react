@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'immutable-prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 
 // Component
 import Discuss from './DayTimeDiscuss';
@@ -32,7 +32,7 @@ class DayTime extends React.Component {
 	}
 	render() {
 		const { dayTimeOrder } = this.state;
-		const { players } = this.props
+		const { players, votePerson, deletePlayer } = this.props
 		return (
 			<>
 				{SEQ_OF_TURN[dayTimeOrder] === TURN_OF_DISCUSS_AT_DAY
@@ -42,12 +42,14 @@ class DayTime extends React.Component {
 					: SEQ_OF_TURN[dayTimeOrder] === TURN_OF_VOTE_AT_DAY
 						? <VoteTime
 							players={players}
+							votePerson={votePerson}
 							changeDayTimeOrder={this.changeDayTimeOrder}
 						/>
 						: SEQ_OF_TURN[dayTimeOrder] === TURN_OF_RESULT_AT_DAY
 							? <Result
 								players={players}
 								changeDayTimeOrder={this.changeDayTimeOrder}
+								deletePlayer={deletePlayer}
 							/>
 							: null}
 				{/* 게임 종료 여부에 따른 버튼 */}
@@ -60,7 +62,9 @@ class DayTime extends React.Component {
 DayTime.propTypes = {
 	//
 	players: ImmutablePropTypes.list,
-	changeDayAndNight: PropTypes.func.isRequired
+	changeDayAndNight: PropTypes.func.isRequired,
+	votePerson: PropTypes.func.isRequired,
+	deletePlayer: PropTypes.func.isRequired
 };
 
 export default DayTime
