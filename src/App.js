@@ -7,6 +7,7 @@ class App extends Component {
 	render() {
 		const { people } = this.props;
 		const location = this.props.location;
+		console.log(people)
 		// console.log(location.state);
 		// console.log(location.state ? location.state.redirectMesg : 'not exists location');
 		location.state && location.state.redirectMesg && alert(location.state.redirectMesg);

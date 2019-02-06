@@ -28,6 +28,7 @@ class Night extends React.Component {
 			doctorVotes: players
 				.filter(player => player.get('jobName') === JOB_NAME_OF_DOCTOR)
 				.reduce((acc, cur) => acc.set(cur.get('name'), ''), Map({})),
+			revoted: false
 		}
 	}
 
@@ -65,9 +66,24 @@ class Night extends React.Component {
 		})
 	}
 
+	voteAgain = () => {
+
+		const { players } = this.props;
+
+		this.setState({
+			confirmed: false,
+			nightTimeOrder: 0,
+			mafiaVotes: players
+				.filter(player => player.get('jobName') === JOB_NAME_OF_MAFIA)
+				.reduce((acc, cur) => acc.set(cur.get('name'), ''), Map({})),
+			isEndVote: false,
+			revoted: true
+		})
+	}
+
 	render() {
-		const { confirmed, nightTimeOrder, isEndVote, mafiaVotes, doctorVotes } = this.state;
-		const { players, changeDayAndNight } = this.props;
+		const { confirmed, nightTimeOrder, isEndVote, mafiaVotes, doctorVotes, revoted } = this.state;
+		const { players, changeDayAndNight, deletePlayer, moveToMain } = this.props;
 
 		return (
 			<>
@@ -75,8 +91,11 @@ class Night extends React.Component {
 					<Result
 						mafiaVotes={mafiaVotes}
 						doctorVotes={doctorVotes}
+						deletePlayer={deletePlayer}
 						changeDayAndNight={changeDayAndNight}
+						voteAgain={this.voteAgain}
 						players={players}
+						moveToMain={moveToMain}
 					/>
 				) : (
 						<>
@@ -97,6 +116,7 @@ class Night extends React.Component {
 											me={players.get(nightTimeOrder)}
 											toggleConfirmed={this.toggleConfirmed}
 											changeNightTimeOrder={this.changeNightTimeOrder}
+											revoted={revoted}
 										/>
 									) : players.getIn([nightTimeOrder, 'jobName']) === JOB_NAME_OF_DOCTOR ? (
 										<Doctor
@@ -104,6 +124,7 @@ class Night extends React.Component {
 											handleVote={this.voteByDoctor(players.getIn([nightTimeOrder, 'name']))}
 											toggleConfirmed={this.toggleConfirmed}
 											changeNightTimeOrder={this.changeNightTimeOrder}
+											revoted={revoted}
 										/>
 									) : players.getIn([nightTimeOrder, 'jobName']) === JOB_NAME_OF_CITIZEN ? (
 										<Citizen
@@ -128,7 +149,9 @@ class Night extends React.Component {
 
 Night.propTypes = {
 	players: ImmutablePropTypes.list,
-	changeDayAndNight: PropTypes.func.isRequired
+	changeDayAndNight: PropTypes.func.isRequired,
+	deletePlayer: PropTypes.func.isRequired,
+	moveToMain: PropTypes.func.isRequired
 	// isEndVoteNight: PropTypes.bool.isRequired,
 	// nightTimeOrder: PropTypes.number.isRequired
 };

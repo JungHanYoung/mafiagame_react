@@ -53,6 +53,8 @@ class Result extends React.Component {
 
 	render() {
 
+		const { moveToMain } = this.props
+
 		return (
 			<>
 				<h1>투표 결과</h1>
@@ -62,9 +64,16 @@ class Result extends React.Component {
 				<button onClick={this.changeAtDay}>밤이 됩니다.</button>
 
 				{this.isVictory === 'mafia'
-					? <h3>마피아가 승리하였습니다.</h3>
+					?
+					<>
+						<h3>마피아가 승리하였습니다.</h3>
+						<button onClick={moveToMain}>메인으로</button>
+					</>
 					: this.isVictory === 'citizen'
-						? <h3>시민이 승리하였습니다.</h3>
+						? <>
+							<h3>시민이 승리하였습니다.</h3>
+							<button onClick={moveToMain}>메인으로</button>
+						</>
 						: null}
 			</>
 		);
@@ -82,7 +91,8 @@ Result.propTypes = {
 	// }).isRequired
 	players: ImmutablePropTypes.list,
 	changeDayTimeOrder: PropTypes.func.isRequired,
-	deletePlayer: PropTypes.func.isRequired
+	deletePlayer: PropTypes.func.isRequired,
+	moveToMain: PropTypes.func.isRequired
 };
 
 export default useGame(({ state, actions }) => ({

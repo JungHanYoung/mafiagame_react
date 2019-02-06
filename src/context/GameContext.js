@@ -124,6 +124,7 @@ class GameProvider extends Component {
 				})
 			}
 		},
+		// Setting > input
 		onChangeRandomJobCount: (code, value) => {
 			const { randomJobs } = this.state;
 			if (value >= 0) {
@@ -132,7 +133,7 @@ class GameProvider extends Component {
 				})
 			}
 		},
-		// Setting > render > input - 세팅에서 플레이어이름 입력 인풋 핸들링
+		// Setting > input - 세팅에서 플레이어이름 입력 인풋 핸들링
 		onChangePeopleName: (i, value) => {
 			const { people } = this.state;
 

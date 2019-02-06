@@ -3,7 +3,6 @@ import { List, Map } from 'immutable'
 import { Redirect } from 'react-router-dom'
 // import PropTypes from 'prop-types';
 
-
 // 컴포넌트
 import DayTime from '../components/DayTime';
 import NightTime from '../components/NightTime';
@@ -25,6 +24,10 @@ class Game extends React.Component {
 		}
 	}
 
+	moveToMain = () => {
+		this.props.history.push('/')
+	}
+
 	render() {
 		const { players, gameOrder } = this.state;
 		if (players.size) {
@@ -37,6 +40,7 @@ class Game extends React.Component {
 							votePerson={this.votePerson}
 							changeDayAndNight={this.changeDayAndNight}
 							deletePlayer={this.deletePlayer}
+							moveToMain={this.moveToMain}
 						/>
 					</>
 				) : (
@@ -45,6 +49,8 @@ class Game extends React.Component {
 							<NightTime
 								players={players}
 								changeDayAndNight={this.changeDayAndNight}
+								deletePlayer={this.deletePlayer}
+								moveToMain={this.moveToMain}
 							/>
 						</>
 					)}

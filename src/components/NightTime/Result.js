@@ -1,10 +1,9 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import WhetherVictory from '../common/WhetherVictory';
-import { JOB_NAME_OF_DOCTOR } from '../../contants/Job';
 import { Object } from 'es6-shim';
+import { JOB_NAME_OF_MAFIA } from '../../contants/Job';
 
 class Result extends React.Component {
 
@@ -49,26 +48,64 @@ class Result extends React.Component {
 			? null : killPersonName
 	}
 
-	render() {
-		const { players, killed } = this.props;
-		const existsDoctor = players.filter((player) => player.jobName === JOB_NAME_OF_DOCTOR).length > 0;
-		console.log(this.isRevoted)
+	get isMafiaVictory() {
+		const killPersonName = this.killPersonName
+		if (killPersonName) {
+			const { players } = this.props
+			const after = players
+				.filter(player => player.get('name') !== killPersonName)
 
-		const { killPersonName, isRevoted } = this
+			const mafias = after.filter(player => player.get('jobName') === JOB_NAME_OF_MAFIA)
+			const citizens = after.filter(player => player.get('jobName') !== JOB_NAME_OF_MAFIA)
+			if (mafias.size >= citizens.size) {
+				return true
+			}
+			// else if(mafias.size === 0) {
+			// 	return 'citizen'
+			// }
+		}
+		return false;
+	}
+
+	handleKillAndNext = () => {
+		const { changeDayAndNight, deletePlayer } = this.props
+
+		deletePlayer(this.killPersonName)
+		changeDayAndNight()
+	}
+
+	render() {
+		const { changeDayAndNight, voteAgain, moveToMain } = this.props
+		const { killPersonName, isRevoted, isMafiaVictory } = this
 		return (
 			<>
 				<span>밤 투표 결과</span>
 				{isRevoted
 					?
-					<div>투표가 동률이 나 재투표를 실시합니다.</div>
+					<div>
+						<h3>마피아 투표가 동률이 났습니다.</h3>
+						<button onClick={changeDayAndNight}>낮으로 갑니다.</button>
+						<button onClick={voteAgain}>재투표로 갑니다.</button>
+					</div>
 					: killPersonName
 						? (
-							<div>마피아는 {killPersonName}를 죽였습니다.</div>
+							<div>
+								<h3>마피아가 {killPersonName}를 죽였습니다.</h3>
+								<button onClick={this.handleKillAndNext}>낮으로 갑니다.</button>
+							</div>
 						) : (
-							<div>마피아는 시민을 죽이지 못하였습니다.</div>
+							<div>
+								<h3>마피아가 시민을 죽이지 못하였습니다.</h3>
+								<button onClick={changeDayAndNight}>낮으로 갑니다.</button>
+							</div>
 						)
 				}
-				<WhetherVictory />
+				{isMafiaVictory ?
+					<div>
+						<h3>마피아가 승리하였습니다.</h3>
+						<button onClick={moveToMain}>메인으로</button>
+					</div>
+					: null}
 			</>
 		);
 	}
@@ -77,24 +114,13 @@ class Result extends React.Component {
 // 마피아는 <누구>를 죽였이려 하였으나 의사가 살렸습니다.
 
 Result.propTypes = {
-	// players: PropTypes.arrayOf(
-	// 	PropTypes.shape({
-	// 		name: PropTypes.string.isRequired,
-	// 		daytimeVoted: PropTypes.number,
-	// 		jobName: PropTypes.string.isRequired,
-	// 		code: PropTypes.number
-	// 	})
-	// ),
-	// mafiaVotes: PropTypes.shape({
-	// 	[PropTypes.string]: PropTypes.number
-	// }),
-	// doctorVotes: PropTypes.shape({
-	// 	[PropTypes.string]: PropTypes.number
-	// }),
-	// resultAtNight: PropTypes.func.isRequired,
-	// killed: PropTypes.string
 	mafiaVotes: ImmutablePropTypes.map,
-	players: ImmutablePropTypes.list
+	doctorVotes: ImmutablePropTypes.map,
+	players: ImmutablePropTypes.list,
+	changeDayAndNight: PropTypes.func.isRequired,
+	deletePlayer: PropTypes.func.isRequired,
+	voteAgain: PropTypes.func.isRequired,
+	moveToMain: PropTypes.func.isRequired
 };
 
 export default withRouter(Result)
