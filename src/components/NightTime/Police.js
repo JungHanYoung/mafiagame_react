@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { useGame } from '../../context/GameContext';
+import { JOB_NAME_OF_MAFIA } from '../../contants/Job';
 
 class Police extends Component {
 	state = {
@@ -11,7 +12,7 @@ class Police extends Component {
 	};
 	detectingMafiaByPolice = (name) => {
 		const { players } = this.props;
-		players.find((person) => person.name === name).jobName === 'MAFIA'
+		players.find((person) => person.get('name') === name).get('jobName') === JOB_NAME_OF_MAFIA
 			? this.setState({
 				selected: true,
 				selectName: name,
@@ -30,7 +31,7 @@ class Police extends Component {
 	};
 	render() {
 		const { isMafia, selected, selectName } = this.state;
-		const { players } = this.props;
+		const { players, me } = this.props;
 		return (
 			<div>
 				경찰의 차례입니다. 경찰은 마피아로 의심되는 사람을 지목해 마피아가 맞는지 확인할 수 있습니다.
@@ -38,10 +39,10 @@ class Police extends Component {
 					<div>
 						{
 							players
-								.filter((person) => person.jobName !== 'POLICE')
+								.filter((person) => person.get('name') !== me.get('name'))
 								.map((person, i) => (
-									<button key={`police-select-${i}`} onClick={() => this.detectingMafiaByPolice(person.name)}>
-										{person.name}
+									<button key={`police-select-${i}`} onClick={() => this.detectingMafiaByPolice(person.get('name'))}>
+										{person.get('name')}
 									</button>
 								))}
 					</div>
@@ -74,6 +75,7 @@ Police.propTypes = {
 	// // parent
 	// handleConfirmAndCheck: PropTypes.func.isRequired
 	players: ImmutablePropTypes.list,
+	me: ImmutablePropTypes.map,
 	toggleConfirmed: PropTypes.func.isRequired,
 	changeNightTimeOrder: PropTypes.func.isRequired
 };

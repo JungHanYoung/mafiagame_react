@@ -66,13 +66,15 @@ class Night extends React.Component {
 	}
 
 	render() {
-		const { confirmed, nightTimeOrder, isEndVote } = this.state;
+		const { confirmed, nightTimeOrder, isEndVote, mafiaVotes, doctorVotes } = this.state;
 		const { players, changeDayAndNight } = this.props;
 
 		return (
 			<>
 				{isEndVote ? (
 					<Result
+						mafiaVotes={mafiaVotes}
+						doctorVotes={doctorVotes}
 						changeDayAndNight={changeDayAndNight}
 						players={players}
 					/>
@@ -84,6 +86,7 @@ class Night extends React.Component {
 									{players.getIn([nightTimeOrder, 'jobName']) === JOB_NAME_OF_MAFIA ? (
 										<Mafia
 											players={players}
+											mafiaVotes={mafiaVotes}
 											handleVote={this.voteByMafia(players.getIn([nightTimeOrder, 'name']))}
 											toggleConfirmed={this.toggleConfirmed}
 											changeNightTimeOrder={this.changeNightTimeOrder}
@@ -91,6 +94,7 @@ class Night extends React.Component {
 									) : players.getIn([nightTimeOrder, 'jobName']) === JOB_NAME_OF_POLICE ? (
 										<Police
 											players={players}
+											me={players.get(nightTimeOrder)}
 											toggleConfirmed={this.toggleConfirmed}
 											changeNightTimeOrder={this.changeNightTimeOrder}
 										/>

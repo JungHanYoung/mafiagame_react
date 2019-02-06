@@ -50,7 +50,6 @@ class GameProvider extends Component {
 	// 데이터
 	state = {
 		people: [],
-		players: [],
 		jobs: [
 			{
 				code: 1,

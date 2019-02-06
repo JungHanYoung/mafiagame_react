@@ -17,14 +17,21 @@ class Mafia extends React.Component {
 			<>
 				<h1>당신은 마피아 입니다.</h1>
 				<div>마피아 투표 현황</div>
-				{mafiaVotes.map(person => person.voter.length > 0 ? (
+				{Object.keys(mafiaVotes.toJS())
+					.filter(key => mafiaVotes.get(key))
+					.map(key => (
+						<div key={`mafia-vote-co-${key}`}>
+							<span>{key}</span><span>{mafiaVotes.get(key)}</span>
+						</div>
+					))}
+				{/* {mafiaVotes.map(person => person.voter.length > 0 ? (
 					<div>
 						<h3>{person.name}을 죽인다.</h3>
 						<ul>
 							{person.voter.map(name => <li>{name}</li>)}
 						</ul>
 					</div>
-				) : null)}
+				) : null)} */}
 				<h2>죽일 사람을 선택하십시오.</h2>
 				<div>
 					{players
@@ -60,6 +67,7 @@ Mafia.propTypes = {
 	// 	voter: PropTypes.arrayOf(PropTypes.string).isRequired
 	// }))
 	players: ImmutablePropTypes.list,
+	mafiaVotes: ImmutablePropTypes.map,
 	handleVote: PropTypes.func.isRequired,
 	toggleConfirmed: PropTypes.func.isRequired,
 	changeNightTimeOrder: PropTypes.func.isRequired
