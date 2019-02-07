@@ -32,37 +32,43 @@ class Police extends Component {
 		const { isMafia, selected, selectName } = this.state;
 		const { players, me, revoted } = this.props;
 		return (
-			<div>
-				경찰의 차례입니다. 경찰은 마피아로 의심되는 사람을 지목해 마피아가 맞는지 확인할 수 있습니다.
-				{revoted ?
-					<div>
-						<h3>재투표 중일때 경찰은 다른 이의 직업을 볼 수 없습니다.</h3>
-						<button onClick={this.handleNextOrder}>다음</button>
+			<>
+				{revoted ? (<>
+					<div className="game-content">
+						<p className="content-description">재투표 중일때 경찰은 다른 이의 직업을 볼 수 없습니다.</p>
 					</div>
-					: !selected ?
-						<div>
-							{
-								players
-									.filter((person) => person.get('name') !== me.get('name'))
-									.map((person, i) => (
-										<button key={`police-select-${i}`} onClick={() => this.detectingMafiaByPolice(person.get('name'))}>
-											{person.get('name')}
-										</button>
-									))}
-						</div>
-						:
+					<button onClick={this.handleNextOrder}>다음</button>
+				</>) : (
 						<>
-							<div>
-								{selectName}은 마피아가 {isMafia ? '맞습니다.' : '아닙니다.'}
+							<div className="game-content">
+								<p className="content-description">경찰의 차례입니다.<br /> 경찰은 마피아로 의심되는 사람을 지목해 마피아가 맞는지 확인할 수 있습니다.</p>
+								{!selected ?
+									<div className="vote-btn-container">
+										<div>
+											{
+												players
+													.filter((person) => person.get('name') !== me.get('name'))
+													.map((person, i) => (
+														<button
+															key={`police-select-${i}`}
+															onClick={() => this.detectingMafiaByPolice(person.get('name'))}
+															className="btn-sm"
+														>
+															{person.get('name')}
+														</button>
+													))
+											}
+										</div>
+									</div>
+									: <div>{selectName}님은 마피아가 {isMafia ? `맞습니다.` : `아닙니다`}</div>}
 							</div>
-							<div>
-								<button onClick={this.handleNextOrder}>다음</button>
-							</div>
+							{selected &&
+								<button
+									className="btn-lg"
+									onClick={this.handleNextOrder}>다음</button>}
 						</>
-				}
-				{
-				}
-			</div>
+					)}
+			</>
 		);
 	}
 }

@@ -8,6 +8,7 @@ import { useGame } from '../context/GameContext';
 import { JOB_NAME_OF_MAFIA } from '../contants/Job';
 import { setPlayers } from '../utils/setPlayers';
 
+
 class CheckRole extends React.Component {
 	constructor(props) {
 		super(props)
@@ -46,30 +47,59 @@ class CheckRole extends React.Component {
 		if (players.length <= 0) {
 			return <MyRedirect to="/setting" />
 		} else {
-			return <div className="App-header">
-				<h1 className="animated" ref="title">
-					이제 각 사람 마다의 역할이 정해집니다.
-			</h1>
-
-				<h2>{players[showIndex].name}</h2>
-				{showRole && <h2 className="animated fadeInUp delay-.1s">{players[showIndex].jobName}</h2>}
-				{showRole && players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
-					<>
-						<h3>동료 마피아</h3>
-						{players.filter((player) => players[showIndex].name !== player.name
-							&& player.jobName === JOB_NAME_OF_MAFIA)
-							.map((player, i) => (
-								<div key={`mafia-show-${i}`}>
-									{player.name}
-								</div>
-							))}
-					</>
-				}
-
-				<button onClick={this.handleShowRole} className="btn">
-					다음
-			</button>
-			</div>
+			return (<div className="check">
+				<h2 className="game-title">HELLO MAFIA</h2>
+				<div className="game-content">
+					<p className="content-description">이제 각 사람 마다의<br />역할이 정해집니다.</p>
+					<p className="player-name">{players[showIndex].name}</p>
+					{showRole && <p className="player-job">{players[showIndex].jobName}</p>}
+					{showRole && players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
+						<>
+							<h3 className="check-mafia-sub">동료 마피아</h3>
+							<div className="check-mafia-co">
+								{players.filter((player) => players[showIndex].name !== player.name
+									&& player.jobName === JOB_NAME_OF_MAFIA)
+									.map((player, i) => (
+										<div key={`mafia-show-${i}`} className="mafia-co-person">
+											{player.name}
+										</div>
+									))}
+							</div>
+						</>
+					}
+				</div>
+				<button onClick={this.handleShowRole} className="btn-lg">
+					{showRole ? '다음' : '확인 하기'}
+				</button>
+			</div>)
+			// return people.length > 0 ? players.length > 0 ? (
+			// return people.length > 0 ?
+			// 	players.length > 0 ?
+			// 		(<div className="check">
+			// 			<h2 className="game-title">HELLO MAFIA</h2>
+			// 			<div className="game-content">
+			// 				<p className="content-description">이제 각 사람 마다의<br />역할이 정해집니다.</p>
+			// 				<p className="player-name">{players[showIndex].name}</p>
+			// 				{showRole && <p className="player-job">{players[showIndex].jobName}</p>}
+			// 				{showRole && players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
+			// 					<>
+			// 						<h3 className="check-mafia-sub">동료 마피아</h3>
+			// 						<div className="check-mafia-co">
+			// 							{players.filter((player) => players[showIndex].name !== player.name
+			// 								&& player.jobName === JOB_NAME_OF_MAFIA)
+			// 								.map((player, i) => (
+			// 									<div key={`mafia-show-${i}`} className="mafia-co-person">
+			// 										{player.name}
+			// 									</div>
+			// 								))}
+			// 						</div>
+			// 					</>
+			// 				}
+			// 			</div>
+			// 			<button onClick={this.handleShowRole} className="btn-lg">
+			// 				{showRole ? '다음' : '확인 하기'}
+			// 			</button>
+			// 		</div>) : null : <MyRedirect to="/setting" />;
 		}
 	}
 }

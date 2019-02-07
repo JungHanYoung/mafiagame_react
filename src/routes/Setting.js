@@ -1,21 +1,30 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import classNames from 'classnames'
 import { withRouter } from 'react-router-dom';
 import { useGame } from '../context/GameContext';
 
 // 상수
-import { SELECT_OF_PEOPLE_NUM_START, SELECT_OF_PEOPLE_NUM_END } from '../contants/Setting';
 import { JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE, JOB_NAME_OF_CITIZEN, JOB_NAME_OF_DOCTOR } from '../contants/Job';
 
-const PeopleNumSelectList = () => {
-	const range = _.range(SELECT_OF_PEOPLE_NUM_START, SELECT_OF_PEOPLE_NUM_END);
-	return range.map((num) => (
-		<option key={num} value={num}>
-			{num}
-		</option>
-	));
-};
+// Component
+import InputPeople from '../components/setting/InputPeople'
+import JobSetting from '../components/setting/JobSetting'
+import RandomJobSetting from '../components/setting/RandomJobSetting'
+
+
+const getContent = (step) => {
+	switch (step) {
+		case 0:
+			return <InputPeople />
+		case 1:
+			return <JobSetting />
+		case 2:
+			return <RandomJobSetting />
+		default:
+			return null;
+	}
+}
 
 class Setting extends Component {
 	constructor(props) {
@@ -23,8 +32,19 @@ class Setting extends Component {
 
 		const { people } = props;
 		this.state = {
-			num: people.length
+			num: people.length,
+			step: 0
 		};
+	}
+	handleNext = () => {
+		this.setState(state => ({
+			step: state.step + 1
+		}))
+	}
+	handleBack = () => {
+		this.setState(state => ({
+			step: state.step - 1
+		}))
 	}
 	handleJobCount = (e) => {
 		const code = Number(e.target.name);
@@ -76,27 +96,35 @@ class Setting extends Component {
 		}
 	};
 	render() {
-		const { people, jobs, randomJobs, onChangePeopleName } = this.props;
-		const { num } = this.state;
+		const { jobs, randomJobs } = this.props;
+		const { num, step } = this.state;
 		return (
-			<div className="App-header">
-				<div>
-					몇명이서 할건데?&nbsp;
-					<select value={num} onChange={this.onPeopleChange}>
-						<option>select number</option>
-						<PeopleNumSelectList />
-					</select>
+			<>
+				<h1 className="setting-title">게임 설정</h1>
+				<div className="setting-step">
+					{Array
+						.from({ length: 3 }, (v, k) => k)
+						.map(number => (
+							<span
+								key={`setting-step-${number}`}
+								className={classNames(
+									'setting-step-bar',
+									{ active: number <= step })}
+							>{number < step && '✔'}</span>
+						))}
 				</div>
-				{people.map((person, i) => (
-					<input
-						key={`name_${i}`}
-						type="text"
-						autoComplete="off"
-						name={`person_${i}`}
-						value={person}
-						onChange={(e) => onChangePeopleName(i, e.target.value)}
-					/>
-				))}
+				{getContent(step)}
+				<div className="setting-btn-group">
+
+					{step > 0 &&
+						<button className="setting-prev-btn" onClick={this.handleBack}>이 전</button>
+					}
+					{step === 2 ?
+						<button className="setting-next-btn setting-end" onClick={this.onSettingEnd}>게임시작</button>
+						:
+						<button className="setting-next-btn" onClick={this.handleNext}>다 음</button>
+					}
+				</div>
 				{num > 3 && (
 					<>
 						{jobs.map((job) => (
@@ -126,7 +154,7 @@ class Setting extends Component {
 						<button onClick={this.onSettingEnd}>게임시작</button>
 					</>
 				)}
-			</div>
+			</>
 		);
 	}
 }

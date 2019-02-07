@@ -56,26 +56,31 @@ class Result extends React.Component {
 		const { moveToMain } = this.props
 
 		return (
-			<>
-				<h1>투표 결과</h1>
+			<div className="game-content">
+				<h2>투표 결과</h2>
 
-				{this.isReVoted ? <h2>투표가 동률이 났습니다.</h2>
-					: <h2>{this.votedPerson.get('name')}님이 죽으셨습니다.</h2>}
-				<button onClick={this.changeAtDay}>밤이 됩니다.</button>
+				{this.isReVoted ? <p className="content-description">투표가 동률이 났습니다.</p>
+					: <p className="content-description"><span style={{ color: "#ff0000" }}>{this.votedPerson.get('name')}</span> 님이 죽으셨습니다.</p>}
 
 				{this.isVictory === 'mafia'
 					?
 					<>
 						<h3>마피아가 승리하였습니다.</h3>
-						<button onClick={moveToMain}>메인으로</button>
+						<button
+							className="btn-lg"
+							onClick={moveToMain}>메인으로</button>
 					</>
 					: this.isVictory === 'citizen'
 						? <>
 							<h3>시민이 승리하였습니다.</h3>
-							<button onClick={moveToMain}>메인으로</button>
+							<button
+								className="btn-lg"
+								onClick={moveToMain}>메인으로</button>
 						</>
-						: null}
-			</>
+						: <button
+							className="btn-lg"
+							onClick={this.changeAtDay}>밤이 됩니다.</button>}
+			</div>
 		);
 	}
 }

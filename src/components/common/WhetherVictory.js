@@ -25,27 +25,27 @@ class WhetherVictory extends Component {
 		return isEndGame ? (
 			<>
 				{victory === 'mafia' && (
-					<div>
+					<>
 						<h2>마피아가 승리하였습니다!</h2>
-					</div>
+					</>
 				)}
 				{victory === 'citizen' && (
-					<div>
+					<>
 						<h2>시민이 승리하였습니다!</h2>
-					</div>
+					</>
 				)}
-				<button onClick={this.moveToMain}>메인으로</button>
+				<button className="btn-lg" onClick={this.moveToMain}>메인으로</button>
 			</>
 		) : isReVoted ?
 				gameOrder === DAY_TIME ?
 					<>
-						<button onClick={changeDayTimeOrder}>재투표를 합니다.</button>
-						<button onClick={setNightTime}>밤이 됩니다.</button>
-					</> : <button onClick={voteAgainAtNight}>재투표를 합니다.</button>
+						<button className="btn-sm" onClick={changeDayTimeOrder}>재투표를 합니다.</button>
+						<button className="btn-sm" onClick={setNightTime}>밤이 됩니다.</button>
+					</> : <button className="btn-lg" onClick={voteAgainAtNight}>재투표를 합니다.</button>
 				: isEndVoteDayTime ? (
-					<button onClick={setNightTime}>밤이 됩니다.</button>
+					<button className="btn-lg" onClick={setNightTime}>밤이 됩니다.</button>
 				) : isEndVoteNight ? (
-					<button onClick={setDayTime}>낮이 됩니다.</button>
+					<button className="btn-lg" onClick={setDayTime}>낮이 됩니다.</button>
 				) : null;
 	}
 }

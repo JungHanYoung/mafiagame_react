@@ -10,11 +10,16 @@ class Citizen extends React.Component {
 	render() {
 		return (
 			<>
-				<h1>당신은 시민입니다.</h1>
+				<div className="game-content">
+					<p className="content-description">
+						당신은 시민입니다.
+					</p>
+				</div>
 				<button
+					className="btn-lg"
 					onClick={this.handleSelectBtn}>
 					다음
-				</button>
+					</button>
 			</>
 		);
 	}

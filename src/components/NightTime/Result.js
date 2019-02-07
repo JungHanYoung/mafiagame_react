@@ -69,7 +69,6 @@ class Result extends React.Component {
 
 	handleKillAndNext = () => {
 		const { changeDayAndNight, deletePlayer } = this.props
-
 		deletePlayer(this.killPersonName)
 		changeDayAndNight()
 	}
@@ -79,34 +78,42 @@ class Result extends React.Component {
 		const { killPersonName, isRevoted, isMafiaVictory } = this
 		return (
 			<>
-				<span>밤 투표 결과</span>
-				{isRevoted
-					?
-					<div>
-						<h3>마피아 투표가 동률이 났습니다.</h3>
-						<button onClick={changeDayAndNight}>낮으로 갑니다.</button>
-						<button onClick={voteAgain}>재투표로 갑니다.</button>
-					</div>
-					: killPersonName
-						? (
-							<div>
-								<h3>마피아가 {killPersonName}를 죽였습니다.</h3>
-								<button onClick={this.handleKillAndNext}>낮으로 갑니다.</button>
+				{isRevoted ? (
+					<>
+						<div className="game-content">
+							<p className="content-description">밤 투표 결과</p>
+							<h4>마피아 투표가 동률이 났습니다.</h4>
+							<button className="btn-lg" onClick={changeDayAndNight}>낮으로 갑니다.</button>
+							<button className="btn-lg" onClick={voteAgain}>재투표로 갑니다.</button>
+						</div>
+					</>
+				) : isMafiaVictory ? (
+					<>
+						<div className="game-content">
+							<p className="content-description">밤 투표 결과</p>
+							<h4>마피아가 {killPersonName}님을 죽였습니다.</h4>
+							<h3>마피아가 승리하였습니다.</h3>
+						</div>
+						<button
+							className="btn-lg"
+							onClick={moveToMain}>메인으로</button>
+					</>
+
+				) : <>
+							<div className="game-content">
+								<p className="content-description">밤 투표 결과</p>
+								{killPersonName ? (
+									<h4>마피아가 {killPersonName}님을 죽였습니다.</h4>
+								) : (
+										<h4>마피아가 시민을 죽이지 못하였습니다.</h4>
+									)}
 							</div>
-						) : (
-							<div>
-								<h3>마피아가 시민을 죽이지 못하였습니다.</h3>
-								<button onClick={changeDayAndNight}>낮으로 갑니다.</button>
-							</div>
-						)
-				}
-				{isMafiaVictory ?
-					<div>
-						<h3>마피아가 승리하였습니다.</h3>
-						<button onClick={moveToMain}>메인으로</button>
-					</div>
-					: null}
+							<button
+								className="btn-lg"
+								onClick={this.handleKillAndNext}>낮으로 갑니다.</button>
+						</>}
 			</>
+
 		);
 	}
 }

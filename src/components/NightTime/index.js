@@ -99,7 +99,6 @@ class Night extends React.Component {
 					/>
 				) : (
 						<>
-							<h1>{players.getIn([nightTimeOrder, 'name'])}의 차례입니다.</h1>
 							{confirmed ? (
 								<>
 									{players.getIn([nightTimeOrder, 'jobName']) === JOB_NAME_OF_MAFIA ? (
@@ -134,14 +133,23 @@ class Night extends React.Component {
 									) : null}
 								</>
 							) : (
-									<button onClick={this.toggleConfirmed}>역할 확인</button>
+									<>
+										<div className="game-content">
+											<h1>{players.getIn([nightTimeOrder, 'name'])}의 차례입니다.</h1>
+										</div>
+										<button
+											className="btn-lg"
+											onClick={this.toggleConfirmed}>역할 확인</button>
+									</>
 								)}
 						</>
 					)}
+
+
 				{/* {nightTimeOrder === 'mafia' && <Mafia />}
-				{nightTimeOrder === 'doctor' && <Doctor />}
-				{nightTimeOrder === 'police' && <Police />}
-				{nightTimeOrder === 'result' && <Result />} */}
+					{nightTimeOrder === 'doctor' && <Doctor />}
+					{nightTimeOrder === 'police' && <Police />}
+					{nightTimeOrder === 'result' && <Result />} */}
 			</>
 		);
 	}

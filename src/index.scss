@@ -1,0 +1,218 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Anton', 'Noto Sans KR', sans-serif;
+    font-weight: 900;
+}
+
+#root {
+    height: 100vh;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .main-img {
+        margin-top: 75px;
+        width: 150px;
+    }
+    .main-title {
+        font-size: 60px;
+        margin-bottom: 40px;
+        color: #fff;
+      }
+      .btn-main {
+        padding: 10px 20px;
+        margin-bottom: 20px;
+        background: #ff0000;
+        color: #000;
+        font-size: 20px;
+        width: 190px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+      }
+}
+
+.setting-title {
+    padding: 30px 0;
+    margin: 0;
+  color: #ff0000;
+  text-align: center;
+}
+
+.setting-step {
+    display: flex;
+    justify-content: space-evenly;
+    position: relative;
+    &::before {
+        content: '';
+  width: 100%;
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+  border: solid 1px #fff;
+  top: 7px;
+    }
+    .setting-step-bar {
+        width:15px;
+  height:15px;
+  box-sizing: border-box;
+  border: solid 2px #fff;
+  border-radius: 50%;
+  background: #666;
+  z-index: 999;
+
+        &.active {
+            background: #ff0000;
+        }
+    }
+  }
+
+.setting-container {
+    padding: 40px 25px;
+  color: red;
+    .setting-subtitle {
+
+    }
+    .setting-people-select {
+        border: none;
+        border-bottom: 2px solid #fff;
+        padding: 0px;
+        margin: 0px;
+        border-radius: 0;
+        background: inherit;
+        color: white;
+        font-size: 10px;
+        width: 160px;
+        font-weight: 100;
+        outline: none;
+        background: url("./assets/arrow.png") no-repeat right;
+        /* background-position-x: 120px; */
+        background-size: 10%;
+        -webkit-appearance: none;
+        line-height: 200%;
+      }
+      .setting-people-name {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 30px;
+        & input {
+            flex: 1;
+        }
+      }
+}
+
+.setting-btn-group {
+    position: absolute;
+  bottom: 50px;
+  right: 25px;
+  display: flex;
+  justify-content: flex-end;
+  .setting-prev-btn {
+    background: transparent;
+    padding: 15px 35px;
+    outline: none;
+    border: none;
+    color: #fff;
+  }
+  
+  .setting-next-btn {
+    /* position: absolute;
+    bottom: 50px;
+    right: 25px; */
+    margin-left: 15px;
+    background: #ff0000;
+    padding: 15px 35px;
+    outline: none;
+    border: none;
+    color: #fff;
+  }
+}
+
+.setting-job-container {
+    .setting-job-name {
+        width: 50%;
+        text-align: center;
+      }
+      
+      .setting-job-input-container {
+        width: 50%;
+        box-sizing: border-box;
+        margin: 0;
+        display: flex;
+        align-items: center;
+
+        .setting-job-input {
+            width: 90px;
+            border: 0;
+            background: transparent;
+            border-bottom: 1px solid #fff;
+            line-height: 250%;
+            outline: none;
+            color: #fff;
+            text-align: right;
+          }
+          
+          .setting-job-input-unit {
+            margin-left: 22px;
+            color: #fff;
+          }
+      }
+}
+
+.check {
+    display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: #fff;
+  text-align: center;
+  .game-title {
+    color: #ff0000;
+    text-align: center;
+    margin: 0;
+    padding: 20px 0;
+  }
+  
+  .game-subtitle {
+    color: #ff0000;
+    text-align: center;
+    margin-top: 116px;
+    font-size: 18px;
+  }
+
+  .check-player-name {
+    color: #fff;
+    text-align: center;
+    margin-top: 58px;
+  }
+  
+  .check-job-container {
+    height: 200px;
+    .check-player-job {
+        color: #ff0000;
+        text-align: center;
+      }
+      
+      .check-mafia-co {
+        display: flex;
+        flex-wrap: wrap;
+        & div {
+            flex: 1;
+  color: #fff;
+  text-align: center;
+        }
+      }
+  }
+  .check-btn {
+    display: block;
+    padding: 15px 65px;
+    background: #ff0000;
+    font-size: 15px;
+    border: 0;
+    outline: 0;
+    margin: 0 auto;
+  }
+}

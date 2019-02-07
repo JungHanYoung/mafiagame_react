@@ -20,23 +20,32 @@ class Doctor extends React.Component {
 
 		return (
 			<>
-				<h1>당신은 의사입니다.</h1>
-				{revoted ?
-					(
-						<div>
-							<h3>재투표 중입니다. 이전의 선택한 결과가 그대로 갈 것입니다.</h3>
-							<button onClick={this.handleNext}>다음</button>
+				{revoted ? (
+					<>
+						<div className="game-content">
+							<p className="content-description">재투표 중입니다. 이전의 선택한 결과가 그대로 갈 것입니다.</p>
+						</div>
+						<button
+							className="btn-lg"
+							onClick={this.handleNext}>다음</button>
+					</>) : (
+						<div className="game-content">
+							<p className="content-description">당신은 의사입니다.<br />누구를 살릴지 선택을 하세요.</p>
+							<div className="vote-btn-container">
+								<div>
+									{players.map((person, i) => (
+										<button
+											key={`doctor-select-${i}`}
+											onClick={() => this.handleSelectBtn(person.get('name'))}
+											className="btn-sm"
+										>
+											{person.get('name')}
+										</button>
+									))}
+								</div>
+							</div>
 						</div>
 					)
-					:
-					<>
-						<h2>누구를 살릴지 선택을 하세요.</h2>
-						{players.map((person, i) => (
-							<button key={`doctor-select-${i}`} onClick={() => this.handleSelectBtn(person.get('name'))}>
-								{person.get('name')}
-							</button>
-						))}
-					</>
 				}
 			</>
 		);

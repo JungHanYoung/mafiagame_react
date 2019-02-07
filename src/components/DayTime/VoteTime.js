@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { useGame } from '../../context/GameContext';
+
 
 class VoteTime extends React.Component {
 	constructor(props) {
@@ -33,20 +33,26 @@ class VoteTime extends React.Component {
 		const { players } = this.props;
 
 		return (
-			<>
-				<h1>마피아로 의심되는 사람을 투표합니다.</h1>
-				<div>{players.getIn([voteOrder, 'name'])}님의 투표</div>
-				<div>
-					{players
-						.filter((person, i) => i !== voteOrder)
-						.map(person => (
-							<button key={`vote-btn-${person.get('name')}`} onClick={() => this.handleVote(person.get('name'))}>
-								{person.get('name')}
-							</button>
-						))
-					}
+			<div className="game-content">
+				<p className="content-description">마피아로 의심되는 사람을 투표합니다.</p>
+				<div className="voter">{players.getIn([voteOrder, 'name'])}님의 투표</div>
+				<div className="vote-btn-container">
+					<div>
+						{players
+							.filter((person, i) => i !== voteOrder)
+							.map(person => (
+								<button
+									key={`vote-btn-${person.get('name')}`}
+									onClick={() => this.handleVote(person.get('name'))}
+									className="btn-sm"
+								>
+									{person.get('name')}
+								</button>
+							))
+						}
+					</div>
 				</div>
-			</>
+			</div>
 		);
 	}
 }
@@ -66,8 +72,4 @@ VoteTime.propTypes = {
 	changeDayTimeOrder: PropTypes.func.isRequired
 };
 
-export default useGame(({ state, actions }) => ({
-	votePerson: actions.votePerson,
-	endVoteTime: actions.endVoteTime,
-	players: state.players
-}))(VoteTime);
+export default VoteTime

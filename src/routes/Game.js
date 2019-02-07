@@ -31,10 +31,10 @@ class Game extends React.Component {
 	render() {
 		const { players, gameOrder } = this.state;
 		if (players.size) {
-			return <div className="animated fadeInUp">
+			return <>
 				{gameOrder === DAY_TIME ? (
-					<>
-						<h1>낮</h1>
+					<main className="daytime">
+						<h2 className="game-title">HELLO MAFIA</h2>
 						<DayTime
 							players={players}
 							votePerson={this.votePerson}
@@ -42,19 +42,19 @@ class Game extends React.Component {
 							deletePlayer={this.deletePlayer}
 							moveToMain={this.moveToMain}
 						/>
-					</>
+					</main>
 				) : (
-						<>
-							<h1>밤</h1>
+						<main className="night">
+							<h1>HELLO MAFIA</h1>
 							<NightTime
 								players={players}
 								changeDayAndNight={this.changeDayAndNight}
 								deletePlayer={this.deletePlayer}
 								moveToMain={this.moveToMain}
 							/>
-						</>
+						</main>
 					)}
-			</div>
+			</>
 		} else {
 			return <Redirect to="/setting" />
 		}
