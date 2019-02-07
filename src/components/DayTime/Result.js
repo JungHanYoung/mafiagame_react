@@ -1,7 +1,6 @@
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
-import { useGame } from '../../context/GameContext';
 import { JOB_NAME_OF_MAFIA } from '../../contants/Job';
 
 class Result extends React.Component {
@@ -100,7 +99,4 @@ Result.propTypes = {
 	moveToMain: PropTypes.func.isRequired
 };
 
-export default useGame(({ state, actions }) => ({
-	isReVoted: state.isReVoted,
-	dayTimeVotedPerson: state.dayTimeVotedPerson
-}))(Result);
+export default Result
