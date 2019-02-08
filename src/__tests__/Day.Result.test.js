@@ -61,5 +61,8 @@ describe('<Result /> 컴포넌트', () => {
         expect(wrapper.find('p.content-description').exists()).toEqual(true)
         // '투표가 동률이 났습니다.'라는 텍스트가 출력되는지 확인
         expect(wrapper.find('p.content-description').text()).toEqual('투표가 동률이 났습니다.')
+
+        expect(wrapper.find('button.btn-lg')).toHaveLength(2)
     })
+
 })

@@ -30,6 +30,13 @@ class DayTime extends React.Component {
 			})
 		}
 	}
+	moveRevote = () => {
+		const { initVote } = this.props;
+		initVote()
+		this.setState({
+			dayTimeOrder: 1
+		})
+	}
 	render() {
 		const { dayTimeOrder } = this.state;
 		const { players, votePerson, deletePlayer, moveToMain } = this.props
@@ -51,6 +58,7 @@ class DayTime extends React.Component {
 								changeDayTimeOrder={this.changeDayTimeOrder}
 								deletePlayer={deletePlayer}
 								moveToMain={moveToMain}
+								moveRevote={this.moveRevote}
 							/>
 							: null}
 				{/* 게임 종료 여부에 따른 버튼 */}
@@ -66,7 +74,8 @@ DayTime.propTypes = {
 	changeDayAndNight: PropTypes.func.isRequired,
 	votePerson: PropTypes.func.isRequired,
 	deletePlayer: PropTypes.func.isRequired,
-	moveToMain: PropTypes.func.isRequired
+	moveToMain: PropTypes.func.isRequired,
+	initVote: PropTypes.func.isRequired
 };
 
 export default DayTime

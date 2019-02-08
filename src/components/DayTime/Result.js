@@ -47,18 +47,20 @@ class Result extends React.Component {
 	changeAtDay = () => {
 		const { changeDayTimeOrder, deletePlayer } = this.props;
 		changeDayTimeOrder()
+
 		deletePlayer(this.votedPerson.get('name'))
 	}
 
 	render() {
 
-		const { moveToMain } = this.props
+		const { moveToMain, moveRevote } = this.props
+		const { isReVoted } = this
 
 		return (
 			<div className="game-content">
 				<h2>투표 결과</h2>
 
-				{this.isReVoted ? <p className="content-description">투표가 동률이 났습니다.</p>
+				{isReVoted ? <p className="content-description">투표가 동률이 났습니다.</p>
 					: <p className="content-description"><span style={{ color: "#ff0000" }}>{this.votedPerson.get('name')}</span> 님이 죽으셨습니다.</p>}
 
 				{this.isVictory === 'mafia'
@@ -76,9 +78,18 @@ class Result extends React.Component {
 								className="btn-lg"
 								onClick={moveToMain}>메인으로</button>
 						</>
-						: <button
-							className="btn-lg"
-							onClick={this.changeAtDay}>밤이 됩니다.</button>}
+						: isReVoted
+							? <>
+								<button
+									className="btn-lg"
+									onClick={moveRevote}>재투표</button>
+								<button
+									className="btn-lg"
+									onClick={this.changeAtDay}>밤이됩니다.</button>
+							</>
+							: <button
+								className="btn-lg"
+								onClick={this.changeAtDay}>밤이 됩니다.</button>}
 			</div>
 		);
 	}

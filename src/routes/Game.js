@@ -28,6 +28,13 @@ class Game extends React.Component {
 		this.props.history.push('/')
 	}
 
+	initVote = () => {
+		const { players } = this.state;
+		this.setState({
+			players: players.map(player => player.set('daytimeVoted', 0))
+		})
+	}
+
 	render() {
 		const { players, gameOrder } = this.state;
 		if (players.size) {
@@ -37,6 +44,7 @@ class Game extends React.Component {
 						<h2 className="game-title">HELLO MAFIA</h2>
 						<DayTime
 							players={players}
+							initVote={this.initVote}
 							votePerson={this.votePerson}
 							changeDayAndNight={this.changeDayAndNight}
 							deletePlayer={this.deletePlayer}
