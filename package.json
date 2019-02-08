@@ -4,9 +4,9 @@
 	"private": true,
 	"dependencies": {
 		"animate.css": "^3.7.0",
+		"classnames": "^2.2.6",
 		"immutable": "^4.0.0-rc.12",
 		"immutable-prop-types": "^0.0.3",
-		"classnames": "^2.2.6",
 		"initialize-css": "^1.4.0",
 		"lodash": "^4.17.11",
 		"node-sass": "^4.11.0",
@@ -41,6 +41,7 @@
 		"@storybook/addons": "^4.1.7",
 		"@storybook/react": "^4.1.7",
 		"enzyme": "^3.8.0",
-		"enzyme-adapter-react-16": "^1.9.1"
+		"enzyme-adapter-react-16": "^1.9.1",
+		"enzyme-to-json": "^3.3.5"
 	}
 }
