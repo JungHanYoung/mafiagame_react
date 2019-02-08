@@ -1,35 +1,14 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 
 import Result from '../components/NightTime/Result'
 
-import { List, Map } from 'immutable'
-import { JOB_NAME_OF_MAFIA, JOB_NAME_OF_DOCTOR, JOB_NAME_OF_POLICE, JOB_NAME_OF_CITIZEN } from '../contants/Job';
+import { Map } from 'immutable'
+import { players } from '../mockData'
 
 const minProps = {
-    players: List([
-        Map({
-            name: "한영",
-            jobName: JOB_NAME_OF_CITIZEN,
-            daytimeVoted: 3
-        }),
-        Map({
-            name: "병욱",
-            jobName: JOB_NAME_OF_POLICE,
-            daytimeVoted: 0
-        }),
-        Map({
-            name: "지은",
-            jobName: JOB_NAME_OF_DOCTOR,
-            daytimeVoted: 0
-        }),
-        Map({
-            name: "대용",
-            jobName: JOB_NAME_OF_MAFIA,
-            daytimeVoted: 0
-        })
-    ]),
+    players,
     changeDayAndNight: jest.fn(),
     deletePlayer: jest.fn(),
     moveToMain: jest.fn(),

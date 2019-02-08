@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect as MyRedirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ import { JOB_NAME_OF_MAFIA } from '../contants/Job';
 import { setPlayers } from '../utils/setPlayers';
 
 
-class CheckRole extends React.Component {
+export class CheckRole extends React.Component {
 	constructor(props) {
 		super(props)
 
@@ -45,7 +45,7 @@ class CheckRole extends React.Component {
 		const { showRole, showIndex, players } = this.state;
 
 		if (players.length <= 0) {
-			return <MyRedirect to="/setting" />
+			return <Redirect to="/setting" />
 		} else {
 			return (<div className="check">
 				<h2 className="game-title">HELLO MAFIA</h2>
@@ -72,34 +72,6 @@ class CheckRole extends React.Component {
 					{showRole ? '다음' : '확인 하기'}
 				</button>
 			</div>)
-			// return people.length > 0 ? players.length > 0 ? (
-			// return people.length > 0 ?
-			// 	players.length > 0 ?
-			// 		(<div className="check">
-			// 			<h2 className="game-title">HELLO MAFIA</h2>
-			// 			<div className="game-content">
-			// 				<p className="content-description">이제 각 사람 마다의<br />역할이 정해집니다.</p>
-			// 				<p className="player-name">{players[showIndex].name}</p>
-			// 				{showRole && <p className="player-job">{players[showIndex].jobName}</p>}
-			// 				{showRole && players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
-			// 					<>
-			// 						<h3 className="check-mafia-sub">동료 마피아</h3>
-			// 						<div className="check-mafia-co">
-			// 							{players.filter((player) => players[showIndex].name !== player.name
-			// 								&& player.jobName === JOB_NAME_OF_MAFIA)
-			// 								.map((player, i) => (
-			// 									<div key={`mafia-show-${i}`} className="mafia-co-person">
-			// 										{player.name}
-			// 									</div>
-			// 								))}
-			// 						</div>
-			// 					</>
-			// 				}
-			// 			</div>
-			// 			<button onClick={this.handleShowRole} className="btn-lg">
-			// 				{showRole ? '다음' : '확인 하기'}
-			// 			</button>
-			// 		</div>) : null : <MyRedirect to="/setting" />;
 		}
 	}
 }
@@ -112,11 +84,18 @@ CheckRole.propTypes = {
 			jobName: PropTypes.string,
 			count: PropTypes.number
 		})
-	)
+	),
+	randomJobs: PropTypes.arrayOf(
+		PropTypes.shape({
+			code: PropTypes.number,
+			jobName: PropTypes.string,
+			count: PropTypes.number
+		})
+	),
 };
 
 export default withRouter(
-	useGame(({ state, actions }) => ({
+	useGame(({ state }) => ({
 		people: state.people,
 		jobs: state.jobs,
 		randomJobs: state.randomJobs

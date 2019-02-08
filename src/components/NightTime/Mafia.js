@@ -27,7 +27,7 @@ class Mafia extends React.Component {
 				<div className="vote-btn-container">
 					<div>
 						{players
-							.filter((person) => person.jobName !== JOB_NAME_OF_MAFIA)
+							.filter((person) => person.get('jobName') !== JOB_NAME_OF_MAFIA)
 							.map((person, i) => (
 								<button className="btn-sm" key={`mafia-select-${i}`} onClick={() => this.handleSelectBtn(person.get('name'))}>
 									{person.get('name')}
