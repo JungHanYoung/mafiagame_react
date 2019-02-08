@@ -110,7 +110,7 @@ class Setting extends Component {
 								className={classNames(
 									'setting-step-bar',
 									{ active: number <= step })}
-							>{number < step && '✔'}</span>
+							></span>
 						))}
 				</div>
 				{getContent(step)}

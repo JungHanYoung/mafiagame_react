@@ -55,16 +55,22 @@ export class CheckRole extends React.Component {
 					{showRole && <p className="player-job">{players[showIndex].jobName}</p>}
 					{showRole && players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
 						<>
-							<h3 className="check-mafia-sub">동료 마피아</h3>
-							<div className="check-mafia-co">
-								{players.filter((player) => players[showIndex].name !== player.name
-									&& player.jobName === JOB_NAME_OF_MAFIA)
-									.map((player, i) => (
-										<div key={`mafia-show-${i}`} className="mafia-co-person">
-											{player.name}
-										</div>
-									))}
-							</div>
+							{players
+								.filter(player => players[showIndex].name !== player.name)
+								.map(player => player.jobName)
+								.includes(JOB_NAME_OF_MAFIA) ? <>
+									<h3 className="check-mafia-sub">동료 마피아</h3>
+									<div className="check-mafia-co">
+										{players.filter((player) => players[showIndex].name !== player.name
+											&& player.jobName === JOB_NAME_OF_MAFIA)
+											.map((player, i) => (
+												<div key={`mafia-show-${i}`} className="mafia-co-person">
+													{player.name}
+												</div>
+											))}
+									</div>
+								</> : null}
+
 						</>
 					}
 				</div>
