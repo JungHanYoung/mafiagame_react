@@ -83,7 +83,7 @@ class Night extends React.Component {
 
 	render() {
 		const { confirmed, nightTimeOrder, isEndVote, mafiaVotes, doctorVotes, revoted } = this.state;
-		const { players, changeDayAndNight, deletePlayer, moveToMain } = this.props;
+		const { players, changeDayAndNight, deletePlayer, moveToResult } = this.props;
 
 		return (
 			<>
@@ -95,7 +95,7 @@ class Night extends React.Component {
 						changeDayAndNight={changeDayAndNight}
 						voteAgain={this.voteAgain}
 						players={players}
-						moveToMain={moveToMain}
+						moveToResult={moveToResult}
 					/>
 				) : (
 						<>
@@ -159,7 +159,7 @@ Night.propTypes = {
 	players: ImmutablePropTypes.list,
 	changeDayAndNight: PropTypes.func.isRequired,
 	deletePlayer: PropTypes.func.isRequired,
-	moveToMain: PropTypes.func.isRequired
+	moveToResult: PropTypes.func.isRequired
 	// isEndVoteNight: PropTypes.bool.isRequired,
 	// nightTimeOrder: PropTypes.number.isRequired
 };

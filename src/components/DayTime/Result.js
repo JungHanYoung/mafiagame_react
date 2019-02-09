@@ -53,7 +53,7 @@ class Result extends React.Component {
 
 	render() {
 
-		const { moveToMain, moveRevote } = this.props
+		const { moveRevote, moveToResult } = this.props
 		const { isReVoted } = this
 
 		return (
@@ -69,14 +69,14 @@ class Result extends React.Component {
 						<h3>마피아가 승리하였습니다.</h3>
 						<button
 							className="btn-lg"
-							onClick={moveToMain}>메인으로</button>
+							onClick={moveToResult}>결과화면</button>
 					</>
 					: this.isVictory === 'citizen'
 						? <>
 							<h3>시민이 승리하였습니다.</h3>
 							<button
 								className="btn-lg"
-								onClick={moveToMain}>메인으로</button>
+								onClick={moveToResult}>결과화면</button>
 						</>
 						: isReVoted
 							? <>
@@ -107,7 +107,7 @@ Result.propTypes = {
 	players: ImmutablePropTypes.list,
 	changeDayTimeOrder: PropTypes.func.isRequired,
 	deletePlayer: PropTypes.func.isRequired,
-	moveToMain: PropTypes.func.isRequired
+	moveToResult: PropTypes.func.isRequired
 };
 
 export default Result

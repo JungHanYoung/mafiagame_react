@@ -17,15 +17,18 @@ class Game extends React.Component {
 		const { history } = props;
 		const players = history.location.state.players
 		this.state = {
-			// players: players.map(player => Object.assign(player, { daytimeVoted: 0 })),
-			// gameOrder: DAY_TIME
 			players: List(players.map(player => Map(player).set('daytimeVoted', 0))),
+			playersByResult: players,
 			gameOrder: DAY_TIME
 		}
 	}
 
 	moveToMain = () => {
 		this.props.history.push('/')
+	}
+
+	moveToResult = () => {
+		this.props.history.push('/result', { players: this.state.playersByResult })
 	}
 
 	initVote = () => {
@@ -48,17 +51,17 @@ class Game extends React.Component {
 							votePerson={this.votePerson}
 							changeDayAndNight={this.changeDayAndNight}
 							deletePlayer={this.deletePlayer}
-							moveToMain={this.moveToMain}
+							moveToResult={this.moveToResult}
 						/>
 					</main>
 				) : (
 						<main className="night">
-							<h1>HELLO MAFIA</h1>
+							<h2 className="game-title">HELLO MAFIA</h2>
 							<NightTime
 								players={players}
 								changeDayAndNight={this.changeDayAndNight}
 								deletePlayer={this.deletePlayer}
-								moveToMain={this.moveToMain}
+								moveToResult={this.moveToResult}
 							/>
 						</main>
 					)}

@@ -236,9 +236,15 @@ body {
 }
 
 .game-title {
+  text-transform: uppercase;
   text-align: center;
   margin: 0;
   padding: 20px 0;
+  color: #ff0000;
+}
+
+.daytime .game-title {
+  color: #000;
 }
 
 .game-content {
@@ -465,4 +471,33 @@ body {
   text-align: center;
   border: 0;
   outline: 0;
+}
+
+.result-img {
+  width: 122px;
+}
+
+.result-subject {
+  color: #fff;
+  margin: 36px 0;
+}
+
+.result-container {
+  width: 209px;
+  margin: 0 auto 45px;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-around;
+}
+
+.result-item .result-name {
+  font-size: 24px;
+  color: #ff0000;
+}
+
+.result-item .result-job {
+  font-size:18px;
+  color: #fff;
 }

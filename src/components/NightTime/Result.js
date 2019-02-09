@@ -74,7 +74,7 @@ class Result extends React.Component {
 	}
 
 	render() {
-		const { changeDayAndNight, voteAgain, moveToMain } = this.props
+		const { changeDayAndNight, voteAgain, moveToResult } = this.props
 		const { killPersonName, isRevoted, isMafiaVictory } = this
 		return (
 			<>
@@ -96,7 +96,7 @@ class Result extends React.Component {
 						</div>
 						<button
 							className="btn-lg"
-							onClick={moveToMain}>메인으로</button>
+							onClick={moveToResult}>메인으로</button>
 					</>
 
 				) : <>
@@ -127,7 +127,7 @@ Result.propTypes = {
 	changeDayAndNight: PropTypes.func.isRequired,
 	deletePlayer: PropTypes.func.isRequired,
 	voteAgain: PropTypes.func.isRequired,
-	moveToMain: PropTypes.func.isRequired
+	moveToResult: PropTypes.func.isRequired
 };
 
 export default withRouter(Result)
