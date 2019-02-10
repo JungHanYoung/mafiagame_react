@@ -57,7 +57,7 @@ class Police extends Component {
 													.map((person, i) => (
 														<button
 															key={`police-select-${i}`}
-															onClick={() => this.detectingMafiaByPolice(person.get('name'))}
+															onClick={() => this.detectingByPolice(person.get('name'))}
 															className="btn-sm"
 														>
 															{person.get('name')}
