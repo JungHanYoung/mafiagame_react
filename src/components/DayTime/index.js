@@ -75,7 +75,6 @@ DayTime.propTypes = {
 	changeDayAndNight: PropTypes.func.isRequired,
 	votePerson: PropTypes.func.isRequired,
 	deletePlayer: PropTypes.func.isRequired,
-	moveToMain: PropTypes.func.isRequired,
 	moveToResult: PropTypes.func.isRequired,
 	initVote: PropTypes.func.isRequired
 };

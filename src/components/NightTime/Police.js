@@ -1,27 +1,33 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { JOB_NAME_OF_MAFIA } from '../../contants/Job';
+
 
 class Police extends Component {
 	state = {
 		selected: false,
-		isMafia: false,
+		jobName: '',
 		selectName: ''
 	};
-	detectingMafiaByPolice = (name) => {
+	detectingByPolice = (name) => {
 		const { players } = this.props;
-		players.find((person) => person.get('name') === name).get('jobName') === JOB_NAME_OF_MAFIA
-			? this.setState({
-				selected: true,
-				selectName: name,
-				isMafia: true
-			})
-			: this.setState({
-				selected: true,
-				selectName: name,
-				isMafia: false
-			});
+		const player = players.find((person) => person.get('name') === name);
+		//.get('jobName') === JOB_NAME_OF_MAFIA
+		this.setState({
+			selected: true,
+			selectName: player.get('name'),
+			jobName: player.get('jobName')
+		})
+		// ? this.setState({
+		// 	selected: true,
+		// 	selectName: name,
+		// 	jobName: true
+		// })
+		// : this.setState({
+		// 	selected: true,
+		// 	selectName: name,
+		// 	isMafia: false
+		// });
 	};
 	handleNextOrder = () => {
 		const { changeNightTimeOrder, toggleConfirmed } = this.props;
@@ -29,7 +35,7 @@ class Police extends Component {
 		changeNightTimeOrder()
 	};
 	render() {
-		const { isMafia, selected, selectName } = this.state;
+		const { selected, selectName, jobName } = this.state;
 		const { players, me, revoted } = this.props;
 		return (
 			<>
@@ -41,7 +47,7 @@ class Police extends Component {
 				</>) : (
 						<>
 							<div className="game-content">
-								<p className="content-description">경찰의 차례입니다.<br /> 경찰은 마피아로 의심되는 사람을 지목해 마피아가 맞는지 확인할 수 있습니다.</p>
+								<p className="content-description">경찰의 차례입니다.<br /> 한 사람의 직업을 확인할 수 있습니다.</p>
 								{!selected ?
 									<div className="vote-btn-container">
 										<div>
@@ -60,7 +66,7 @@ class Police extends Component {
 											}
 										</div>
 									</div>
-									: <div>{selectName}님은 마피아가 {isMafia ? `맞습니다.` : `아닙니다`}</div>}
+									: <div>{selectName}님의 직업은 {jobName}입니다.</div>}
 							</div>
 							{selected &&
 								<button

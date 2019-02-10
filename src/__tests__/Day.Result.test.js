@@ -10,7 +10,7 @@ const minProps = {
     players,
     changeDayTimeOrder: jest.fn(),
     deletePlayer: jest.fn(),
-    moveToMain: jest.fn()
+    moveToResult: jest.fn()
 }
 
 const sameRatePlayers = List([

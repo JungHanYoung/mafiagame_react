@@ -33,7 +33,8 @@ Object {
     <DayTime
       changeDayAndNight={[Function]}
       deletePlayer={[Function]}
-      moveToMain={[Function]}
+      initVote={[Function]}
+      moveToResult={[Function]}
       players={
         Immutable.List [
           Immutable.Map {
@@ -84,7 +85,8 @@ exports[`<Game /> 컴포넌트 html 렌더링 확인 1`] = `
   <DayTime
     changeDayAndNight={[Function]}
     deletePlayer={[Function]}
-    moveToMain={[Function]}
+    initVote={[Function]}
+    moveToResult={[Function]}
     players={
       Immutable.List [
         Immutable.Map {
@@ -137,6 +139,24 @@ Object {
       "name": "기수",
       "jobName": "POLICE",
       "daytimeVoted": 0,
+    },
+  ],
+  "playersByResult": Array [
+    Object {
+      "jobName": "CITIZEN",
+      "name": "한영",
+    },
+    Object {
+      "jobName": "MAFIA",
+      "name": "병욱",
+    },
+    Object {
+      "jobName": "DOCTOR",
+      "name": "대용",
+    },
+    Object {
+      "jobName": "POLICE",
+      "name": "기수",
     },
   ],
 }
@@ -294,9 +314,11 @@ exports[`Game 컴포넌트 >> mount 클릭 4`] = `
 <main
   className="night"
 >
-  <h1>
+  <h2
+    className="game-title"
+  >
     HELLO MAFIA
-  </h1>
+  </h2>
   Array [
     <div
       className="game-content"

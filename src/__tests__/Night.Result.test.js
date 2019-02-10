@@ -20,7 +20,8 @@ const minProps = {
     doctorVotes: Map({
         "지은": "병욱"
     }),
-    voteAgain: jest.fn(() => false)
+    voteAgain: jest.fn(() => false),
+    moveToResult: jest.fn()
 }
 
 describe('Night - <Result />', () => {
