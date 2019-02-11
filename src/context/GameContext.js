@@ -1,6 +1,5 @@
 import React, { createContext, Component } from 'react';
 import createUseConsumer from '../lib/createUseConsumer';
-import { Object } from 'es6-shim';
 import { setPlayers } from '../utils/setPlayers';
 
 // Constant 상수

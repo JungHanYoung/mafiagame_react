@@ -54,6 +54,8 @@ const minProps = {
     ]
 }
 
+const JOBS = [JOB_NAME_OF_CITIZEN, JOB_NAME_OF_DOCTOR, JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE]
+
 describe('<CheckRole /> 컴포넌트 테스트', () => {
 
     let wrapper = null
@@ -67,6 +69,11 @@ describe('<CheckRole /> 컴포넌트 테스트', () => {
         // players 확인
         expect(state.players).toBeDefined()
         expect(state.players.length).toEqual(4)
+        state.players.forEach(player => {
+            expect(player).toHaveProperty('name')
+            expect(player).toHaveProperty('jobName')
+            expect(JOBS).toContain(player.jobName)
+        })
         // showRole 확인 (역할을 보여줄지의 여부)
         expect(state.showRole).toBeDefined()
         expect(state.showRole).toEqual(false)
@@ -85,6 +92,9 @@ describe('<CheckRole /> 컴포넌트 테스트', () => {
         // 버튼 클릭 이벤트 발생
         wrapper.find('button.btn-lg').simulate('click')
 
+        // 역할 확인 상태 -> true
+        expect(wrapper.state('showRole')).toBe(true)
+        expect(wrapper.state('showIndex')).toBeLessThan(1)
         // 버튼 클릭 후, 역할이 확인되야함. 플레이어의 역할에 해당하는 html존재여부 확인
         expect(wrapper.find('p.player-job').exists()).toEqual(true)
         // 버튼의 내용은 '다음'으로 나타나야 (다음 사람 안내) 
@@ -93,6 +103,10 @@ describe('<CheckRole /> 컴포넌트 테스트', () => {
         // 버튼 클릭 이벤트 발생
         wrapper.find('button.btn-lg').simulate('click')
 
+        // 역할 확인 상태 -> false
+        expect(wrapper.state('showRole')).toBe(false)
+        // 플레이어 인덱스 증가
+        expect(wrapper.state('showIndex')).toBeGreaterThan(0)
         // 다음 사람으로 넘어가고, 역할확인은 다시 안보여지게 된다.
         expect(wrapper.find('p.player-job').exists()).not.toEqual(true)
         // 버튼의 내용도 맨 처음과 같이 바뀌게 된다.

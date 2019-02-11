@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import './App.css';
 import { useGame } from './context/GameContext';
 
 import logoImg from './assets/logo.png'
