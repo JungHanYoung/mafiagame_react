@@ -2,7 +2,6 @@ import React from 'react';
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Object } from 'es6-shim';
 import { JOB_NAME_OF_MAFIA } from '../../contants/Job';
 
 class Result extends React.Component {

@@ -1,9 +1,17 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: 'Anton', 'Noto Sans KR', sans-serif;
   font-weight: 900;
   background: #000;
+  overflow: hidden;
 }
 
 #root {
@@ -55,6 +63,7 @@ body {
 
 .setting-title {
   padding: 30px 0;
+  font-size: 24px;
   margin: 0;
   color: #ff0000;
   text-align: center;
@@ -92,13 +101,15 @@ body {
 }
 
 .setting-container {
-  height: 462px;
+  height: 410px;
   padding: 55px 24px 0;
   color: red;
 
 }
 
 .setting-container .setting-subtitle {
+  font-size: 18px;
+  line-height: 140%;
   margin: 0;
 }
 
@@ -130,23 +141,27 @@ body {
 .setting-people-name {
   position: relative;
   box-sizing: border-box;
-  flex: 1
+  width: 50%;
 }
 
 .people-name-placeholder {
   color: #888;
   font-size: 10px;
   padding-right: 20px;
+  display: block;
+  margin-top: 10px;
 }
 
 .setting-people-name > input {
   background: transparent;
   border: none;
+  border-radius: 0;
   outline: none;
   border-bottom: 1px solid #fff;
   color: white;
   line-height: 200%;
   font-weight: 600;
+  width: 80%;
 }
 
 .setting-btn-group {

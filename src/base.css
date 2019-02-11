@@ -1,0 +1,119 @@
+/* =====================================
+              CSS RESET
+===================================== */
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video { 
+    margin:0; 
+    padding:0; 
+    border:0; 
+    outline:0; 
+    font-size:100%; 
+    vertical-align:baseline;
+}
+body {line-height:1;}
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section {display:block;}
+ul li{list-style:none;}
+a {
+    margin: 0;
+    padding: 0; 
+    border: 0; 
+    vertical-align: baseline; 
+    background: transparent; 
+    text-decoration: none; 
+    color: inherit; 
+    display: inline-block;
+}
+img {vertical-align: bottom;}
+
+
+/* =====================================
+            GRID SYSTEM
+===================================== */
+
+[class*="col-"] {
+	float: left;
+	box-sizing: border-box;
+	padding: 0 10px;
+}
+
+.col-m-1  {width: 8.33%;}
+.col-m-2  {width: 16.66%;}
+.col-m-3  {width: 25%;}
+.col-m-4  {width: 33.33%;}
+.col-m-5  {width: 41.66%;}
+.col-m-6  {width: 50%;}
+.col-m-7  {width: 58.33%;}
+.col-m-8  {width: 66.66%;}
+.col-m-9  {width: 75%;}
+.col-m-10 {width: 83.33%;}
+.col-m-11 {width: 91.66%;}
+.col-m-12 {width: 100%;}
+
+@media(min-width:768px){
+    .col-t-1  {width: 8.33%;}
+    .col-t-2  {width: 16.66%;}
+    .col-t-3  {width: 25%;}
+    .col-t-4  {width: 33.33%;}
+    .col-t-5  {width: 41.66%;}
+    .col-t-6  {width: 50%;}
+    .col-t-7  {width: 58.33%;}
+    .col-t-8  {width: 66.66%;}
+    .col-t-9  {width: 75%;}
+    .col-t-10 {width: 83.33%;}
+    .col-t-11 {width: 91.66%;}
+    .col-t-12 {width: 100%;}
+}
+
+@media(min-width:1024px){
+    .col-d-1  {width: 8.33%;}
+    .col-d-2  {width: 16.66%;}
+    .col-d-3  {width: 25%;}
+    .col-d-4  {width: 33.33%;}
+    .col-d-5  {width: 41.66%;}
+    .col-d-6  {width: 50%;}
+    .col-d-7  {width: 58.33%;}
+    .col-d-8  {width: 66.66%;}
+    .col-d-9  {width: 75%;}
+    .col-d-10 {width: 83.33%;}
+    .col-d-11 {width: 91.66%;}
+    .col-d-12 {width: 100%;}
+}
+
+/* =====================================
+            COMMON SYSTEM
+===================================== */
+
+.clearfix::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+
+.l-center {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.layout--table {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.layout--table-cell {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
