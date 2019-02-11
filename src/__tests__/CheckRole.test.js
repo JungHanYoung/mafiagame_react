@@ -1,8 +1,13 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import sinon from 'sinon'
 
 import { CheckRole } from '../routes/CheckRole'
 import { JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE, JOB_NAME_OF_DOCTOR, JOB_NAME_OF_CITIZEN } from '../contants/Job';
+
+const pushRoute = {
+    game: sinon.spy()
+}
 
 const minProps = {
     people: [
@@ -51,7 +56,11 @@ const minProps = {
             jobName: JOB_NAME_OF_CITIZEN,
             count: 0
         }
-    ]
+    ],
+    // react-router mocking
+    history: {
+        push: pushRoute.game
+    }
 }
 
 const JOBS = [JOB_NAME_OF_CITIZEN, JOB_NAME_OF_DOCTOR, JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE]
@@ -89,8 +98,10 @@ describe('<CheckRole /> 컴포넌트 테스트', () => {
         // 버튼의 내용이 '확인 하기'로 나타나야 (역할 확인 안내)
         expect(wrapper.find('button.btn-lg').text()).toEqual('확인 하기')
 
+        const button = wrapper.find('button.btn-lg')
+
         // 버튼 클릭 이벤트 발생
-        wrapper.find('button.btn-lg').simulate('click')
+        button.simulate('click')
 
         // 역할 확인 상태 -> true
         expect(wrapper.state('showRole')).toBe(true)
@@ -101,7 +112,7 @@ describe('<CheckRole /> 컴포넌트 테스트', () => {
         expect(wrapper.find('button.btn-lg').text()).toEqual('다음')
 
         // 버튼 클릭 이벤트 발생
-        wrapper.find('button.btn-lg').simulate('click')
+        button.simulate('click')
 
         // 역할 확인 상태 -> false
         expect(wrapper.state('showRole')).toBe(false)
@@ -112,6 +123,24 @@ describe('<CheckRole /> 컴포넌트 테스트', () => {
         // 버튼의 내용도 맨 처음과 같이 바뀌게 된다.
         expect(wrapper.find('button.btn-lg').text()).toEqual('확인 하기')
 
+        //// 4명의 직업을 체크한 후, history.push 호출 ( 각 사람당 2번 버튼 클릭 (-> 직업체크-> 다음사람))
+
+        button.simulate('click')
+        button.simulate('click')
+        button.simulate('click')
+        button.simulate('click')
+        button.simulate('click')
+        button.simulate('click')    // <- 여기서 호출이 되어야함.
+
+        // this.props.history.push가 
+        // pushRoute.game.callArgWith(1, '/game', wrapper.state('players'))
+        expect(pushRoute.game).toHaveProperty('callCount', 1)
+        expect(pushRoute.game.getCalls()[0].args[0]).toBe('/game')
+        expect(pushRoute.game.getCalls()[0].args[1]).toHaveProperty('players', wrapper.state('players'))
+        console.log(
+            pushRoute.game.getCalls()[0].args
+        );
+        // expect(pushRoute.game.calledOnceWith('/game', wrapper.state('players'))).toBe(true)
     })
 
 })
