@@ -37,6 +37,16 @@ class Setting extends Component {
 		};
 	}
 	handleNext = () => {
+		for (let person in this.props.people) {
+			if (this.props.people[person] === '') {
+				alert('이름을 적어야합니다.')
+				return;
+			}
+		}
+		if ((new Set(this.props.people)).size !== this.props.people.length) {
+			alert('이름이 중복되면 안됩니다.')
+			return;
+		}
 		this.setState(state => ({
 			step: state.step + 1
 		}))
