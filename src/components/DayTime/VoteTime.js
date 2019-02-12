@@ -1,24 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useGame } from '../../context/GameContext';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+
 
 class VoteTime extends React.Component {
-	state = {
-		voteOrder: 0
-	};
-	handleVote = (name) => {
-		const { votePerson, players, endVoteTime } = this.props;
-		const { voteOrder } = this.state;
-		votePerson(name).then(() => {
-			voteOrder < players.length - 1
-				?
-				this.setState({
-					voteOrder: voteOrder + 1
-				})
-				:
-				endVoteTime();
-		})
+	constructor(props) {
+		super(props)
 
+		this.state = {
+			voteOrder: 0
+		}
+	}
+	handleVote = (name) => {
+
+		const { voteOrder } = this.state;
+		const { votePerson, players, changeDayTimeOrder } = this.props
+		votePerson(name)
+		if (players.size - 1 === voteOrder) {
+			this.setState({
+				voteOrder: 0
+			})
+			changeDayTimeOrder()
+		} else {
+			this.setState({
+				voteOrder: voteOrder + 1
+			})
+		}
 
 	};
 	render() {
@@ -26,42 +33,43 @@ class VoteTime extends React.Component {
 		const { players } = this.props;
 
 		return (
-			<>
-				<h1>마피아로 의심되는 사람을 투표합니다.</h1>
-				<div>{players[voteOrder].name}님의 투표</div>
-				<div>
-					{players.map((person, i) => {
-						if (i === voteOrder) {
-							return null;
-						} else {
-							return (
-								<button key={`vote-btn-${i}`} onClick={() => this.handleVote(person.name)}>
-									{person.name}
+			<div className="game-content">
+				<p className="content-description">마피아로 의심되는 사람을 투표합니다.</p>
+				<div className="voter">{players.getIn([voteOrder, 'name'])}님의 투표</div>
+				<div className="vote-btn-container">
+					<div>
+						{players
+							.filter((person, i) => i !== voteOrder)
+							.map(person => (
+								<button
+									key={`vote-btn-${person.get('name')}`}
+									onClick={() => this.handleVote(person.get('name'))}
+									className="btn-sm"
+								>
+									{person.get('name')}
 								</button>
-							);
+							))
 						}
-					})}
+					</div>
 				</div>
-			</>
+			</div>
 		);
 	}
 }
 
 VoteTime.propTypes = {
-	votePerson: PropTypes.func.isRequired,
-	endVoteTime: PropTypes.func.isRequired,
-	players: PropTypes.arrayOf(
-		PropTypes.shape({
-			name: PropTypes.string.isRequired,
-			daytimeVoted: PropTypes.number,
-			jobName: PropTypes.string.isRequired,
-			code: PropTypes.number
-		})
-	)
+	// votePerson: PropTypes.func.isRequired,
+	// endVoteTime: PropTypes.func.isRequired,
+	// players: PropTypes.arrayOf(
+	// 	PropTypes.shape({
+	// 		name: PropTypes.string.isRequired,
+	// 		daytimeVoted: PropTypes.number,
+	// 		jobName: PropTypes.string.isRequired,
+	// 		code: PropTypes.number
+	// 	})
+	// )
+	players: ImmutablePropTypes.list,
+	changeDayTimeOrder: PropTypes.func.isRequired
 };
 
-export default useGame(({ state, actions }) => ({
-	votePerson: actions.votePerson,
-	endVoteTime: actions.endVoteTime,
-	players: state.players
-}))(VoteTime);
+export default VoteTime

@@ -1,81 +1,88 @@
 import React from 'react';
-import { Redirect as MyRedirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 // component
 import { useGame } from '../context/GameContext';
 import { JOB_NAME_OF_MAFIA } from '../contants/Job';
+import { setPlayers } from '../utils/setPlayers';
 
-class CheckRole extends React.Component {
-	state = {
-		showRole: false,
-		showIndex: 0
-	};
-	componentWillMount() {
-		this.props.setRolePeople();
+
+export class CheckRole extends React.Component {
+	constructor(props) {
+		super(props)
+
+		const { jobs, people, randomJobs } = props
+		const players = setPlayers(people, jobs, randomJobs)
+
+		this.state = {
+			players,
+			showRole: false,
+			showIndex: 0
+		}
 	}
 
 	handleShowRole = () => {
-		const { showRole, showIndex } = this.state;
-		const { players } = this.props;
-
-		showRole
-			? this.setState({
-				showRole: false
-			})
-			: this.setState({
-				showRole: true
-			});
-
-		showRole &&
-			players.length > showIndex + 1 &&
+		const { showRole, showIndex, players } = this.state;
+		if (showRole) {
+			if (players.length - 1 > showIndex) {
+				this.setState({
+					showRole: false,
+					showIndex: showIndex + 1
+				})
+			} else {
+				this.props.history.push('/game', { players });
+			}
+		} else {
 			this.setState({
-				showIndex: showIndex + 1
-			});
-
-		showRole && players.length === showIndex + 1 && this.props.history.push('/game');
+				showRole: true
+			})
+		}
 	};
 
 	render() {
-		const { showRole, showIndex } = this.state;
-		const { players, gameStart, people } = this.props;
+		const { showRole, showIndex, players } = this.state;
 
-		if (gameStart) {
-			return <div>game</div>;
+		if (players.length <= 0) {
+			return <Redirect to="/setting" />
 		} else {
-			return people.length > 0 ? players.length > 0 ? (
-				<div className="App-header">
-					<h1 className="animated" ref="title">
-						이제 각 사람 마다의 역할이 정해집니다.
-					</h1>
-
-					<h2>{players[showIndex].name}</h2>
-					{showRole && <h2 className="animated fadeInUp delay-.1s">{players[showIndex].jobName}</h2>}
+			return (<div className="check">
+				<h2 className="game-title">HELLO MAFIA</h2>
+				<div className="game-content">
+					<p className="content-description">이제 각 사람 마다의<br />역할이 정해집니다.</p>
+					<p className="player-name">{players[showIndex].name}</p>
+					{showRole && <p className="player-job">{players[showIndex].jobName}</p>}
 					{showRole && players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
 						<>
-							<h3>동료 마피아</h3>
-							{players.filter((player) => players[showIndex].name !== player.name
-								&& player.jobName === JOB_NAME_OF_MAFIA)
-								.map((player, i) => (
-									<div key={`mafia-show-${i}`}>
-										{player.name}
+							{players
+								.filter(player => players[showIndex].name !== player.name)
+								.map(player => player.jobName)
+								.includes(JOB_NAME_OF_MAFIA) ? <>
+									<h3 className="check-mafia-sub">동료 마피아</h3>
+									<div className="check-mafia-co">
+										{players.filter((player) => players[showIndex].name !== player.name
+											&& player.jobName === JOB_NAME_OF_MAFIA)
+											.map((player, i) => (
+												<div key={`mafia-show-${i}`} className="mafia-co-person">
+													{player.name}
+												</div>
+											))}
 									</div>
-								))}
+								</> : null}
+
 						</>
 					}
-
-					<button onClick={this.handleShowRole} className="btn">
-						다음
-					</button>
 				</div>
-			) : null : <MyRedirect to="/setting" />;
+				<button onClick={this.handleShowRole} className="btn-lg">
+					{showRole ? '다음' : '확인 하기'}
+				</button>
+			</div>)
 		}
 	}
 }
 
 CheckRole.propTypes = {
-	players: PropTypes.array,
 	people: PropTypes.arrayOf(PropTypes.string),
 	jobs: PropTypes.arrayOf(
 		PropTypes.shape({
@@ -84,14 +91,19 @@ CheckRole.propTypes = {
 			count: PropTypes.number
 		})
 	),
-	setRolePeople: PropTypes.func.isRequired
+	randomJobs: PropTypes.arrayOf(
+		PropTypes.shape({
+			code: PropTypes.number,
+			jobName: PropTypes.string,
+			count: PropTypes.number
+		})
+	),
 };
 
 export default withRouter(
-	useGame(({ state, actions }) => ({
-		players: state.players,
+	useGame(({ state }) => ({
 		people: state.people,
 		jobs: state.jobs,
-		setRolePeople: actions.setRolePeople
+		randomJobs: state.randomJobs
 	}))(CheckRole)
 );

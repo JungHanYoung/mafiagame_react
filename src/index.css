@@ -1,14 +1,530 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Anton', 'Noto Sans KR', sans-serif;
+  font-weight: 900;
+  background: #000;
+  overflow: hidden;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+#root {
+  height: 100vh;
+}
+
+/* common */
+
+
+.btn {
+  font-weight: bold;
+}
+
+
+/* main page */
+
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-container .btn-lg {
+  text-align: center;
+  padding: 15px 20px;
+  text-decoration: none;
+}
+
+.main-img {
+  margin-top: 50px;
+  width: 120px;
+}
+
+.main-title {
+  font-size: 60px;
+  margin: 40px 0;
+  color: #fff;
+}
+
+.btn-main {
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  background: #ff0000;
+  color: #000;
+  font-size: 20px;
+  width: 190px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Setting */
+
+.setting-title {
+  padding: 30px 0;
+  font-size: 24px;
+  margin: 0;
+  color: #ff0000;
+  text-align: center;
+}
+
+.setting-step {
+  display: flex;
+  justify-content: space-evenly;
+  position: relative;
+}
+
+.setting-step::before {
+  content: '';
+  width: 100%;
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+  border: solid 1px #fff;
+  top: 12px;
+}
+
+.setting-step-bar {
+  width:25px;
+  height:25px;
+  box-sizing: border-box;
+  border: solid 2px #fff;
+  border-radius: 50%;
+  background: #666;
+  z-index: 999;
+  text-align: center;
+}
+
+.setting-step-bar.active {
+  background: #ff0000;
+}
+
+.setting-container {
+  height: 410px;
+  padding: 55px 24px 0;
+  color: red;
+
+}
+
+.setting-container .setting-subtitle {
+  font-size: 18px;
+  line-height: 140%;
+  margin: 0;
+}
+
+.setting-people-select {
+  border: none;
+  border-bottom: 2px solid #fff;
+  padding: 0px;
+  margin-top: 50px;
+  border-radius: 0;
+  background: inherit;
+  color: white;
+  font-size: 10px;
+  width: 160px;
+  font-weight: 100;
+  outline: none;
+  background: url("./assets/arrow.png") no-repeat right;
+  /* background-position-x: 120px; */
+  background-size: 10%;
+  -webkit-appearance: none;
+  line-height: 200%;
+}
+
+.setting-people-name-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.setting-people-name {
+  position: relative;
+  box-sizing: border-box;
+  width: 50%;
+}
+
+.people-name-placeholder {
+  color: #888;
+  font-size: 10px;
+  padding-right: 20px;
+  display: block;
+  margin-top: 10px;
+}
+
+.setting-people-name > input {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  border-bottom: 1px solid #fff;
+  color: white;
+  line-height: 200%;
+  font-weight: 600;
+  width: 80%;
+}
+
+.setting-btn-group {
+  margin: 0 25px;
+  text-align: right;
+  /* margin-top: 250px;
+  padding: 0 25px;
+  display: flex;
+  justify-content: flex-end; */
+}
+
+.setting-btn-group .setting-prev-btn {
+  background: transparent;
+  outline: none;
+  border: none;
+  color: #fff;
+  font-weight: bolder;
+  font-size: 15px;
+}
+
+.setting-btn-group .setting-next-btn {
+  
+  margin-left: 20px;
+  background: #ff0000;
+  width: 163px;
+  height: 50px;
+  outline: none;
+  border: none;
+  color: #fff;
+  font-weight: bolder;
+  font-size: 15px;
+}
+
+.setting-job-container {
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.job-name {
+  margin: 10px 0;
+  width: 50%;
+  text-align: center;
+}
+
+.job-input-container {
+  width: 50%;
+  box-sizing: border-box;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.job-input {
+  width: 90px;
+  border: 0;
+  background: transparent;
+  border-bottom: 1px solid #fff;
+  line-height: 250%;
+  outline: none;
+  color: #fff;
+  text-align: right;
+}
+
+.job-input-unit {
+  margin-left: 22px;
+  color: #fff;
+}
+
+
+/* Check Role */
+
+.daytime {
+  height: 100%;
+  background: #fff;
+  color: #000;
+}
+
+.night {
+  height: 100%;
+  background: #000;
+  color: #fff;
+}
+
+.check {
+  color: #ff0000;
+}
+
+.game-title {
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0;
+  padding: 20px 0;
+  color: #ff0000;
+}
+
+.daytime .game-title {
+  color: #000;
+}
+
+.game-content {
+  height: 375px;
+  margin-top: 100px;
+  text-align: center;
+}
+
+.game-content .content-description {
+  font-size: 18px;
+  height: 160px;
+}
+
+.game-content .player-name {
+  color: #fff;
+  height: 70px;
+  font-size: 24px;
+}
+
+.game-content .player-job {
+  color: #ff0000;
+  font-size: 24px;
+}
+
+.game-content .check-mafia-sub {
+  color: #fff;
+  font-size: 14px;
+  margin: 20px 0;
+}
+
+.game-content .check-mafia-co {
+  display: flex;
+  flex-wrap: wrap;
+  width: 280px;
+  margin: 0 auto;
+  text-align: center;
+  justify-content: space-evenly;
+  font-weight: 500;
+}
+
+.check-mafia-co .mafia-co-person {
+  flex: 1;
+  color: #fff;
+  text-align: center;
+}
+
+.btn-lg {
+  display: block;
+  width: 190px;
+  height: 44px;
+  background: #ff0000;
+  font-size: 15px;
+  border: 0;
+  outline: 0;
+  margin: 0 auto;
+  font-weight: bolder;
+}
+
+/* Game */
+
+.daytime {
+  height: 100%;
+  background: #fff;
+  text-align: center;
+  color: #000;
+}
+
+.daytime .game-title {
+
+}
+
+.daytime .game-content {
+
+}
+
+.daytime > h1 {
+  margin: 0;
+  padding: 20px 0;
+}
+
+.daytime .container, .night .container {
+  margin-top: 115px;  
+  height: 375px;
+}
+
+.daytime .game-content .voter {
+  color: #ff0000;
+  font-size: 24px;
+}
+
+.game-content .vote-btn-container {
+  margin: 71px auto 0px;
+  /* width: 275px; */
+  /* display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: nowrap; */
+  width: 90%;
+  overflow-x: scroll;
+}
+
+.game-content .vote-btn-container::-webkit-scrollbar {
+  display: none;
+}
+
+.game-content .vote-btn-container div {
+  width: max-content;
+  margin: 0 auto;
+}
+
+.btn-sm {
+  padding: 10px 30px;
+  text-align: center;
+  outline: none;
+  font-weight: bolder;
+  font-size: 16px;
+  border: 0;
+}
+
+.btn-sm + .btn-sm {
+  margin-left: 20px; 
+}
+
+.btn-lg {
+  display: block;
+  width: 190px;
+  height: 45px;
+  font-size: 15px;
+  border: 0;
+  outline: 0;
+  margin: 0 auto;
+  border: 0;
+}
+
+.daytime .game-content .vote-btn-container .btn-sm {
+  color: #ff0000;
+  background: #000;
+}
+
+.daytime .btn-lg {
+  background: #000;
+  color: #ff0000;
+}
+
+.night {
+  height: 100%;
+  background: #000;
+  text-align: center;
+  color: #ff0000;
+}
+
+.night > h1 {
+  margin: 0;
+  padding: 20px 0;
+}
+
+.night > h2 {
+  margin-top: 115px;
+}
+
+.night .btn-sm {
+  background: #ff0000;
+  color: #fff;
+}
+
+.night .btn-lg {
+  background: #ff0000;
+  color: #000;
+}
+
+.night .night-mafia-vote-btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 275px;
+  height: 196px;
+  margin: 20px auto 0;
+}
+
+.night .night-mafia-vote-btn-container .mafia-vote-btn {
+  width: 45px;
+  height: 45px;
+  background: #ff0000;
+  color: #fff;
+  text-align: center;
+  border: 0;
+  outline: 0;
+}
+
+/* Police */
+
+.police-btn-container {
+  margin: 80px auto 0;
+  width: 275px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.police-btn {
+  width: 45px;
+  height: 45px;
+  background: #ff0000;
+  color: #fff;
+  text-align: center;
+  border: 0;
+  outline: 0;
+}
+
+/* Doctor */
+.btn-container {
+  display: flex;
+  width: 275px;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 50px auto 0;
+}
+
+.btn-container .btn {
+  width: 45px;
+  height: 45px;
+  background: #ff0000;
+  color: #fff;
+  text-align: center;
+  border: 0;
+  outline: 0;
+}
+
+.result-img {
+  width: 122px;
+}
+
+.result-subject {
+  color: #fff;
+  margin: 36px 0;
+}
+
+.result-container {
+  width: 209px;
+  margin: 0 auto 45px;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-around;
+}
+
+.result-item .result-name {
+  font-size: 24px;
+  color: #ff0000;
+}
+
+.result-item .result-job {
+  font-size:18px;
+  color: #fff;
+}
+
+@media(min-width: 1024px) {
+  .setting-people-name {
+    width: 25%;
+  }
 }

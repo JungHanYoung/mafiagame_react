@@ -1,76 +1,167 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Map } from 'immutable'
+import PropTypes from 'prop-types'
+import ImmutablePropTypes from 'react-immutable-proptypes'
+
 // Component
 import Mafia from './Mafia';
 import Doctor from './Doctor';
 import Police from './Police';
 import Citizen from './Citizen';
 import Result from './Result';
-import { useGame } from '../../context/GameContext';
 import { JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE, JOB_NAME_OF_DOCTOR, JOB_NAME_OF_CITIZEN } from '../../contants/Job';
 
+
 class Night extends React.Component {
-	state = {
-		confirmed: false
-	};
-	handleConfirmAndCheck = () => {
-		const { confirmed } = this.state;
+	constructor(props) {
+		super(props)
+
+		const { players } = this.props;
+
+		this.state = {
+			confirmed: false,
+			nightTimeOrder: 0,
+			isEndVote: false,
+			mafiaVotes: players
+				.filter(player => player.get('jobName') === JOB_NAME_OF_MAFIA)
+				.reduce((acc, cur) => acc.set(cur.get('name'), ''), Map({})),
+			doctorVotes: players
+				.filter(player => player.get('jobName') === JOB_NAME_OF_DOCTOR)
+				.reduce((acc, cur) => acc.set(cur.get('name'), ''), Map({})),
+			revoted: false
+		}
+	}
+
+	changeNightTimeOrder = () => {
+		const { nightTimeOrder } = this.state;
+		const { players } = this.props
+		if (players.size - 1 === nightTimeOrder) {
+			this.setState({
+				isEndVote: true
+			})
+		} else {
+			this.setState({
+				nightTimeOrder: nightTimeOrder + 1
+			})
+		}
+	}
+
+	toggleConfirmed = () => {
+		this.setState(state => ({
+			confirmed: !state.confirmed
+		}))
+	}
+
+	voteByMafia = (voter) => (name) => {
+		const { mafiaVotes } = this.state
 		this.setState({
-			confirmed: !confirmed
-		});
-	};
+			mafiaVotes: mafiaVotes.set(voter, name)
+		})
+	}
+
+	voteByDoctor = (voter) => (name) => {
+		const { doctorVotes } = this.state
+		this.setState({
+			doctorVotes: doctorVotes.set(voter, name)
+		})
+	}
+
+	voteAgain = () => {
+
+		const { players } = this.props;
+
+		this.setState({
+			confirmed: false,
+			nightTimeOrder: 0,
+			mafiaVotes: players
+				.filter(player => player.get('jobName') === JOB_NAME_OF_MAFIA)
+				.reduce((acc, cur) => acc.set(cur.get('name'), ''), Map({})),
+			isEndVote: false,
+			revoted: true
+		})
+	}
+
 	render() {
-		const { confirmed } = this.state;
-		const { nightTimeOrder, players, isEndVoteNight } = this.props;
+		const { confirmed, nightTimeOrder, isEndVote, mafiaVotes, doctorVotes, revoted } = this.state;
+		const { players, changeDayAndNight, deletePlayer, moveToResult } = this.props;
 
 		return (
 			<>
-				{isEndVoteNight ? (
-					<Result />
+				{isEndVote ? (
+					<Result
+						mafiaVotes={mafiaVotes}
+						doctorVotes={doctorVotes}
+						deletePlayer={deletePlayer}
+						changeDayAndNight={changeDayAndNight}
+						voteAgain={this.voteAgain}
+						players={players}
+						moveToResult={moveToResult}
+					/>
 				) : (
 						<>
-							<h1>{players[nightTimeOrder].name}의 차례입니다.</h1>
 							{confirmed ? (
 								<>
-									{players[nightTimeOrder].jobName === JOB_NAME_OF_MAFIA ? (
-										<Mafia handleConfirmAndCheck={this.handleConfirmAndCheck} />
-									) : players[nightTimeOrder].jobName === JOB_NAME_OF_POLICE ? (
-										<Police handleConfirmAndCheck={this.handleConfirmAndCheck} />
-									) : players[nightTimeOrder].jobName === JOB_NAME_OF_DOCTOR ? (
-										<Doctor handleConfirmAndCheck={this.handleConfirmAndCheck} />
-									) : players[nightTimeOrder].jobName === JOB_NAME_OF_CITIZEN ? (
-										<Citizen handleConfirmAndCheck={this.handleConfirmAndCheck} />
+									{players.getIn([nightTimeOrder, 'jobName']) === JOB_NAME_OF_MAFIA ? (
+										<Mafia
+											players={players}
+											mafiaVotes={mafiaVotes}
+											handleVote={this.voteByMafia(players.getIn([nightTimeOrder, 'name']))}
+											toggleConfirmed={this.toggleConfirmed}
+											changeNightTimeOrder={this.changeNightTimeOrder}
+										/>
+									) : players.getIn([nightTimeOrder, 'jobName']) === JOB_NAME_OF_POLICE ? (
+										<Police
+											players={players}
+											me={players.get(nightTimeOrder)}
+											toggleConfirmed={this.toggleConfirmed}
+											changeNightTimeOrder={this.changeNightTimeOrder}
+											revoted={revoted}
+										/>
+									) : players.getIn([nightTimeOrder, 'jobName']) === JOB_NAME_OF_DOCTOR ? (
+										<Doctor
+											players={players}
+											handleVote={this.voteByDoctor(players.getIn([nightTimeOrder, 'name']))}
+											toggleConfirmed={this.toggleConfirmed}
+											changeNightTimeOrder={this.changeNightTimeOrder}
+											revoted={revoted}
+										/>
+									) : players.getIn([nightTimeOrder, 'jobName']) === JOB_NAME_OF_CITIZEN ? (
+										<Citizen
+											toggleConfirmed={this.toggleConfirmed}
+											changeNightTimeOrder={this.changeNightTimeOrder}
+										/>
 									) : null}
 								</>
 							) : (
-									<button onClick={this.handleConfirmAndCheck}>다음</button>
+									<>
+										<div className="game-content">
+											<h1>{players.getIn([nightTimeOrder, 'name'])}의 차례입니다.</h1>
+										</div>
+										<button
+											className="btn-lg"
+											onClick={this.toggleConfirmed}>역할 확인</button>
+									</>
 								)}
 						</>
 					)}
+
+
 				{/* {nightTimeOrder === 'mafia' && <Mafia />}
-				{nightTimeOrder === 'doctor' && <Doctor />}
-				{nightTimeOrder === 'police' && <Police />}
-				{nightTimeOrder === 'result' && <Result />} */}
+					{nightTimeOrder === 'doctor' && <Doctor />}
+					{nightTimeOrder === 'police' && <Police />}
+					{nightTimeOrder === 'result' && <Result />} */}
 			</>
 		);
 	}
 }
 
 Night.propTypes = {
-	players: PropTypes.arrayOf(
-		PropTypes.shape({
-			name: PropTypes.string,
-			daytimeVoted: PropTypes.number,
-			jobName: PropTypes.string,
-			code: PropTypes.number
-		})
-	),
-	isEndVoteNight: PropTypes.bool.isRequired,
-	nightTimeOrder: PropTypes.number.isRequired
+	players: ImmutablePropTypes.list,
+	changeDayAndNight: PropTypes.func.isRequired,
+	deletePlayer: PropTypes.func.isRequired,
+	moveToResult: PropTypes.func.isRequired
+	// isEndVoteNight: PropTypes.bool.isRequired,
+	// nightTimeOrder: PropTypes.number.isRequired
 };
 
-export default useGame(({ state, actions }) => ({
-	players: state.players,
-	isEndVoteNight: state.isEndVoteNight,
-	nightTimeOrder: state.nightTimeOrder
-}))(Night);
+export default Night

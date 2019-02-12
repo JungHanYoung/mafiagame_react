@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Night > Police 컴포넌트 테스트 스냅샷 1`] = `
+<Fragment>
+  <div
+    className="game-content"
+  >
+    <p
+      className="content-description"
+    >
+      경찰의 차례입니다.
+      <br />
+       한 사람의 직업을 확인할 수 있습니다.
+    </p>
+    <div
+      className="vote-btn-container"
+    >
+      <div>
+        <button
+          className="btn-sm"
+          key="police-select-0"
+          onClick={[Function]}
+        >
+          한영
+        </button>
+        <button
+          className="btn-sm"
+          key="police-select-1"
+          onClick={[Function]}
+        >
+          지은
+        </button>
+        <button
+          className="btn-sm"
+          key="police-select-2"
+          onClick={[Function]}
+        >
+          대용
+        </button>
+      </div>
+    </div>
+  </div>
+</Fragment>
+`;
+
+exports[`Night > Police 컴포넌트 테스트 직업 확인 후 렌더링 1`] = `
+<Fragment>
+  <div
+    className="game-content"
+  >
+    <p
+      className="content-description"
+    >
+      경찰의 차례입니다.
+      <br />
+       한 사람의 직업을 확인할 수 있습니다.
+    </p>
+    <div>
+      한영
+      님의 직업은 
+      CITIZEN
+      입니다.
+    </div>
+  </div>
+  <button
+    className="btn-lg"
+    onClick={[Function]}
+  >
+    다음
+  </button>
+</Fragment>
+`;

@@ -1,6 +1,5 @@
 import React, { createContext, Component } from 'react';
 import createUseConsumer from '../lib/createUseConsumer';
-import { Object } from 'es6-shim';
 import { setPlayers } from '../utils/setPlayers';
 
 // Constant 상수
@@ -34,7 +33,6 @@ const { Provider, Consumer: GameConsumer } = Context;
  * dayTimeOrder: TURN_OF_DISCUSS_AT_DAY | TURN_OF_VOTE_AT_DAY | TURN_OF_RESULT_AT_DAY
  * 
  * dayTimeVotedPerson: string	- 낮에 투표를 가장 많이 받은 사람
- * nightTimeOrder: number		- 밤에서의 플레이어 순서(인덱스)
  * isEndVoteDayTime: boolean	- 낮에 투표가 끝났는지의 여부
  * isReVoted: boolean			- 재투표를 해야되는 지의 여부
  * isEndVoteNight: boolean		- 밤에 투표가 끝났는지 여부
@@ -51,7 +49,6 @@ class GameProvider extends Component {
 	// 데이터
 	state = {
 		people: [],
-		players: [],
 		jobs: [
 			{
 				code: 1,
@@ -95,20 +92,19 @@ class GameProvider extends Component {
 				jobName: JOB_NAME_OF_CITIZEN,
 				count: 0
 			}
-		],
-		isEndGame: false,
-		gameOrder: DAY_TIME,
-		dayTimeOrder: TURN_OF_DISCUSS_AT_DAY,
-		dayTimeVotedPerson: '',
-		nightTimeOrder: 0,
-		isEndVoteDayTime: false,
-		isReVoted: false,
-		isEndVoteNight: false,
-		mafiaVotes: [],
-		doctorVotes: [],
-		victory: '',
-		//
-		killed: ''
+		]
+		// isEndGame: false,
+		// gameOrder: DAY_TIME,
+		// dayTimeOrder: TURN_OF_DISCUSS_AT_DAY,
+		// dayTimeVotedPerson: '',
+		// isEndVoteDayTime: false,
+		// isReVoted: false,
+		// isEndVoteNight: false,
+		// mafiaVotes: [],
+		// doctorVotes: [],
+		// victory: '',
+		// //
+		// killed: ''
 	};
 
 	actions = {
@@ -127,6 +123,7 @@ class GameProvider extends Component {
 				})
 			}
 		},
+		// Setting > input
 		onChangeRandomJobCount: (code, value) => {
 			const { randomJobs } = this.state;
 			if (value >= 0) {
@@ -135,7 +132,7 @@ class GameProvider extends Component {
 				})
 			}
 		},
-		// Setting > render > input - 세팅에서 플레이어이름 입력 인풋 핸들링
+		// Setting > input - 세팅에서 플레이어이름 입력 인풋 핸들링
 		onChangePeopleName: (i, value) => {
 			const { people } = this.state;
 
@@ -278,7 +275,6 @@ class GameProvider extends Component {
 			const { players } = this.state;
 			this.setState({
 				gameOrder: NIGHT_TIME,
-				nightTimeOrder: 0,
 				isEndVoteDayTime: false,
 				mafiaVotes: players.map(person => ({
 					name: person.name,
@@ -292,49 +288,26 @@ class GameProvider extends Component {
 			});
 		},
 		// Mafia > handleSelectBtn	- 마피아가 제외시킬 사람 투표
-		votePersonAtMafiaTime: (name) => {
-			const { nightTimeOrder, players, mafiaVotes } = this.state;
-			const mafiaName = players[nightTimeOrder].name
-			if (nightTimeOrder < players.length - 1) {
+		votePersonAtMafiaTime: (name, voter) => {
+			const { mafiaVotes } = this.state;
+			return new Promise((resolve, reject) => {
 				this.setState({
 					mafiaVotes: mafiaVotes.map(person =>
-						person.name === name ? { ...person, voter: person.voter.concat(mafiaName) } : person
-					),
-					nightTimeOrder: nightTimeOrder + 1
+						person.name === name ? { ...person, voter: person.voter.concat(voter) } : person
+					)
 				})
-				// this.setState({
-				// 	mafiaVotes: {
-				// 		...mafiaVotes,
-				// 		[name]: mafiaVotes.hasOwnProperty(name) ? mafiaVotes[name] + 1 : 1
-				// 	},
-				// 	nightTimeOrder: nightTimeOrder + 1
-				// });
-			} else {
-				this.setState({
-					mafiaVotes: mafiaVotes.map(person =>
-						person.name === name ? { ...person, voter: person.voter.concat(mafiaName) } : person
-					),
-					nightTimeOrder: 0,
-					isEndVoteNight: true
-				});
-			}
+				resolve()
+			})
 		},
 		// Doctor > handleSelectBtn - 의사가 투표
-		votePersonAtDoctor: (name) => {
-			const { players, nightTimeOrder, doctorVotes } = this.state;
-			const doctorName = players[nightTimeOrder].name
-			if (nightTimeOrder < players.length - 1) {
+		votePersonAtDoctor: (name, voter) => {
+			const { doctorVotes } = this.state;
+			return new Promise((resolve, reject) => {
 				this.setState({
-					doctorVotes: doctorVotes.map(person => person.name === name ? { ...person, voter: person.voter.concat(doctorName) } : person),
-					nightTimeOrder: nightTimeOrder + 1
+					doctorVotes: doctorVotes.map(person => person.name === name ? { ...person, voter: person.voter.concat(voter) } : person),
 				});
-			} else {
-				this.setState({
-					doctorVotes: doctorVotes.map(person => person.name === name ? { ...person, voter: person.voter.concat(doctorName) } : person),
-					nightTimeOrder: 0,
-					isEndVoteNight: true
-				});
-			}
+				resolve()
+			})
 		},
 		// Result(Night) > componentWillMount - 밤 투표 결과 셋팅, 승리여부, 마피아, 의사
 		resultAtNight: () => {
@@ -400,7 +373,6 @@ class GameProvider extends Component {
 		// WhetherVictory > button - 재투표하기로 결과가 나왔을 때, 재투표 버튼 핸들링
 		voteAgainAtNight: () => {
 			this.setState({
-				nightTimeOrder: 0,
 				isReVoted: false,
 				mafiaVotes: {},
 				doctorVotes: {}
@@ -428,7 +400,6 @@ class GameProvider extends Component {
 					gameOrder: DAY_TIME,
 					dayTimeOrder: TURN_OF_DISCUSS_AT_DAY,
 					dayTimeVotedPerson: '',
-					nightTimeOrder: 0,
 					isEndVoteDayTime: false,
 					isEndVoteNight: false,
 					mafiaVotes: {},
@@ -437,19 +408,13 @@ class GameProvider extends Component {
 				() => console.log(this.state.jobs)
 			);
 		},
-		// Citizen | Police > handleNextOrder - 다음 플레이어 투표로 넘어감 (Mafia는 따로 핸들링)
-		nextOrder: () => {
-			const { nightTimeOrder, players } = this.state;
-			if (nightTimeOrder < players.length - 1) {
+		setIsEndVoteAtNight: () => {
+			return new Promise((resolve, reject) => {
 				this.setState({
-					nightTimeOrder: nightTimeOrder + 1
-				});
-			} else {
-				this.setState({
-					nightTimeOrder: 0,
 					isEndVoteNight: true
-				});
-			}
+				})
+				resolve(0)
+			})
 		}
 	};
 

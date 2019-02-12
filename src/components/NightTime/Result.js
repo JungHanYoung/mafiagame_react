@@ -1,58 +1,118 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useGame } from '../../context/GameContext';
-import WhetherVictory from '../common/WhetherVictory';
-import { JOB_NAME_OF_DOCTOR } from '../../contants/Job';
+import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import ImmutablePropTypes from 'react-immutable-proptypes'
+import { JOB_NAME_OF_MAFIA } from '../../contants/Job';
 
 class Result extends React.Component {
-	componentWillMount() {
-		this.props.resultAtNight();
+
+	get mafiaArray() {
+		const { mafiaVotes } = this.props;
+
+		return Object.values(mafiaVotes.toJS()).reduce(
+			(prev, cur) => !!prev[cur] ? { ...prev, [cur]: prev[cur] + 1 } : { ...prev, [cur]: 1 }
+			, {})
 	}
+	get saveSetByDoctor() {
+		const { doctorVotes } = this.props;
+
+		return new Set(Object.values(doctorVotes.toJS()))
+	}
+
+	get isRevoted() {
+
+		const mafiaArray = this.mafiaArray
+
+		let max = 0;
+		let flag = false;
+		for (let key in mafiaArray) {
+			if (max < mafiaArray[key]) {
+				max = mafiaArray[key]
+				flag = false
+			} else if (max === mafiaArray[key]) {
+				flag = true
+			}
+		}
+
+		return flag
+	}
+
+	get killPersonName() {
+		const savePeople = this.saveSetByDoctor
+		const mafiaArray = this.mafiaArray
+		const killPersonName = Object.keys(mafiaArray).reduce((acc, cur) => {
+			return mafiaArray[acc] < mafiaArray[cur] ? cur : acc
+		})
+		return savePeople.has(killPersonName)
+			? null : killPersonName
+	}
+
+	get isMafiaVictory() {
+		const killPersonName = this.killPersonName
+		if (killPersonName) {
+			const { players } = this.props
+			const after = players
+				.filter(player => player.get('name') !== killPersonName)
+
+			const mafias = after.filter(player => player.get('jobName') === JOB_NAME_OF_MAFIA)
+			const citizens = after.filter(player => player.get('jobName') !== JOB_NAME_OF_MAFIA)
+			if (mafias.size >= citizens.size) {
+				return true
+			}
+			// else if(mafias.size === 0) {
+			// 	return 'citizen'
+			// }
+		}
+		return false;
+	}
+
+	handleKillAndNext = () => {
+		const { changeDayAndNight, deletePlayer } = this.props
+		deletePlayer(this.killPersonName)
+		changeDayAndNight()
+	}
+
 	render() {
-		const { players, killed } = this.props;
-		const existsDoctor = players.filter((player) => player.jobName === JOB_NAME_OF_DOCTOR).length > 0;
+		const { changeDayAndNight, voteAgain, moveToResult } = this.props
+		const { killPersonName, isRevoted, isMafiaVictory } = this
 		return (
 			<>
-				<span>밤 투표 결과</span>
-				{!!killed
-					? (
-						<div>
-							마피아는 {killed}를 죽{existsDoctor ? `이고, 의사는 살리지 못하였습니다.` : `였습니다.`}
+				{isRevoted ? (
+					<>
+						<div className="game-content">
+							<p className="content-description">밤 투표 결과</p>
+							<h4>마피아 투표가 동률이 났습니다.</h4>
+							<button className="btn-lg" onClick={changeDayAndNight}>낮으로 갑니다.</button>
+							<button className="btn-lg" onClick={voteAgain}>재투표로 갑니다.</button>
 						</div>
-					) : (
-						<div>의사가 마피아로부터 시민을 살렸습니다.</div>
-					)}
-				{/*doMafiaKill && doDoctorSave ? 
-				//  1. 마피아의 의견이 일치하였고
-				//  2. 의사의 의견이 일치하였다.
-				(
-					
+					</>
+				) : isMafiaVictory ? (
 					<>
-						{nameVotedByDoctor === nameVotedByMafia ? (
-							<div>의사가 마피아로부터 {nameVotedByDoctor}님을 살렸습니다.</div>
-						) : (
-							<div>
-								마피아는 {nameVotedByMafia}를 죽{existsDoctor ? `이고, 의사는 살리지 못하였습니다.` : `였습니다.`}
+						<div className="game-content">
+							<p className="content-description">밤 투표 결과</p>
+							<h4>마피아가 {killPersonName}님을 죽였습니다.</h4>
+							<h3>마피아가 승리하였습니다.</h3>
+						</div>
+						<button
+							className="btn-lg"
+							onClick={moveToResult}>메인으로</button>
+					</>
+
+				) : <>
+							<div className="game-content">
+								<p className="content-description">밤 투표 결과</p>
+								{killPersonName ? (
+									<h4>마피아가 {killPersonName}님을 죽였습니다.</h4>
+								) : (
+										<h4>마피아가 시민을 죽이지 못하였습니다.</h4>
+									)}
 							</div>
-						)}
-					</>
-				) : (
-					// 1.마피아나 의사 둘 중 한 역할의 의견일치가 되지 않았을 때
-					// -> 의사가 살린 사람은 보여지지 않아야
-					<>
-						{doMafiaKill ? (
-							<>
-								<h3>마피아가 {nameVotedByMafia}를 죽였습니다.</h3>
-								{!doDoctorSave && <h3>의사들의 의견이 일치하지 않았습니다.</h3>}
-							</>
-						) : (
-							// 마피아의 의견이 일치하지 않았다.
-							<div>마피아들의 의견이 일치하지 않았습니다.</div>
-						)}
-					</>
-				)*/}
-				<WhetherVictory />
+							<button
+								className="btn-lg"
+								onClick={this.handleKillAndNext}>낮으로 갑니다.</button>
+						</>}
 			</>
+
 		);
 	}
 }
@@ -60,29 +120,13 @@ class Result extends React.Component {
 // 마피아는 <누구>를 죽였이려 하였으나 의사가 살렸습니다.
 
 Result.propTypes = {
-	players: PropTypes.arrayOf(
-		PropTypes.shape({
-			name: PropTypes.string.isRequired,
-			daytimeVoted: PropTypes.number,
-			jobName: PropTypes.string.isRequired,
-			code: PropTypes.number
-		})
-	),
-	mafiaVotes: PropTypes.shape({
-		[PropTypes.string]: PropTypes.number
-	}),
-	doctorVotes: PropTypes.shape({
-		[PropTypes.string]: PropTypes.number
-	}),
-	resultAtNight: PropTypes.func.isRequired,
-	killed: PropTypes.string
+	mafiaVotes: ImmutablePropTypes.map,
+	doctorVotes: ImmutablePropTypes.map,
+	players: ImmutablePropTypes.list,
+	changeDayAndNight: PropTypes.func.isRequired,
+	deletePlayer: PropTypes.func.isRequired,
+	voteAgain: PropTypes.func.isRequired,
+	moveToResult: PropTypes.func.isRequired
 };
 
-export default useGame(({ state, actions }) => ({
-	players: state.players,
-	mafiaVotes: state.mafiaVotes,
-	doctorVotes: state.doctorVotes,
-	resultAtNight: actions.resultAtNight,
-	//
-	killed: state.killed
-}))(Result);
+export default withRouter(Result)

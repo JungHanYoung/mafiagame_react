@@ -25,16 +25,16 @@ export const setPlayers = (people, jobs, randomJobs) => {
 		// 설정 된 직업 카운트 0일 경우
 		if (!tmpJobs[randomJobsIndex].count) {
 			// 필수 직업들 배치 모두 끝난 경우 나머지 랜덤직업으로 세팅
-			if(tmpJobs.length === 1 && hasRandomJobs){
+			if (tmpJobs.length === 1 && hasRandomJobs) {
 				tmpJobs = randomJobs.map((job) => ({ ...job }));
 				hasRandomJobs = false;
-			}else{
+			} else {
 				// 아직 필수 직업이 남은 경우 해당 직업만 배열에서 제거
 				tmpJobs.splice(randomJobsIndex, 1);
 			}
 		}
 	});
-	console.table(players);
+	// console.table(players);
 
 	return players;
 };
