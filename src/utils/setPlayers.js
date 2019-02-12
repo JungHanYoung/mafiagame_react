@@ -17,8 +17,14 @@ export const setPlayers = (people, minJobs, maxJobs) => {
 
 	// 최대 직업 이름 배열 만들고 순서 섞기
 	let randJobNameList = [];
-	maxJobs.forEach((job) => {
-		for(let i=0; i<job.count; i++){
+	//maxJobs.forEach((job) => {
+	//	for(let i=0; i<job.count; i++){
+	//		randJobNameList.push(job.jobName);
+	//	}
+	//});
+	maxJobs.forEach((job, idx) => {
+		let maxJobCnt = job.count - maxJobs[idx].count;
+		for(let i=0; i<maxJobCnt; i++){
 			randJobNameList.push(job.jobName);
 		}
 	});
