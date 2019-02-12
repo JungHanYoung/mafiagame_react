@@ -1,40 +1,47 @@
-export const setPlayers = (people, jobs, randomJobs) => {
+export const setPlayers = (people, minJobs, maxJobs) => {
 	/*
 	 * people 배열과 jobs 배열을 받아 players 반환
 	 */
+
 	let players = [];
-	let tmpJobs = [];
-	tmpJobs = jobs.map((job) => ({ ...job }));
 
-	let hasRandomJobs = randomJobs.length ? true : false;
-
-	people.forEach((person, index) => {
-		let randomJobsIndex;
-		// count가 0인 직업 배열에서 제거
-		tmpJobs = tmpJobs.filter((job) => (job.count));
-		// 직업 랜덤 인덱스
-		randomJobsIndex = Math.floor(Math.random() * tmpJobs.length);
-		// 랜덤 직업 설정
-		players[index] = {
-			name: person,
-			code: tmpJobs[randomJobsIndex].code,
-			jobName: tmpJobs[randomJobsIndex].jobName
-		};
-		// 설정된 직업 카운트 다운
-		tmpJobs[randomJobsIndex].count -= 1;
-		// 설정 된 직업 카운트 0일 경우
-		if (!tmpJobs[randomJobsIndex].count) {
-			// 필수 직업들 배치 모두 끝난 경우 나머지 랜덤직업으로 세팅
-			if (tmpJobs.length === 1 && hasRandomJobs) {
-				tmpJobs = randomJobs.map((job) => ({ ...job }));
-				hasRandomJobs = false;
-			} else {
-				// 아직 필수 직업이 남은 경우 해당 직업만 배열에서 제거
-				tmpJobs.splice(randomJobsIndex, 1);
-			}
+	// 직업 이름 배열 만들기
+	let jobNameList = [];
+	minJobs.forEach((job) => {
+		for(let i=0; i<job.count; i++){
+			jobNameList.push(job.jobName);
 		}
 	});
-	// console.table(players);
+	// 순서 섞기
+	shuffleArray(jobNameList);
 
+	// 최대 직업 이름 배열 만들고 순서 섞기
+	let randJobNameList = [];
+	maxJobs.forEach((job) => {
+		for(let i=0; i<job.count; i++){
+			randJobNameList.push(job.jobName);
+		}
+	});
+	shuffleArray(randJobNameList);
+
+	// 두 배열 합치기 뒤에 최대 직업이름이 들어가도록
+	let totalJobNameList = [];
+	totalJobNameList = jobNameList.concat(randJobNameList);
+
+	people.forEach((person, idx) => {
+		players[idx] = {
+			name: person,
+			jobName: totalJobNameList[idx]
+		};
+	});
+	console.log(players);
 	return players;
 };
+
+// 배열 섞는 함수
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
