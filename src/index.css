@@ -36,6 +36,12 @@ body {
   align-items: center;
 }
 
+.main-container .btn-lg {
+  text-align: center;
+  padding: 15px 20px;
+  text-decoration: none;
+}
+
 .main-img {
   margin-top: 50px;
   width: 120px;
@@ -48,7 +54,7 @@ body {
 }
 
 .btn-main {
-  padding: 10px 20px;
+  padding: 15px 20px;
   margin-bottom: 20px;
   background: #ff0000;
   color: #000;
@@ -515,4 +521,10 @@ body {
 .result-item .result-job {
   font-size:18px;
   color: #fff;
+}
+
+@media(min-width: 1024px) {
+  .setting-people-name {
+    width: 25%;
+  }
 }
