@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { JOB_NAME_OF_MAFIA } from '../../contants/Job';
@@ -16,7 +15,9 @@ class Result extends React.Component {
 	get saveSetByDoctor() {
 		const { doctorVotes } = this.props;
 
-		return new Set(Object.values(doctorVotes.toJS()))
+		const set = new Set(Object.values(doctorVotes.toJS()))
+		// console.log('doctor Set:', set)
+		return set
 	}
 
 	get isRevoted() {
@@ -40,9 +41,9 @@ class Result extends React.Component {
 	get killPersonName() {
 		const savePeople = this.saveSetByDoctor
 		const mafiaArray = this.mafiaArray
-		const killPersonName = Object.keys(mafiaArray).reduce((acc, cur) => {
-			return mafiaArray[acc] < mafiaArray[cur] ? cur : acc
-		})
+		const killPersonName = Object.keys(mafiaArray).reduce((acc, cur) => mafiaArray[acc] < mafiaArray[cur] ? cur : acc)
+		// console.log(killPersonName);
+		// console.log(savePeople.has(killPersonName))
 		return savePeople.has(killPersonName)
 			? null : killPersonName
 	}
@@ -68,7 +69,10 @@ class Result extends React.Component {
 
 	handleKillAndNext = () => {
 		const { changeDayAndNight, deletePlayer } = this.props
-		deletePlayer(this.killPersonName)
+		console.log(this.killPersonName)
+		if (this.killPersonName) {
+			deletePlayer(this.killPersonName)
+		}
 		changeDayAndNight()
 	}
 
@@ -129,4 +133,4 @@ Result.propTypes = {
 	moveToResult: PropTypes.func.isRequired
 };
 
-export default withRouter(Result)
+export default Result

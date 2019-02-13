@@ -52,10 +52,10 @@ class Night extends React.Component {
 		}))
 	}
 
-	voteByMafia = (voter) => (name) => {
+	voteByMafia = (mafia) => (name) => {
 		const { mafiaVotes } = this.state
 		this.setState({
-			mafiaVotes: mafiaVotes.set(voter, name)
+			mafiaVotes: mafiaVotes.set(mafia, name)
 		})
 	}
 

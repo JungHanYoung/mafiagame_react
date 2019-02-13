@@ -57,9 +57,8 @@ exports[`Night > Police 컴포넌트 테스트 직업 확인 후 렌더링 1`] =
     </p>
     <div>
       한영
-      님의 직업은 
-      CITIZEN
-      입니다.
+      님은 
+      마피아가 아닙니다.
     </div>
   </div>
   <button

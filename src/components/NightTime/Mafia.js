@@ -13,17 +13,20 @@ class Mafia extends React.Component {
 	};
 	render() {
 		const { players, mafiaVotes } = this.props;
+		const mafias = Object.keys(mafiaVotes.toJS()).filter(mafia => mafiaVotes.get(mafia))
 		return (
 			<div className="game-content">
 				<p className="content-description">당신은 마피아 입니다.<br />죽일 사람을 선택하십시오.</p>
-				<div>마피아 투표 현황</div>
-				{Object.keys(mafiaVotes.toJS())
-					.filter(key => mafiaVotes.get(key))
-					.map(key => (
-						<div key={`mafia-vote-co-${key}`}>
-							<span>{key}</span><span>{mafiaVotes.get(key)}</span>
-						</div>
-					))}
+				{mafias.length > 0 && (
+					<>
+						<div>마피아 투표 현황</div>
+						{mafias.map(mafia => (
+							<div key={`mafia-vote-co-${mafia}`}>
+								<span>{mafia}: </span><span>{mafiaVotes.get(mafia)}</span>
+							</div>
+						))}
+					</>
+				)}
 				<div className="vote-btn-container">
 					<div>
 						{players

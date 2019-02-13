@@ -28,6 +28,8 @@ class Result extends React.Component {
 		const after = players
 			.filter(player => player.get('name') !== this.votedPerson.get('name'))
 
+		// console.log(after);
+
 		const mafiaSize = after
 			.filter(player => player.get('jobName') === JOB_NAME_OF_MAFIA)
 			.size
@@ -46,15 +48,18 @@ class Result extends React.Component {
 
 	changeAtDay = () => {
 		const { changeDayTimeOrder, deletePlayer } = this.props;
+		const { isReVoted } = this
 		changeDayTimeOrder()
-
-		deletePlayer(this.votedPerson.get('name'))
+		if (!isReVoted)
+			deletePlayer(this.votedPerson.get('name'))
 	}
 
 	render() {
 
 		const { moveRevote, moveToResult } = this.props
 		const { isReVoted } = this
+
+		// console.log(isVictory)
 
 		return (
 			<div className="game-content">
@@ -96,18 +101,11 @@ class Result extends React.Component {
 }
 
 Result.propTypes = {
-	// isReVoted: PropTypes.bool.isRequired,
-	// dayTimeVotedPerson: PropTypes.shape({
-	// 	code: PropTypes.number,
-	// 	daytimeVoted: PropTypes.number.isRequired,
-	// 	jobName: PropTypes.oneOf([JOB_NAME_OF_CITIZEN, JOB_NAME_OF_DOCTOR, JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE])
-	// 		.isRequired,
-	// 	name: PropTypes.string.isRequired
-	// }).isRequired
 	players: ImmutablePropTypes.list,
 	changeDayTimeOrder: PropTypes.func.isRequired,
 	deletePlayer: PropTypes.func.isRequired,
-	moveToResult: PropTypes.func.isRequired
+	moveToResult: PropTypes.func.isRequired,
+	moveRevote: PropTypes.func.isRequired
 };
 
 export default Result

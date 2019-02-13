@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 
 import Result from '../components/NightTime/Result'
 
@@ -19,6 +19,22 @@ const minProps = {
     // key(doctor) -> value(voted) (save)
     doctorVotes: Map({
         "지은": "병욱"
+    }),
+    voteAgain: jest.fn(() => false),
+    moveToResult: jest.fn()
+}
+const minPropsBySave = {
+    players,
+    changeDayAndNight: jest.fn(),
+    deletePlayer: jest.fn(),
+    moveToMain: jest.fn(),
+    // key(mafia) -> value(voted) (kill)
+    mafiaVotes: Map({
+        "대용": "한영"
+    }),
+    // key(doctor) -> value(voted) (save)
+    doctorVotes: Map({
+        "지은": "한영"
     }),
     voteAgain: jest.fn(() => false),
     moveToResult: jest.fn()

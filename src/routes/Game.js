@@ -87,6 +87,7 @@ class Game extends React.Component {
 
 	deletePlayer = (name) => {
 		const { players } = this.state;
+		console.log(name);
 		this.setState({
 			players: players.delete(players.findIndex(player => player.get('name') === name))
 		})

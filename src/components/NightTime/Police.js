@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import { JOB_NAME_OF_MAFIA } from '../../contants/Job';
 
 
 class Police extends Component {
@@ -66,7 +67,7 @@ class Police extends Component {
 											}
 										</div>
 									</div>
-									: <div>{selectName}님의 직업은 {jobName}입니다.</div>}
+									: <div>{selectName}님은 {jobName === JOB_NAME_OF_MAFIA ? <><b style={{ color: 'white' }}>마피아</b>입니다.</> : '마피아가 아닙니다.'}</div>}
 							</div>
 							{selected &&
 								<button

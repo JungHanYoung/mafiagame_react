@@ -58,16 +58,7 @@ class VoteTime extends React.Component {
 }
 
 VoteTime.propTypes = {
-	// votePerson: PropTypes.func.isRequired,
-	// endVoteTime: PropTypes.func.isRequired,
-	// players: PropTypes.arrayOf(
-	// 	PropTypes.shape({
-	// 		name: PropTypes.string.isRequired,
-	// 		daytimeVoted: PropTypes.number,
-	// 		jobName: PropTypes.string.isRequired,
-	// 		code: PropTypes.number
-	// 	})
-	// )
+	votePerson: PropTypes.func.isRequired,
 	players: ImmutablePropTypes.list,
 	changeDayTimeOrder: PropTypes.func.isRequired
 };
