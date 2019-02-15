@@ -57,7 +57,7 @@ class Result extends React.Component {
 
 			const mafias = after.filter(player => player.get('jobName') === JOB_NAME_OF_MAFIA)
 			const citizens = after.filter(player => player.get('jobName') !== JOB_NAME_OF_MAFIA)
-			if (mafias.size >= citizens.size) {
+			if (mafias.size > citizens.size) {
 				return true
 			}
 			// else if(mafias.size === 0) {
