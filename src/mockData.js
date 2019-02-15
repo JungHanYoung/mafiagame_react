@@ -53,3 +53,36 @@ export const minPropsByGame = {
         }
     }
 }
+
+export const playersWithMafia = List([
+    Map({
+        name: "한영",
+        jobName: JOB_NAME_OF_CITIZEN,
+        daytimeVoted: 0
+    }),
+    Map({
+        name: "병욱",
+        jobName: JOB_NAME_OF_POLICE,
+        daytimeVoted: 0
+    }),
+    Map({
+        name: "지은",
+        jobName: JOB_NAME_OF_DOCTOR,
+        daytimeVoted: 0
+    }),
+    Map({
+        name: "대용",
+        jobName: JOB_NAME_OF_MAFIA,
+        daytimeVoted: 0
+    }),
+    Map({
+        name: "민기",
+        jobName: JOB_NAME_OF_MAFIA,
+        daytimeVoted: 0
+    }),
+    Map({
+        name: "하림",
+        jobName: JOB_NAME_OF_MAFIA,
+        daytimeVoted: 0
+    }),
+])

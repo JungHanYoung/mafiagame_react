@@ -91,46 +91,52 @@ const sameRatePlayers = List([
 ])
 
 describe('<Result /> 컴포넌트', () => {
-    let wrapper = null;
+    let wrapper = mount(<Result {...minProps} />);
 
-    it('<Result /> 렌더링 테스트', () => {
-        wrapper = mount(<Result {...minProps} />)
-    })
     it('props 받기', () => {
         // props > players 가 잘 받아지는가. (플레이어 4명)
-        expect(wrapper.prop('players').size).toEqual(4)
+        const playersProp = wrapper.prop('players')
+        expect(playersProp.size).toEqual(4)
     })
     it('기본 props에 대한 렌더링 테스트', () => {
 
-        expect(wrapper.find('div.game-content').exists()).toEqual(true)
-        expect(wrapper.find('p.content-description').exists()).toEqual(true)
-        expect(wrapper.find('p.content-description').text()).toEqual('한영 님이 죽으셨습니다.')
-        expect(wrapper.find('button.btn-lg').exists()).toEqual(true)
-        expect(wrapper.find('button.btn-lg').text()).toEqual('밤이 됩니다.')
+        const descriptionBox = wrapper.find('p.content-description')
+        const buttonBox = wrapper.find('button.btn-lg');
+
+        expect(descriptionBox.text()).toEqual('한영 님이 죽으셨습니다.')
+        expect(descriptionBox.exists()).toEqual(true)
+        expect(buttonBox.exists()).toEqual(true)
+        expect(buttonBox.text()).toEqual('밤이 됩니다.')
+
     })
 
     it('동률의 투표가 발생했을 경우의 렌더링 테스트', () => {
         const deletePlayer = sinon.spy()
+        const moveRevote = sinon.spy()
         // players props에 동률 투표의 상태를 적용
-        wrapper = shallow(<Result {...minProps} players={sameRatePlayers} deletePlayer={deletePlayer} />)
-        expect(wrapper.find('p.content-description').exists()).toEqual(true)
+        wrapper = shallow(<Result {...minProps}
+            players={sameRatePlayers}
+            deletePlayer={deletePlayer}
+            moveRevote={moveRevote} />)
+
+        const descriptionBox = wrapper.find('p.content-description')
+        expect(descriptionBox.exists()).toEqual(true)
         // '투표가 동률이 났습니다.'라는 텍스트가 출력되는지 확인
-        expect(wrapper.find('p.content-description').text()).toEqual('투표가 동률이 났습니다.')
+        expect(descriptionBox.text()).toEqual('투표가 동률이 났습니다.')
 
-        expect(wrapper.find('button.btn-lg')).toHaveLength(2)
+        const buttonWrapper = wrapper.find('button.btn-lg')
+        expect(buttonWrapper).toHaveLength(2)
 
-        expect(wrapper.find('button.btn-lg')).toMatchSnapshot()
-
-        const revoteBtn = wrapper.find('button.btn-lg').at(0)
-        const setNightBtn = wrapper.find('button.btn-lg').at(1)
+        const revoteBtn = buttonWrapper.at(0)
+        const setNightBtn = buttonWrapper.at(1)
 
         setNightBtn.simulate('click')
 
-        expect(deletePlayer.calledOnce).not.toBe(1)
+        expect(deletePlayer.calledOnce).toEqual(false)
 
         revoteBtn.simulate('click')
 
-        expect()
+        expect(moveRevote.calledOnce).toEqual(true)
     })
 
 })
