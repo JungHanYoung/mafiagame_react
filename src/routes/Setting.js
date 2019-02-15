@@ -10,7 +10,6 @@ import { JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE, JOB_NAME_OF_CITIZEN, JOB_NAME_OF
 // Component
 import InputPeople from '../components/setting/InputPeople'
 import JobSetting from '../components/setting/JobSetting'
-// import RandomJobSetting from '../components/setting/RandomJobSetting'
 
 const steps = [InputPeople, JobSetting]
 
@@ -23,7 +22,7 @@ const getContent = (step) => {
 	}
 }
 
-class Setting extends Component {
+export class Setting extends Component {
 	constructor(props) {
 		super(props);
 
@@ -53,23 +52,8 @@ class Setting extends Component {
 			step: state.step - 1
 		}))
 	}
-	// 총인원 핸들링 메소드
-	onPeopleChange = (e) => {
-		const { setPeopleNum } = this.props;
-		const value = Number(e.target.value);
-
-		this.setState(
-			{
-				num: value
-			},
-			() => {
-				setPeopleNum(value);
-			}
-		);
-	};
 	onSettingEnd = () => {
-		const { num } = this.state;
-		const { history, jobs } = this.props;
+		const { history, jobs, people } = this.props;
 		const countByMin = jobs
 			.map((job) => job.minCount)
 			.reduce((accu, count) => accu + count);
@@ -78,7 +62,7 @@ class Setting extends Component {
 			.reduce((accu, count) => accu + count);
 
 		// 각 직업의 인원을 합한 수와 총인원이 같아야 세팅 마무리
-		if (countByMin + countByMax >= num) {
+		if (countByMin + countByMax >= people.length) {
 			history.push('/check');
 		} else {
 			alert('총인원과 전체 게임인원이 맞지 않습니다.');
@@ -121,7 +105,6 @@ class Setting extends Component {
 Setting.propTypes = {
 	people: PropTypes.arrayOf(PropTypes.string),
 	jobs: PropTypes.arrayOf(PropTypes.shape({
-		code: PropTypes.number.isRequired,
 		jobName: PropTypes.oneOf([JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE, JOB_NAME_OF_DOCTOR, JOB_NAME_OF_CITIZEN]),
 		minCount: PropTypes.number.isRequired,
 		maxCount: PropTypes.number.isRequired
