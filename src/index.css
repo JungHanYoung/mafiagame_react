@@ -81,7 +81,7 @@ body {
   position: relative;
 }
 
-.setting-step::before {
+/* .setting-step::before {
   content: '';
   width: 100%;
   position: absolute;
@@ -89,17 +89,20 @@ body {
   box-sizing: border-box;
   border: solid 1px #fff;
   top: 12px;
+} */
+
+.setting-step .setting-step-wrapper {
+  width: 85px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
 }
 
 .setting-step-bar {
-  width:25px;
-  height:25px;
-  box-sizing: border-box;
-  border: solid 2px #fff;
+  width:15px;
+  height:15px;
   border-radius: 50%;
   background: #666;
-  z-index: 999;
-  text-align: center;
 }
 
 .setting-step-bar.active {
@@ -107,16 +110,71 @@ body {
 }
 
 .setting-container {
-  height: 410px;
-  padding: 55px 24px 0;
+  height: 380px;
+  padding: 55px 24px 30px;
   color: red;
+  position: relative;
+}
 
+.setting-container .fade-wrapper {
+  position: relative;
+  overflow: scroll;
+}
+
+.fadeBefore::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  top: 0;
+  background-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+  z-index: 10;
+}
+
+.fadeAfter::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  bottom: 0;
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));
 }
 
 .setting-container .setting-subtitle {
-  font-size: 18px;
+  font-size: 24px;
+  font-weight: 100;
   line-height: 140%;
   margin: 0;
+}
+
+.setting-container .input-container {
+  height: 25px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.setting-container .input-container .btn {
+  height: 100%;
+  width: 25px;
+  background: #ff0000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.setting-container .input-container .btn img {
+  display: block;
+  width: 50%;
+}
+
+.setting-container .input-container .peopleNum {
+  width: 20px;
+  text-align: center;
+  margin: 0 25px;
 }
 
 .setting-people-select {
@@ -139,26 +197,32 @@ body {
 }
 
 .setting-people-name-container {
-  display: flex;
-  flex-wrap: wrap;
+  padding: 0 16px;
   margin-top: 20px;
+  overflow: scroll;
+  height: 240px;
+  position: relative;
 }
 
+
 .setting-people-name {
-  position: relative;
-  box-sizing: border-box;
-  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.setting-people-name + .setting-people-name {
+  margin-top: 25px;
 }
 
 .people-name-placeholder {
+  flex: 1;
   color: #888;
-  font-size: 10px;
-  padding-right: 20px;
-  display: block;
-  margin-top: 10px;
+  font-size: 24px;
 }
 
 .setting-people-name > input {
+  flex: 1;
   background: transparent;
   border: none;
   border-radius: 0;
@@ -167,11 +231,12 @@ body {
   color: white;
   line-height: 200%;
   font-weight: 600;
-  width: 80%;
+  font-size: 16px;
+  text-align: center;
 }
 
 .setting-btn-group {
-  margin: 0 25px;
+  margin: 25px 25px 0;
   text-align: right;
   /* margin-top: 250px;
   padding: 0 25px;
@@ -257,6 +322,7 @@ body {
 }
 
 .game-title {
+  font-size: 25px;
   text-transform: uppercase;
   text-align: center;
   margin: 0;
@@ -275,7 +341,9 @@ body {
 }
 
 .game-content .content-description {
-  font-size: 18px;
+  font-size: 24px;
+  font-weight: 100;
+  line-height: 150%;
   height: 160px;
 }
 
@@ -283,9 +351,15 @@ body {
   color: #fff;
   height: 70px;
   font-size: 24px;
+  font-weight: 100;
+}
+
+.game-content .job-image {
+  width: 59px;
 }
 
 .game-content .player-job {
+  margin-top: 26px;
   color: #ff0000;
   font-size: 24px;
 }
@@ -293,6 +367,7 @@ body {
 .game-content .check-mafia-sub {
   color: #fff;
   font-size: 14px;
+  font-weight: 100;
   margin: 20px 0;
 }
 
@@ -303,13 +378,14 @@ body {
   margin: 0 auto;
   text-align: center;
   justify-content: space-evenly;
-  font-weight: 500;
+  
 }
 
 .check-mafia-co .mafia-co-person {
   flex: 1;
   color: #fff;
   text-align: center;
+  font-weight: 100;
 }
 
 .btn-lg {

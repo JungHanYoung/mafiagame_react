@@ -3,6 +3,8 @@ import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
+import logoImg from '../assets/logo.png'
+
 // component
 import { useGame } from '../context/GameContext';
 import { JOB_NAME_OF_MAFIA } from '../contants/Job';
@@ -50,9 +52,13 @@ export class CheckRole extends React.Component {
 			return (<div className="check">
 				<h2 className="game-title">HELLO MAFIA</h2>
 				<div className="game-content">
-					<p className="content-description">이제 각 사람 마다의<br />역할이 정해집니다.</p>
+					{!showRole && <p className="content-description">이제 각 사람 마다의<br />역할이 정해집니다.</p>}
 					<p className="player-name">{players[showIndex].name}</p>
-					{showRole && <p className="player-job">{players[showIndex].jobName}</p>}
+					{showRole &&
+						<>
+							<img className="job-image" src={logoImg} alt="character" />
+							<p className="player-job">{players[showIndex].jobName}</p>
+						</>}
 					{showRole && players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
 						<>
 							{players
@@ -75,7 +81,7 @@ export class CheckRole extends React.Component {
 					}
 				</div>
 				<button onClick={this.handleShowRole} className="btn-lg">
-					{showRole ? '다음' : '확인 하기'}
+					{showRole ? '다 음' : '확인 하기'}
 				</button>
 			</div>)
 		}

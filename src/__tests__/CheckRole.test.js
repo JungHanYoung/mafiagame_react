@@ -91,7 +91,7 @@ describe('<CheckRole /> 컴포넌트 테스트', () => {
         // 버튼 클릭 후, 역할이 확인되야함. 플레이어의 역할에 해당하는 html존재여부 확인
         expect(wrapper.find('p.player-job').exists()).toEqual(true)
         // 버튼의 내용은 '다음'으로 나타나야 (다음 사람 안내) 
-        expect(wrapper.find('button.btn-lg').text()).toEqual('다음')
+        expect(wrapper.find('button.btn-lg').text()).toEqual('다 음')
 
         // 버튼 클릭 이벤트 발생
         button.simulate('click')

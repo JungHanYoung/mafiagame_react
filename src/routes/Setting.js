@@ -73,19 +73,21 @@ export class Setting extends Component {
 		return (
 			<>
 				<h1 className="setting-title">게임 설정</h1>
-				<div className="setting-step">
-					{Array
-						.from({ length: steps.length }, (v, k) => k)
-						.map(number => (
-							<span
-								key={`setting-step-${number}`}
-								className={classNames(
-									'setting-step-bar',
-									{ active: number <= step })}
-							></span>
-						))}
-				</div>
 				{getContent(step)}
+				<div className="setting-step">
+					<div className="setting-step-wrapper">
+						{Array
+							.from({ length: steps.length }, (v, k) => k)
+							.map(number => (
+								<span
+									key={`setting-step-${number}`}
+									className={classNames(
+										'setting-step-bar',
+										{ active: number <= step })}
+								></span>
+							))}
+					</div>
+				</div>
 				<div className="setting-btn-group">
 
 					{step > 0 &&
