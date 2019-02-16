@@ -269,6 +269,7 @@ body {
 .setting-job-container {
   margin-top: 50px;
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
 }
 
@@ -279,11 +280,22 @@ body {
 }
 
 .job-input-container {
-  width: 50%;
   box-sizing: border-box;
   margin: 0;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+.job-input-container + .job-input-container {
+  margin-top: 25px;
+}
+
+.job-input-container .subject {
+  width: 15%;
+}
+
+.job-input-container .input-container {
+  margin-top: 0;
 }
 
 .job-input {
@@ -409,14 +421,6 @@ body {
   color: #000;
 }
 
-.daytime .game-title {
-
-}
-
-.daytime .game-content {
-
-}
-
 .daytime > h1 {
   margin: 0;
   padding: 20px 0;
@@ -496,10 +500,6 @@ body {
 .night > h1 {
   margin: 0;
   padding: 20px 0;
-}
-
-.night > h2 {
-
 }
 
 .night .btn-sm {

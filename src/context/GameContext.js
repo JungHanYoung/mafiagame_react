@@ -65,7 +65,7 @@ class GameProvider extends Component {
 			});
 		},
 		// Setting > input:number - job의 수를 입력받아 핸들링
-		onChangeJobMinCount: (code, value) => {
+		onChangeJobMinCount: (code) => (value) => {
 			const { jobs } = this.state;
 			if (value >= 0) {
 				this.setState({
@@ -73,7 +73,7 @@ class GameProvider extends Component {
 				})
 			}
 		},
-		onChangeJobMaxCount: (code, value) => {
+		onChangeJobMaxCount: (code) => (value) => {
 			const { jobs } = this.state;
 			if (value >= 0) {
 				this.setState({

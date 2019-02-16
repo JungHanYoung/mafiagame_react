@@ -4,8 +4,7 @@ import classNames from 'classnames'
 // import _ from 'lodash'
 // import { SELECT_OF_PEOPLE_NUM_START, SELECT_OF_PEOPLE_NUM_END } from '../../contants/Setting';
 
-import minusImg from '../../assets/btn-minus.png'
-import plusImg from '../../assets/btn-plus.png'
+import CountInput from './common/CountInput';
 
 
 // const range = _.range(SELECT_OF_PEOPLE_NUM_START, SELECT_OF_PEOPLE_NUM_END)
@@ -19,10 +18,10 @@ class InputPeople extends Component {
             num: props.people.length
         }
     }
-    onPeopleChange = (input) => {
-        const { num } = this.state
+    onPeopleChange = (value) => {
+
         const { setPeopleNum } = this.props;
-        const value = num + input;
+
         if (value >= 0) {
             setPeopleNum(value)
 
@@ -60,19 +59,8 @@ class InputPeople extends Component {
             } else {
                 this.refs.fade.classList.remove('fadeBefore')
             }
-            console.log(
-                this.refs.scroll.scrollTop
-            )
-            // console.log(
-            //     this.refs['people-container'].clientHeight,
-            //     this.refs['people-container'].scrollHeight,
-
-            // )
-            // console.log(this.refs['people-container'].scrollTop)
         })
-        // console.log(
-        //     this.refs['people-scroll-container'].clientHeight
-        // )
+        // 인원수가 추가되며 이름을 적을 엘리먼트가 추가됨에 따라 스크롤이 생겼을 때
         if (this.refs.scroll.scrollHeight - this.refs.scroll.clientHeight > 0) {
             if (!this.refs.fade.classList.contains('fadeAfter')) {
                 this.refs.fade.classList.add('fadeAfter')
@@ -91,21 +79,7 @@ class InputPeople extends Component {
                 <h3 className="setting-subtitle">
                     인원 수 및 이름을<br /> 선택해주세요.
                 </h3>
-                <div className="input-container">
-                    <span
-                        className="btn minus"
-                        onClick={() => this.onPeopleChange(-1)}>
-                        <img src={minusImg} alt="button" />
-                    </span>
-
-                    <span className="peopleNum">{num}</span>
-                    <span
-                        className="btn minus"
-                        onClick={() => this.onPeopleChange(1)}>
-                        <img src={plusImg} alt="button" />
-                    </span>
-
-                </div>
+                <CountInput count={num} handler={this.onPeopleChange} />
                 <div className="fade-wrapper" ref="fade">
                     <div className={classNames("setting-people-name-container")} ref="scroll">
                         <div className="setting-people-wrapper">
