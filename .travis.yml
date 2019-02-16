@@ -14,7 +14,7 @@ cache:
 deploy:
   providers: pages
   skip-cleanup: true
-  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  github-token: $GH_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep-history: true
   email: 8735132@gmail.com
   on:
