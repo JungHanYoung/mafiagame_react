@@ -99,8 +99,8 @@ body {
 }
 
 .setting-step-bar {
-  width:15px;
-  height:15px;
+  width:10px;
+  height:10px;
   border-radius: 50%;
   background: #666;
 }
@@ -197,7 +197,7 @@ body {
 }
 
 .setting-people-name-container {
-  padding: 0 16px;
+  padding: 0 12px;
   margin-top: 20px;
   overflow: scroll;
   height: 240px;
@@ -207,7 +207,7 @@ body {
 
 .setting-people-name {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 
@@ -216,13 +216,11 @@ body {
 }
 
 .people-name-placeholder {
-  flex: 1;
-  color: #888;
+  color: #ff0000;
   font-size: 24px;
 }
 
 .setting-people-name > input {
-  flex: 1;
   background: transparent;
   border: none;
   border-radius: 0;
@@ -233,6 +231,7 @@ body {
   font-weight: 600;
   font-size: 16px;
   text-align: center;
+  width: 137px;
 }
 
 .setting-btn-group {
@@ -317,12 +316,6 @@ body {
 
 /* Check Role */
 
-.daytime {
-  height: 100%;
-  background: #fff;
-  color: #000;
-}
-
 .night {
   height: 100%;
   background: #000;
@@ -338,7 +331,7 @@ body {
   text-transform: uppercase;
   text-align: center;
   margin: 0;
-  padding: 20px 0;
+  padding: 30px 0;
   color: #ff0000;
 }
 
@@ -352,11 +345,21 @@ body {
   text-align: center;
 }
 
+.game-content .subject {
+  color: #000;
+  font-weight: 600;
+}
+
 .game-content .content-description {
   font-size: 24px;
   font-weight: 100;
   line-height: 150%;
   height: 160px;
+}
+
+.game-content .content-description .voted-person {
+  font-size: 24px;
+  font-weight: 100;
 }
 
 .game-content .player-name {
@@ -414,16 +417,22 @@ body {
 
 /* Game */
 
-.daytime {
+.sunset {
   height: 100%;
-  background: #fff;
+  background: url("./assets/bg-sunset.png");
+  background-size: cover;
+  background-repeat: round;
   text-align: center;
   color: #000;
 }
 
-.daytime > h1 {
-  margin: 0;
-  padding: 20px 0;
+.daytime {
+  height: 100%;
+  background: url("./assets/bg-daytime.png");
+  background-size: cover;
+  background-repeat: round;
+  text-align: center;
+  color: #000;
 }
 
 .daytime .container, .night .container {
@@ -492,7 +501,9 @@ body {
 
 .night {
   height: 100%;
-  background: #000;
+  background: url("./assets/bg-night.png");
+  background-size: cover;
+  background-repeat: round;
   text-align: center;
   color: #ff0000;
 }

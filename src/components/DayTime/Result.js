@@ -62,40 +62,43 @@ class Result extends React.Component {
 		// console.log(isVictory)
 
 		return (
-			<div className="game-content">
-				<h2>투표 결과</h2>
+			<main className="sunset">
+				<h2 className="game-title">hello mafia</h2>
+				<div className="game-content">
+					<h2 className="subject">투표 결과</h2>
 
-				{isReVoted ? <p className="content-description">투표가 동률이 났습니다.</p>
-					: <p className="content-description"><span style={{ color: "#ff0000" }}>{this.votedPerson.get('name')}</span> 님이 죽으셨습니다.</p>}
+					{isReVoted ? <p className="content-description">투표가 동률이 났습니다.</p>
+						: <p className="content-description"><span className="voted-person">{this.votedPerson.get('name')}</span> 님이 죽으셨습니다.</p>}
 
-				{this.isVictory === 'mafia'
-					?
-					<>
-						<h3>마피아가 승리하였습니다.</h3>
-						<button
-							className="btn-lg"
-							onClick={moveToResult}>결과화면</button>
-					</>
-					: this.isVictory === 'citizen'
-						? <>
-							<h3>시민이 승리하였습니다.</h3>
+					{this.isVictory === 'mafia'
+						?
+						<>
+							<h3>마피아가 승리하였습니다.</h3>
 							<button
 								className="btn-lg"
 								onClick={moveToResult}>결과화면</button>
 						</>
-						: isReVoted
+						: this.isVictory === 'citizen'
 							? <>
+								<h3>시민이 승리하였습니다.</h3>
 								<button
 									className="btn-lg"
-									onClick={moveRevote}>재투표</button>
-								<button
-									className="btn-lg"
-									onClick={this.changeAtDay}>밤이됩니다.</button>
+									onClick={moveToResult}>결과화면</button>
 							</>
-							: <button
-								className="btn-lg"
-								onClick={this.changeAtDay}>밤이 됩니다.</button>}
-			</div>
+							: isReVoted
+								? <>
+									<button
+										className="btn-lg"
+										onClick={moveRevote}>재투표</button>
+									<button
+										className="btn-lg"
+										onClick={this.changeAtDay}>밤이됩니다.</button>
+								</>
+								: <button
+									className="btn-lg"
+									onClick={this.changeAtDay}>밤이 됩니다.</button>}
+				</div>
+			</main>
 		);
 	}
 }

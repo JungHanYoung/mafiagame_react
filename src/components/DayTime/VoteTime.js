@@ -33,26 +33,29 @@ class VoteTime extends React.Component {
 		const { players } = this.props;
 
 		return (
-			<div className="game-content">
-				<p className="content-description">마피아로 의심되는 사람을 투표합니다.</p>
-				<div className="voter">{players.getIn([voteOrder, 'name'])}님의 투표</div>
-				<div className="vote-btn-container">
-					<div>
-						{players
-							.filter((person, i) => i !== voteOrder)
-							.map(person => (
-								<button
-									key={`vote-btn-${person.get('name')}`}
-									onClick={() => this.handleVote(person.get('name'))}
-									className="btn-sm"
-								>
-									{person.get('name')}
-								</button>
-							))
-						}
+			<main className="daytime">
+				<h2 className="game-title">hello mafia</h2>
+				<div className="game-content">
+					<p className="content-description">마피아로 의심되는 사람을 투표합니다.</p>
+					<div className="voter">{players.getIn([voteOrder, 'name'])}님의 투표</div>
+					<div className="vote-btn-container">
+						<div>
+							{players
+								.filter((person, i) => i !== voteOrder)
+								.map(person => (
+									<button
+										key={`vote-btn-${person.get('name')}`}
+										onClick={() => this.handleVote(person.get('name'))}
+										className="btn-sm"
+									>
+										{person.get('name')}
+									</button>
+								))
+							}
+						</div>
 					</div>
 				</div>
-			</div>
+			</main>
 		);
 	}
 }

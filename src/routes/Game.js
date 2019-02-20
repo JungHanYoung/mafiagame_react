@@ -10,6 +10,7 @@ import NightTime from '../components/NightTime';
 // constant
 import { DAY_TIME, NIGHT_TIME } from '../contants/turnOfGame/Game';
 
+
 class Game extends React.Component {
 	constructor(props) {
 		super(props)
@@ -43,17 +44,14 @@ class Game extends React.Component {
 		if (players.size) {
 			return <>
 				{gameOrder === DAY_TIME ? (
-					<main className="daytime">
-						<h2 className="game-title">HELLO MAFIA</h2>
-						<DayTime
-							players={players}
-							initVote={this.initVote}
-							votePerson={this.votePerson}
-							changeDayAndNight={this.changeDayAndNight}
-							deletePlayer={this.deletePlayer}
-							moveToResult={this.moveToResult}
-						/>
-					</main>
+					<DayTime
+						players={players}
+						initVote={this.initVote}
+						votePerson={this.votePerson}
+						changeDayAndNight={this.changeDayAndNight}
+						deletePlayer={this.deletePlayer}
+						moveToResult={this.moveToResult}
+					/>
 				) : (
 						<main className="night">
 							<h2 className="game-title">HELLO MAFIA</h2>

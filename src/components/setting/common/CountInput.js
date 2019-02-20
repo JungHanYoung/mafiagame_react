@@ -23,7 +23,7 @@ const CountInput = ({ count, handler }) => (
 )
 
 CountInput.propTypes = {
-    item: PropTypes.object.isRequired,
+    count: PropTypes.number.isRequired,
     handler: PropTypes.func.isRequired
 }
 
