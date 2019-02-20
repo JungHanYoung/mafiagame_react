@@ -1,39 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Game /> 컴포넌트 html 렌더링 확인 1`] = `
-<DayTime
-  changeDayAndNight={[Function]}
-  deletePlayer={[Function]}
-  initVote={[Function]}
-  moveToResult={[Function]}
-  players={
-    Immutable.List [
-      Immutable.Map {
-        "name": "한영",
-        "jobName": "CITIZEN",
-        "daytimeVoted": 0,
-      },
-      Immutable.Map {
-        "name": "병욱",
-        "jobName": "MAFIA",
-        "daytimeVoted": 0,
-      },
-      Immutable.Map {
-        "name": "대용",
-        "jobName": "DOCTOR",
-        "daytimeVoted": 0,
-      },
-      Immutable.Map {
-        "name": "기수",
-        "jobName": "POLICE",
-        "daytimeVoted": 0,
-      },
-    ]
-  }
-  votePerson={[Function]}
-/>
-`;
-
 exports[`컴포넌트 메소드 1`] = `
 Object {
   "gameOrder": "day-time",
