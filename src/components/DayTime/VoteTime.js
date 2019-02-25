@@ -44,7 +44,7 @@ class VoteTime extends React.Component {
 								.filter((person, i) => i !== voteOrder)
 								.map(person => (
 									<button
-										data-testid={`vote-button-${person.name}`}
+										data-testid={`vote-button-${person.get('name')}`}
 										key={`vote-btn-${person.get('name')}`}
 										onClick={() => this.handleVote(person.get('name'))}
 										className="btn-sm"

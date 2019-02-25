@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import classNames from 'classnames'
 
 import logoImg from '../assets/logo.png'
 
@@ -21,7 +22,31 @@ export class CheckRole extends React.Component {
 		this.state = {
 			players,
 			showRole: false,
-			showIndex: 0
+			showIndex: 0,
+			animation: false
+		}
+	}
+
+	componentDidUpdate() {
+		console.log('checkrole > update');
+		if (this.content) {
+			this.content.addEventListener('animationend', () => {
+				this.setState({
+					showRole: true,
+					animation: false
+				})
+			})
+		}
+	}
+
+	componentDidMount() {
+		if (this.content) {
+			this.content.addEventListener("animationend", () => {
+				this.setState({
+					showRole: true,
+					animation: false
+				})
+			})
 		}
 	}
 
@@ -31,6 +56,7 @@ export class CheckRole extends React.Component {
 			if (players.length - 1 > showIndex) {
 				this.setState({
 					showRole: false,
+					animation: false,
 					showIndex: showIndex + 1
 				})
 			} else {
@@ -38,26 +64,28 @@ export class CheckRole extends React.Component {
 			}
 		} else {
 			this.setState({
-				showRole: true
+				animation: true
 			})
 		}
 	};
 
 	render() {
-		const { showRole, showIndex, players } = this.state;
+		const { showRole, showIndex, players, animation } = this.state;
 
 		if (players.length <= 0) {
 			return <Redirect to="/setting" />
 		} else {
 			return (<div className="check">
 				<h2 className="game-title">HELLO MAFIA</h2>
-				<div className="game-content">
-					{!showRole && <p className="content-description">이제 각 사람 마다의<br />역할이 정해집니다.</p>}
-					<p className="player-name">{players[showIndex].name}</p>
+				<div className="check-content">
+					{animation && <div className={classNames('content-description', 'empty')}></div>}
+					{/* {animation && <p className={classNames('content-description')}></p>} */}
+					{!showRole && <p ref={el => this.content = el} className={classNames('content-description', 'animated', { fadeOut: animation, 'is-animated': animation })}>이제 각 사람 마다<br />역할이 정해집니다.</p>}
+					<p className={classNames('player-name')}>{players[showIndex].name}</p>
 					{showRole &&
 						<>
-							<img className="job-image" src={logoImg} alt="character" />
-							<p className="player-job">{players[showIndex].jobName}</p>
+							<img className={classNames('job-image', 'animated', 'fadeIn')} src={logoImg} alt="character" />
+							<p className={classNames('player-job', 'animated', 'fadeIn')}>{players[showIndex].jobName}</p>
 						</>}
 					{showRole && players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
 						<>
@@ -80,8 +108,8 @@ export class CheckRole extends React.Component {
 						</>
 					}
 				</div>
-				<button onClick={this.handleShowRole} className="btn-lg">
-					{showRole ? '다 음' : '확인 하기'}
+				<button disabled={animation} onClick={this.handleShowRole} className="btn-lg">
+					{showRole ? '다 음' : '역할 확인'}
 				</button>
 			</div>)
 		}

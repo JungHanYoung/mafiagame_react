@@ -9,7 +9,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Anton', 'Noto Sans KR', sans-serif;
-  font-weight: 900;
+  /* font-weight: 900; */
   background: #000;
   overflow: hidden;
 }
@@ -44,12 +44,13 @@ body {
 
 .main-img {
   margin-top: 50px;
-  width: 120px;
+  height: 207px;
 }
 
 .main-title {
   font-size: 60px;
-  margin: 40px 0;
+  font-family: 'Bangers', cursive;
+  margin: 38px 0 43px;
   color: #fff;
 }
 
@@ -58,11 +59,10 @@ body {
   margin-bottom: 20px;
   background: #ff0000;
   color: #000;
-  font-size: 20px;
-  width: 190px;
+  font-size: 18px;
+  width: 188px;
   text-align: center;
   text-decoration: none;
-  font-weight: bold;
 }
 
 /* Setting */
@@ -71,8 +71,10 @@ body {
   padding: 30px 0;
   font-size: 24px;
   margin: 0;
+  font-family: 'Bangers', cursive;
   color: #ff0000;
   text-align: center;
+  text-transform: uppercase;
 }
 
 .setting-step {
@@ -144,13 +146,15 @@ body {
 
 .setting-container .setting-subtitle {
   font-size: 24px;
-  font-weight: 100;
+  font-weight: 300;
   line-height: 140%;
+  padding-left: 26px;
   margin: 0;
 }
 
 .setting-container .input-container {
   height: 25px;
+  padding-left: 26px;
   display: flex;
   justify-items: center;
   align-items: center;
@@ -172,9 +176,11 @@ body {
 }
 
 .setting-container .input-container .peopleNum {
+  font-family: 'Bangers', cursive;
   width: 20px;
   text-align: center;
-  margin: 0 25px;
+  font-size: 24px;
+  margin: 0 13.25px;
 }
 
 .setting-people-select {
@@ -217,6 +223,7 @@ body {
 
 .people-name-placeholder {
   color: #ff0000;
+  font-family: 'Bangers', cursive;
   font-size: 24px;
 }
 
@@ -235,7 +242,7 @@ body {
 }
 
 .setting-btn-group {
-  margin: 25px 25px 0;
+  margin: 25px 50px 0;
   text-align: right;
   /* margin-top: 250px;
   padding: 0 25px;
@@ -248,7 +255,6 @@ body {
   outline: none;
   border: none;
   color: #fff;
-  font-weight: bolder;
   font-size: 15px;
 }
 
@@ -256,12 +262,11 @@ body {
   
   margin-left: 20px;
   background: #ff0000;
-  width: 163px;
+  width: 137px;
   height: 50px;
   outline: none;
   border: none;
   color: #fff;
-  font-weight: bolder;
   font-size: 15px;
 }
 
@@ -270,6 +275,20 @@ body {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+}
+
+.setting-job-container .setting-tr {
+  margin-bottom: 20px;
+}
+
+.setting-job-container .setting-tr .setting-th {
+  width: 98px;
+  text-align: center;
+  float: right
+}
+
+.setting-th + .setting-th {
+  margin-right: 40px;
 }
 
 .job-name {
@@ -281,6 +300,8 @@ body {
 .job-input-container {
   box-sizing: border-box;
   margin: 0;
+  font-size: 21px;
+  font-family: 'Bangers', cursive;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -316,6 +337,49 @@ body {
 
 /* Check Role */
 
+.check-content {
+  position: relative;
+  height: 375px;
+  margin-top: 100px;
+  text-align: center;
+}
+
+.check-content .content-description {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 150%;
+  height: 160px;
+  width: 196px;
+}
+
+.check-content .player-name {
+  position: absolute;
+    top: 183px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    color: #fff;
+    height: 70px;
+    font-size: 24px;
+    font-weight: 100;
+}
+
+.check-content .job-image {
+  width: 59px;
+}
+
+.check-content .player-job {
+  margin-top: 26px;
+  color: #ff0000;
+  font-size: 24px;
+  font-family: 'Bangers', cursive;
+}
+
+/* Game */
+
 .night {
   height: 100%;
   background: #000;
@@ -328,6 +392,7 @@ body {
 
 .game-title {
   font-size: 25px;
+  font-family: 'Bangers', cursive;
   text-transform: uppercase;
   text-align: center;
   margin: 0;
@@ -340,6 +405,7 @@ body {
 }
 
 .game-content {
+  position: relative;
   height: 375px;
   margin-top: 100px;
   text-align: center;
@@ -351,10 +417,14 @@ body {
 }
 
 .game-content .content-description {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 24px;
-  font-weight: 100;
+  font-weight: 300;
   line-height: 150%;
   height: 160px;
+  width: 196px;
 }
 
 .game-content .content-description .voted-person {
@@ -363,6 +433,10 @@ body {
 }
 
 .game-content .player-name {
+  position: absolute;
+  top: 183px;
+  left: 50%;
+  transform: translateX(-50%);
   color: #fff;
   height: 70px;
   font-size: 24px;
@@ -377,13 +451,14 @@ body {
   margin-top: 26px;
   color: #ff0000;
   font-size: 24px;
+  font-family: 'Bangers', cursive;
 }
 
 .game-content .check-mafia-sub {
   color: #fff;
   font-size: 14px;
   font-weight: 100;
-  margin: 20px 0;
+  margin: 85px 0 16px;
 }
 
 .game-content .check-mafia-co {
@@ -412,7 +487,6 @@ body {
   border: 0;
   outline: 0;
   margin: 0 auto;
-  font-weight: bolder;
 }
 
 /* Game */
@@ -614,4 +688,16 @@ body {
   .setting-people-name {
     width: 25%;
   }
+}
+
+.is-animated {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.empty {
+  animation-name: heightout;
+  animation-duration: 1s;
+  position: relative;
 }

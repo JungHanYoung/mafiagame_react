@@ -28,27 +28,45 @@ it('기본 세팅', () => {
 })
 
 describe('낮토론 -> 낮투표', () => {
+
+    const moveToVoteTime = (getFunc) => {
+        fireEvent.click(getFunc('game-button'))
+    }
+
+    const moveToResult = (players = [], getFunc) => {
+        players.forEach(player => {
+            fireEvent.click(getFunc(/vote-button-/i)[0])
+        })
+    }
+
     it('낮투표로 화면 이동 후', () => {
         const { getByTestId } = render(<Game {...minPropsByGame} />)
-        fireEvent.click(getByTestId('game-button')) // 낮토론 -> 낮투표 state에 따른 화면 이동
+        moveToVoteTime(getByTestId) // 낮토론 -> 낮투표 state에 따른 화면 이동
         expect(getByTestId('game-content-description')).toHaveTextContent('마피아로 의심되는 사람을 투표합니다.')
     })
     it('낮투표화면 > 투표버튼 확인', () => {
-        const { getByTestId, getAllByTestId } = render(<Game {...minPropsByGame} />)
-        fireEvent.click(getByTestId('game-button')) // 낮토론 -> 낮투표 state에 따른 화면 이동
+        const { getByTestId, getAllByTestId, debug } = render(<Game {...minPropsByGame} />)
+        moveToVoteTime(getByTestId) // 낮토론 -> 낮투표 state에 따른 화면 이동
         getAllByTestId(/vote-button-/i).forEach(el => {
+            // debug(el)
             const mapOfNames = minPropsByGame.history.location.state.players.map(player => player.name)
             expect(mapOfNames).toContain(el.textContent)
         })
     })
 
-    it('낮투표화면 > 투표버튼 클릭', () => {
+    it('낮투표화면 > 투표버튼 클릭 후 결과메세지', () => {
         const { getAllByTestId, getByTestId } = render(<Game {...minPropsByGame} />)
-        fireEvent.click(getByTestId('game-button')) // 낮토론 -> 낮투표 state에 따른 화면 이동
-        fireEvent.click(getAllByTestId(/vote-button-/i)[0])
-        fireEvent.click(getAllByTestId(/vote-button-/i)[0])
-        fireEvent.click(getAllByTestId(/vote-button-/i)[0])
-        fireEvent.click(getAllByTestId(/vote-button-/i)[0])
+        moveToVoteTime(getByTestId) // 낮토론 -> 낮투표 state에 따른 화면 이동
+        moveToResult(minPropsByGame.history.location.state.players, getAllByTestId) // 투표
+
         expect(getByTestId('game-content-description')).toHaveTextContent('투표 결과')
+
+    })
+
+    it('낮투표화면 > 투표버튼 클릭 후 결과 메세지', () => {
+        const { getAllByTestId, getByTestId } = render(<Game {...minPropsByGame} />)
+        moveToVoteTime(getByTestId) // 낮토론 -> 낮투표 state에 따른 화면 이동
+        moveToResult(minPropsByGame.history.location.state.players, getAllByTestId)
+
     })
 })

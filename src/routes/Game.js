@@ -53,7 +53,7 @@ class Game extends React.Component {
 						moveToResult={this.moveToResult}
 					/>
 				) : (
-						<main className="night">
+						<main className="night animated fadeInUp">
 							<h2 className="game-title">HELLO MAFIA</h2>
 							<NightTime
 								players={players}

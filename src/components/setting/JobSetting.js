@@ -21,6 +21,14 @@ class JobSetting extends Component {
                     직업 당 몇 명을<br />배정 하시겠습니까?
                 </h3>
                 <div className="setting-job-container">
+                    <div className="setting-tr">
+                        <div className="setting-th">
+                            최대 직업 수
+                        </div>
+                        <div className="setting-th">
+                            최소 직업 수
+                        </div>
+                    </div>
                     {jobs.map(job => (
                         <div key={`job-setting__${job.jobName}`} className="job-input-container">
                             <div className="subject">{job.jobName}</div>

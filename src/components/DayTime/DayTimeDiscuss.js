@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const DayTimeDiscuss = ({ changeDayTimeOrder }) => (
-	<main className="daytime" data-testid="game-main">
+	<main className="daytime animated fadeInUp faster" data-testid="game-main">
 		<h2 className="game-title" data-testid="game-title">hello mafia</h2>
 		<div className="game-content" data-testid="game-content">
 			<p className="content-description" data-testid="game-content-description">낮 토론 시간입니다.

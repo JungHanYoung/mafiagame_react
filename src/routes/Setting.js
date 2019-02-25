@@ -72,7 +72,7 @@ export class Setting extends Component {
 		const { step } = this.state;
 		return (
 			<>
-				<h1 className="setting-title">게임 설정</h1>
+				<h1 className="setting-title">game settings</h1>
 				{getContent(step)}
 				<div className="setting-step">
 					<div className="setting-step-wrapper">
@@ -94,9 +94,9 @@ export class Setting extends Component {
 						<button className="setting-prev-btn" onClick={this.handleBack}>이 전</button>
 					}
 					{step === steps.length - 1 ?
-						<button className="setting-next-btn setting-end" onClick={this.onSettingEnd}>게임시작</button>
+						<button className="setting-next-btn setting-end" onClick={this.onSettingEnd}>게임 시작</button>
 						:
-						<button className="setting-next-btn" onClick={this.handleNext}>다 음</button>
+						<button className="setting-next-btn" onClick={this.handleNext}>다&nbsp;&nbsp;음</button>
 					}
 				</div>
 			</>
