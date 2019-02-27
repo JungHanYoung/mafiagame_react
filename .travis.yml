@@ -8,3 +8,9 @@ notifications:
       - 8735132@gmail.com
     on_success: change # default: change
     on_failure: always # default: always
+
+deploy:
+  provider: s3
+  access_key_id: "AKIAJJI7KYF5STZQIZNA"
+  secret_access_key: "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"
+  bucket: "myfirstbucketfromhanyoung"
