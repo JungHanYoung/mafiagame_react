@@ -19,8 +19,6 @@ deploy:
   skip_cleanup: true
   # Path to a directory containing your built site.
   local_dir: build
-  # Set the Cache-Control header.
-  cache_control: "max-age=21600"
 
 notifications:
   email:
