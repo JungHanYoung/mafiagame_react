@@ -378,6 +378,29 @@ body {
   font-family: 'Bangers', cursive;
 }
 
+.check-content .check-mafia-sub {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 100;
+  margin: 85px 0 16px;
+}
+
+.check-content .check-mafia-co {
+  display: flex;
+  flex-wrap: wrap;
+  width: 280px;
+  margin: 0 auto;
+  text-align: center;
+  justify-content: space-evenly;
+}
+
+.check-content .check-mafia-co .mafia-co-person {
+  flex: 1;
+  color: #fff;
+  text-align: center;
+  font-weight: 100;
+}
+
 /* Game */
 
 .night {
@@ -412,19 +435,22 @@ body {
 }
 
 .game-content .subject {
-  color: #000;
-  font-weight: 600;
+  color: #ff0000;
+  font-weight: 300;
+  margin-bottom: 32px;
+  font-size: 24px;
 }
 
 .game-content .content-description {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 300;
   line-height: 150%;
   height: 160px;
-  width: 196px;
+  margin: 0 auto;
+}
+
+.sunset .content-description {
+  color: #fff;
 }
 
 .game-content .content-description .voted-person {
@@ -452,30 +478,6 @@ body {
   color: #ff0000;
   font-size: 24px;
   font-family: 'Bangers', cursive;
-}
-
-.game-content .check-mafia-sub {
-  color: #fff;
-  font-size: 14px;
-  font-weight: 100;
-  margin: 85px 0 16px;
-}
-
-.game-content .check-mafia-co {
-  display: flex;
-  flex-wrap: wrap;
-  width: 280px;
-  margin: 0 auto;
-  text-align: center;
-  justify-content: space-evenly;
-  
-}
-
-.check-mafia-co .mafia-co-person {
-  flex: 1;
-  color: #fff;
-  text-align: center;
-  font-weight: 100;
 }
 
 .btn-lg {
@@ -509,14 +511,18 @@ body {
   color: #000;
 }
 
+.voter .voter.bold{
+  font-size: 24px;
+  font-weight: 300;
+}
+
 .daytime .container, .night .container {
   margin-top: 115px;  
   height: 375px;
 }
 
 .daytime .game-content .voter {
-  color: #ff0000;
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .game-content .vote-btn-container {
@@ -661,7 +667,7 @@ body {
 
 .result-subject {
   color: #fff;
-  margin: 36px 0;
+  margin: 0 0 36px;
 }
 
 .result-container {

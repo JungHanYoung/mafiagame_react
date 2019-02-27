@@ -93,8 +93,8 @@ export class CheckRole extends React.Component {
 								.filter(player => players[showIndex].name !== player.name)
 								.map(player => player.jobName)
 								.includes(JOB_NAME_OF_MAFIA) ? <>
-									<h3 className="check-mafia-sub">동료 마피아</h3>
-									<div className="check-mafia-co">
+									<h3 className={classNames('check-mafia-sub', 'animated', 'fadeIn')}>동료 마피아</h3>
+									<div className={classNames('check-mafia-co', 'animated', 'fadeIn')}>
 										{players.filter((player) => players[showIndex].name !== player.name
 											&& player.jobName === JOB_NAME_OF_MAFIA)
 											.map((player, i) => (
@@ -109,7 +109,7 @@ export class CheckRole extends React.Component {
 					}
 				</div>
 				<button disabled={animation} onClick={this.handleShowRole} className="btn-lg">
-					{showRole ? '다 음' : '역할 확인'}
+					{!showRole ? '역할 확인' : players.length - 1 <= showIndex ? `게임 시작` : '다 음'}
 				</button>
 			</div>)
 		}

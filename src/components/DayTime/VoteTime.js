@@ -11,6 +11,10 @@ class VoteTime extends React.Component {
 			voteOrder: 0
 		}
 	}
+	componentDidUpdate() {
+		const { players } = this.props;
+		console.log(players)
+	}
 	handleVote = (name) => {
 
 		const { voteOrder } = this.state;
@@ -37,7 +41,11 @@ class VoteTime extends React.Component {
 				<h2 className="game-title" data-testid="game-title">hello mafia</h2>
 				<div className="game-content">
 					<p className="content-description" data-testid="game-content-description">마피아로 의심되는 사람을 투표합니다.</p>
-					<div className="voter">{players.getIn([voteOrder, 'name'])}님의 투표</div>
+					<div className="voter">
+						<span className="voter-bold">
+							{players.getIn([voteOrder, 'name'])}
+						</span>
+						님의 투표</div>
 					<div className="vote-btn-container">
 						<div>
 							{players
@@ -46,6 +54,7 @@ class VoteTime extends React.Component {
 									<button
 										data-testid={`vote-button-${person.get('name')}`}
 										key={`vote-btn-${person.get('name')}`}
+										ref={`${person.get('name')}`}
 										onClick={() => this.handleVote(person.get('name'))}
 										className="btn-sm"
 									>
