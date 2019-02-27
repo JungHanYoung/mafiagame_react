@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import Layout from './Layout';
 
 
 class Doctor extends React.Component {
@@ -22,15 +23,13 @@ class Doctor extends React.Component {
 			<>
 				{revoted ? (
 					<>
-						<div className="game-content">
-							<p className="content-description">재투표 중입니다. 이전의 선택한 결과가 그대로 갈 것입니다.</p>
-						</div>
+						<Layout describe={`재투표 중입니다. 이전의 선택한 결과가 그대로 갈 것입니다.`} />
 						<button
 							className="btn-lg"
 							onClick={this.handleNext}>다음</button>
 					</>) : (
-						<div className="game-content">
-							<p className="content-description">당신은 의사입니다.<br />누구를 살릴지 선택을 하세요.</p>
+						<Layout describe={`당신은 의사입니다.
+						누구를 살릴지 선택을 하세요.`}>
 							<div className="vote-btn-container">
 								<div>
 									{players.map((person, i) => (
@@ -44,7 +43,7 @@ class Doctor extends React.Component {
 									))}
 								</div>
 							</div>
-						</div>
+						</Layout>
 					)
 				}
 			</>

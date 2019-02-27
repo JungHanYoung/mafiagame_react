@@ -447,6 +447,7 @@ body {
   line-height: 150%;
   height: 160px;
   margin: 0 auto;
+  white-space: pre-line;
 }
 
 .sunset .content-description {
@@ -660,6 +661,32 @@ body {
   border: 0;
   outline: 0;
 }
+
+/* 밤 투표 결과 화면 */
+
+.night-subject {
+  font-size: 25px;
+  color: #ff0000;
+  font-weight: 300;
+}
+
+.night-describe {
+  color: #fff;
+  margin-top: 32px;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.night-describe .person {
+  font-size: 24px;
+}
+
+.night-complete {
+  margin-top: 194px;
+  font-size: 24px;
+}
+
+/* 게임 결과 화면 */
 
 .result-img {
   width: 122px;

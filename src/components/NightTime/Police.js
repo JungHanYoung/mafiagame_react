@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { JOB_NAME_OF_MAFIA } from '../../contants/Job';
+import Layout from './Layout';
 
 
 class Police extends Component {
@@ -38,45 +39,43 @@ class Police extends Component {
 	render() {
 		const { selected, selectName, jobName } = this.state;
 		const { players, me, revoted } = this.props;
-		return (
+		return revoted ? (
 			<>
-				{revoted ? (<>
-					<div className="game-content">
-						<p className="content-description">재투표 중일때 경찰은 다른 이의 직업을 볼 수 없습니다.</p>
-					</div>
-					<button onClick={this.handleNextOrder}>다음</button>
-				</>) : (
-						<>
-							<div className="game-content">
-								<p className="content-description">경찰의 차례입니다.<br /> 한 사람을 선택해 마피아가 맞는지<br /> 확인할 수 있습니다.</p>
-								{!selected ?
-									<div className="vote-btn-container">
-										<div>
-											{
-												players
-													.filter((person) => person.get('name') !== me.get('name'))
-													.map((person, i) => (
-														<button
-															key={`police-select-${i}`}
-															onClick={() => this.detectingByPolice(person.get('name'))}
-															className="btn-sm"
-														>
-															{person.get('name')}
-														</button>
-													))
-											}
-										</div>
-									</div>
-									: <div>{selectName}님은 {jobName === JOB_NAME_OF_MAFIA ? <><b style={{ color: 'white' }}>마피아</b>입니다.</> : '마피아가 아닙니다.'}</div>}
-							</div>
-							{selected &&
-								<button
-									className="btn-lg"
-									onClick={this.handleNextOrder}>다음</button>}
-						</>
-					)}
+				<Layout describe={`재투표 중일때 경찰은 다른 이의 직업을 볼 수 없습니다.`} />
+				<button onClick={this.handleNextOrder}>다음</button>
 			</>
-		);
+		) : (
+				<>
+					<Layout
+						describe={`경찰의 차례입니다.
+							한 사람을 선택해 마피아가 맞는지
+							확인할 수 있습니다.`}>
+						{!selected ?
+							<div className="vote-btn-container">
+								<div>
+									{
+										players
+											.filter((person) => person.get('name') !== me.get('name'))
+											.map((person, i) => (
+												<button
+													key={`police-select-${i}`}
+													onClick={() => this.detectingByPolice(person.get('name'))}
+													className="btn-sm"
+												>
+													{person.get('name')}
+												</button>
+											))
+									}
+								</div>
+							</div>
+							: <div>{selectName}님은 {jobName === JOB_NAME_OF_MAFIA ? <><b style={{ color: 'white' }}>마피아</b>입니다.</> : '마피아가 아닙니다.'}</div>}
+					</Layout>
+					{selected &&
+						<button
+							className="btn-lg"
+							onClick={this.handleNextOrder}>다음</button>}
+				</>
+			)
 	}
 }
 

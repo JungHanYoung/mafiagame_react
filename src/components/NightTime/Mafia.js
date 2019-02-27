@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { JOB_NAME_OF_MAFIA } from '../../contants/Job';
+import Layout from './Layout';
 
 
 class Mafia extends React.Component {
@@ -15,8 +16,9 @@ class Mafia extends React.Component {
 		const { players, mafiaVotes } = this.props;
 		const mafias = Object.keys(mafiaVotes.toJS()).filter(mafia => mafiaVotes.get(mafia))
 		return (
-			<div className="game-content">
-				<p className="content-description">당신은 마피아 입니다.<br />죽일 사람을 선택하십시오.</p>
+			<Layout
+				describe={`당신은 마피아 입니다.
+			죽일 사람을 선택하십시오.`}>
 				{mafias.length > 0 && (
 					<>
 						<div>마피아 투표 현황</div>
@@ -38,7 +40,7 @@ class Mafia extends React.Component {
 							))}
 					</div>
 				</div>
-			</div>
+			</Layout>
 		);
 	}
 }

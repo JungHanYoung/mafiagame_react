@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Layout from './Layout';
 
 class Citizen extends React.Component {
 	handleSelectBtn = () => {
@@ -10,11 +11,7 @@ class Citizen extends React.Component {
 	render() {
 		return (
 			<>
-				<div className="game-content">
-					<p className="content-description">
-						당신은 시민입니다.
-					</p>
-				</div>
+				<Layout describe={`당신은 시민입니다.`} />
 				<button
 					className="btn-lg"
 					onClick={this.handleSelectBtn}>
