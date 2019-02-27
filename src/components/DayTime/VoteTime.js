@@ -11,10 +11,6 @@ class VoteTime extends React.Component {
 			voteOrder: 0
 		}
 	}
-	componentDidUpdate() {
-		const { players } = this.props;
-		// console.log(players)
-	}
 	handleVote = (name) => {
 
 		const { voteOrder } = this.state;
