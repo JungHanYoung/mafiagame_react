@@ -8,6 +8,7 @@ install:
 scripts:
   - yarn test
   - yarn build
+  - ls
 
 deploy:
   on:
