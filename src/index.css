@@ -666,13 +666,20 @@ body {
 }
 
 .result-subject {
-  color: #fff;
+  color: #ff0000;
   margin: 0 0 36px;
+  font-size: 25px;
+  font-weight: 300;
 }
 
 .result-container {
   width: 209px;
+  height: 307px;
   margin: 0 auto 45px;
+}
+
+.result-container .scroll-wrapper {
+  height: max-content;
 }
 
 .result-item {
@@ -680,14 +687,24 @@ body {
   justify-content: space-around;
 }
 
+.result-item + .result-item {
+  margin-top: 24px;
+}
+
 .result-item .result-name {
   font-size: 24px;
-  color: #ff0000;
+  font-weight: 300;
+  color: #fff;
 }
 
 .result-item .result-job {
-  font-size:18px;
+  font-size: 25px;
   color: #fff;
+  font-family: 'Bangers', cursive;
+}
+
+.result-item .result-job.mafia {
+  color: #ff0000;
 }
 
 @media(min-width: 1024px) {

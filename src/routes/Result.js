@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import logoImg from '../assets/logo.png'
+import classNames from 'classnames'
+import { JOB_NAME_OF_MAFIA } from '../contants/Job';
 
 
 const propTypes = {
@@ -16,17 +17,27 @@ class Result extends Component {
             <>
                 <h2 className="game-title">hello mafia</h2>
                 <div className="main-container">
-                    <img className="result-img" src={logoImg} alt="logo" />
-                    <h3 className="result-subject">게임 결과</h3>
-                    <div className="result-container">
-                        {players.map(player => (
-                            <div
-                                key={`result-each-player__${player.name}`}
-                                className="result-item">
-                                <div className="result-name">{player.name}</div>
-                                <div className="result-job">{player.jobName}</div>
+                    <div className="game-content">
+                        <h3 className="result-subject">게임 결과</h3>
+                        <div className="result-container">
+                            <div className="scroll-wrapper">
+                                {players.map(player => (
+                                    <div
+                                        key={`result-each-player__${player.name}`}
+                                        className="result-item">
+                                        <div className="result-name">{player.name}</div>
+                                        <div
+                                            className={
+                                                classNames('result-job',
+                                                    {
+                                                        mafia: player.jobName
+                                                            === JOB_NAME_OF_MAFIA
+                                                    })}
+                                        >{player.jobName}</div>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
+                        </div>
                     </div>
                 </div>
                 <button

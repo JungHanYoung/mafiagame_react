@@ -48,7 +48,7 @@ class Police extends Component {
 				</>) : (
 						<>
 							<div className="game-content">
-								<p className="content-description">경찰의 차례입니다.<br /> 한 사람의 직업을 확인할 수 있습니다.</p>
+								<p className="content-description">경찰의 차례입니다.<br /> 한 사람을 선택해 마피아가 맞는지<br /> 확인할 수 있습니다.</p>
 								{!selected ?
 									<div className="vote-btn-container">
 										<div>
