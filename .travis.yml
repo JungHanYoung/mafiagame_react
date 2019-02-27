@@ -2,6 +2,26 @@ language: node_js
 node_js:
   - stable
 
+install:
+  - yarn
+
+scripts:
+  - yarn test
+  - yarn build
+
+deploy:
+  on:
+    branch: develop
+  provider: s3
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+  bucket: $AWS_S3_BUCKET_NAME
+  skip_cleanup: true
+  # Path to a directory containing your built site.
+  local_dir: build
+  # Set the Cache-Control header.
+  cache_control: "max-age=21600"
+
 notifications:
   email:
     recipients:
@@ -9,8 +29,3 @@ notifications:
     on_success: change # default: change
     on_failure: always # default: always
 
-deploy:
-  provider: s3
-  access_key_id: "AKIAJJI7KYF5STZQIZNA"
-  secret_access_key: "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"
-  bucket: "myfirstbucketfromhanyoung"
