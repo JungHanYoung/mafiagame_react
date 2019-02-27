@@ -37,7 +37,7 @@ export const setPlayers = (people, jobs) => {
 			jobName: totalJobNameList[idx]
 		};
 	});
-	console.log(players);
+	// console.log(players);
 	return players;
 };
 

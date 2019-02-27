@@ -52,7 +52,6 @@ class Result extends React.Component {
 
     get isMafiaVictory() {
         const killPersonName = this.killPersonName
-        console.log(killPersonName)
         if (killPersonName) {
             const { players } = this.props
             const after = players
@@ -60,9 +59,6 @@ class Result extends React.Component {
 
             const mafias = after.filter(player => player.get('jobName') === JOB_NAME_OF_MAFIA)
             const citizens = after.filter(player => player.get('jobName') !== JOB_NAME_OF_MAFIA)
-
-            console.log(mafias)
-            console.log(citizens)
 
             if (mafias.size >= citizens.size) {
                 return true
@@ -73,7 +69,6 @@ class Result extends React.Component {
 
     handleKillAndNext = () => {
         const { changeDayAndNight, deletePlayer } = this.props
-        console.log(this.killPersonName)
         if (this.killPersonName) {
             deletePlayer(this.killPersonName)
         }
@@ -83,8 +78,6 @@ class Result extends React.Component {
     render() {
         const { changeDayAndNight, voteAgain, moveToResult } = this.props
         const { killPersonName, isRevoted, isMafiaVictory } = this
-        console.log(killPersonName)
-        console.log(isMafiaVictory)
         return isRevoted ?
             (<Layout describe={`투표 결과`}>
                 <p className="night-describe">마피아 투표가 동률이 났습니다.</p>

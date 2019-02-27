@@ -28,7 +28,6 @@ export class CheckRole extends React.Component {
 	}
 
 	componentDidUpdate() {
-		console.log('checkrole > update');
 		if (this.content) {
 			this.content.addEventListener('animationend', () => {
 				this.setState({
@@ -80,12 +79,25 @@ export class CheckRole extends React.Component {
 				<div className="check-content">
 					{animation && <div className={classNames('content-description', 'empty')}></div>}
 					{/* {animation && <p className={classNames('content-description')}></p>} */}
-					{!showRole && <p ref={el => this.content = el} className={classNames('content-description', 'animated', { fadeOut: animation, 'is-animated': animation })}>이제 각 사람 마다<br />역할이 정해집니다.</p>}
+					{!showRole
+						&& <p
+							ref={el => this.content = el}
+							className={
+								classNames(
+									'content-description',
+									'animated',
+									{
+										fadeOut: animation,
+										'is-animated': animation
+									})}
+							data-testid="role-describe"
+						>이제 각 사람 마다<br />역할이 정해집니다.
+									</p>}
 					<p className={classNames('player-name')}>{players[showIndex].name}</p>
 					{showRole &&
 						<>
 							<img className={classNames('job-image', 'animated', 'fadeIn')} src={logoImg} alt="character" />
-							<p className={classNames('player-job', 'animated', 'fadeIn')}>{players[showIndex].jobName}</p>
+							<p className={classNames('player-job', 'animated', 'fadeIn')} data-testid="role">{players[showIndex].jobName}</p>
 						</>}
 					{showRole && players[showIndex].jobName === JOB_NAME_OF_MAFIA &&
 						<>
@@ -108,7 +120,7 @@ export class CheckRole extends React.Component {
 						</>
 					}
 				</div>
-				<button disabled={animation} onClick={this.handleShowRole} className="btn-lg">
+				<button disabled={animation} onClick={this.handleShowRole} className="btn-lg" data-testid="button">
 					{!showRole ? '역할 확인' : players.length - 1 <= showIndex ? `게임 시작` : '다 음'}
 				</button>
 			</div>)

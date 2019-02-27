@@ -2,16 +2,11 @@
 
 exports[`Night > Police 컴포넌트 테스트 스냅샷 1`] = `
 <Fragment>
-  <div
-    className="game-content"
+  <Layout
+    describe="경찰의 차례입니다.
+							한 사람을 선택해 마피아가 맞는지
+							확인할 수 있습니다."
   >
-    <p
-      className="content-description"
-    >
-      경찰의 차례입니다.
-      <br />
-       한 사람의 직업을 확인할 수 있습니다.
-    </p>
     <div
       className="vote-btn-container"
     >
@@ -39,28 +34,23 @@ exports[`Night > Police 컴포넌트 테스트 스냅샷 1`] = `
         </button>
       </div>
     </div>
-  </div>
+  </Layout>
 </Fragment>
 `;
 
 exports[`Night > Police 컴포넌트 테스트 직업 확인 후 렌더링 1`] = `
 <Fragment>
-  <div
-    className="game-content"
+  <Layout
+    describe="경찰의 차례입니다.
+							한 사람을 선택해 마피아가 맞는지
+							확인할 수 있습니다."
   >
-    <p
-      className="content-description"
-    >
-      경찰의 차례입니다.
-      <br />
-       한 사람의 직업을 확인할 수 있습니다.
-    </p>
     <div>
       한영
       님은 
       마피아가 아닙니다.
     </div>
-  </div>
+  </Layout>
   <button
     className="btn-lg"
     onClick={[Function]}

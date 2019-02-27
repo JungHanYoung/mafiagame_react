@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Night - <Result /> default props -> rendering 1`] = `
+Array [
+  <div
+    className="game-content"
+  >
+    <p
+      className="night-subject"
+    >
+      투표 결과
+    </p>
+    <h4>
+      마피아가 
+      한영
+      님을 죽였습니다.
+    </h4>
+  </div>,
+  <button
+    className="btn-lg"
+    onClick={[Function]}
+  >
+    낮으로 갑니다.
+  </button>,
+]
+`;

@@ -13,7 +13,7 @@ class VoteTime extends React.Component {
 	}
 	componentDidUpdate() {
 		const { players } = this.props;
-		console.log(players)
+		// console.log(players)
 	}
 	handleVote = (name) => {
 

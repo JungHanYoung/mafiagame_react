@@ -46,11 +46,13 @@ describe('Night - <Result />', () => {
 
     it('default props -> rendering', () => {
 
-        const desciptionElement = wrapper.find('p.content-description')
-        const messageBox = wrapper.find('h4')
+        const desciptionElement = wrapper.find('p.night-subject')
+        const messageElement = wrapper.find('h4')
+
+        expect(wrapper).toMatchSnapshot()
 
         expect(desciptionElement.exists()).toEqual(true)
-        expect(messageBox.exists()).toEqual(true)
+        expect(messageElement.exists()).toEqual(true)
 
     })
 })
@@ -85,11 +87,10 @@ describe('Night - <Result />: 마피아 승리조건 충족', () => {
             마피아가 승리하였습니다.
         </h3>
          */
-        const voteMassage = wrapper.find('h4')
+        const voteMassage = wrapper.find('p.night-describe')
         expect(voteMassage.exists()).toBe(true)
-        expect(voteMassage.text()).toBe('마피아가 한영님을 죽였습니다.')
 
-        const victoryMessage = wrapper.find('h3')
+        const victoryMessage = wrapper.find('p.night-complete')
         expect(victoryMessage.exists()).toBe(true)
         expect(victoryMessage.text()).toBe('마피아가 승리하였습니다.')
 
