@@ -5,7 +5,7 @@ node_js:
 install:
   - yarn
 
-scripts:
+script:
   - yarn test
   - yarn build
   - ls
