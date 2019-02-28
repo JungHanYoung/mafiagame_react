@@ -25,6 +25,8 @@ notifications:
   email:
     recipients:
       - 8735132@gmail.com
+      - 8735132@naver.com
+      - jhokta7@daum.net
     on_success: change # default: change
     on_failure: always # default: always
 
