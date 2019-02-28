@@ -51,6 +51,7 @@ describe('기본 렌더링 테스트', () => {
         // console.log(wrapper.instance().props)
         expect(wrapper.instance().props.history.push.callCount).toBe(0)
 
+        expect(false).toEqual(true)
         // wrapper.setProps({
         //     jobs: [
         //         {
