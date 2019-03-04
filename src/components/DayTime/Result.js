@@ -65,10 +65,10 @@ class Result extends React.Component {
 			<main className="sunset">
 				<h2 className="game-title">hello mafia</h2>
 				<div className="game-content">
-					<h2 className="subject" data-testid="game-content-description">투표 결과</h2>
+					<h2 className="subject" data-testid="content-subject">투표 결과</h2>
 
-					{isReVoted ? <p className="content-description">투표가 동률이 났습니다.</p>
-						: <p className="content-description"><span className="voted-person">{this.votedPerson.get('name')}</span> 님이 죽으셨습니다.</p>}
+					{isReVoted ? <p className="content-description" data-testid="content-description">투표가 동률이 났습니다.</p>
+						: <p className="content-description" data-testid="content-description"><span className="voted-person" data-testid="person">{this.votedPerson.get('name')}</span> 님이 죽으셨습니다.</p>}
 
 					{this.isVictory === 'mafia'
 						?

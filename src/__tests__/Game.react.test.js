@@ -59,7 +59,7 @@ describe('낮토론 -> 낮투표', () => {
         moveToVoteTime(getByTestId) // 낮토론 -> 낮투표 state에 따른 화면 이동
         moveToResult(minPropsByGame.history.location.state.players, getAllByTestId) // 투표
 
-        expect(getByTestId('game-content-description')).toHaveTextContent('투표 결과')
+        expect(getByTestId('content-subject')).toHaveTextContent('투표 결과')
 
     })
 
