@@ -1,5 +1,5 @@
-import React, { Component, useReducer } from 'react';
-import createUseConsumer from '../lib/createUseConsumer';
+import React, { useReducer } from 'react';
+// import createUseConsumer from '../lib/createUseConsumer';
 import { setPlayers } from '../utils/setPlayers';
 
 // Constant 상수

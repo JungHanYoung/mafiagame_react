@@ -1,24 +1,67 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import useReactRouter from 'use-react-router'
 import classNames from 'classnames'
 
 import logoImg from '../assets/logo.png'
 
 // component
-import { useGame, GameContext } from '../context/GameContext';
+import { GameContext } from '../context/GameContext';
 import { JOB_NAME_OF_MAFIA } from '../contants/Job';
 import { setPlayers } from '../utils/setPlayers';
 
 export default function CheckRole() {
-	const [{ jobs, people }, dispatch] = useContext(GameContext)
+	const [{ jobs, people }] = useContext(GameContext)
 	const players = setPlayers(people, jobs);
 	const [showRole, setShowRole] = useState(false);
 	const [showIndex, setShowIndex] = useState(0);
 	const [animation, setAnimation] = useState(false);
+	const { history } = useReactRouter();
+
+	const content = useRef(null);
 	// showIndex: 0,
 	// 		animation: false
+
+	function onAnimationEndHandler() {
+		setShowRole(true)
+		setAnimation(false)
+	}
+
+	useEffect(() => {
+		if (content.current) {
+			content.current.addEventListener("animationend", onAnimationEndHandler)
+		}
+		// return () => content.current.removeEventListener("animationend", onAnimationEndHandler)
+	})
+
+	function handleShowRole() {
+		// 		const { showRole, showIndex, players } = this.state;
+		// 		if (showRole) {
+		// 			if (players.length - 1 > showIndex) {
+		// 				this.setState({
+		// 					showRole: false,
+		// 					animation: false,
+		// 					showIndex: showIndex + 1
+		// 				})
+		// 			} else {
+		// 				this.props.history.push('/game', { players });
+		// 			}
+		// 		} else {
+		// 			this.setState({
+		// 				animation: true
+		// 			})
+		// 		}
+		if (showRole) {
+			if (players.length - 1 > showIndex) {
+				setShowRole(false)
+				setShowIndex(showIndex + 1)
+			} else {
+				history.push('/game', { players })
+			}
+		} else {
+			setAnimation(true)
+		}
+	}
 
 	if (players.length <= 0) {
 		return <Redirect to="/setting" />
@@ -31,7 +74,7 @@ export default function CheckRole() {
 					{/* {animation && <p className={classNames('content-description')}></p>} */}
 					{!showRole
 						&& <p
-							ref={el => this.content = el}
+							ref={content}
 							className={
 								classNames(
 									'content-description',
@@ -70,13 +113,12 @@ export default function CheckRole() {
 						</>
 					}
 				</div>
-				<button disabled={animation} onClick={() => this.handleShowRole} className="btn-lg" data-testid="button">
+				<button disabled={animation} onClick={handleShowRole} className="btn-lg" data-testid="button">
 					{!showRole ? '역할 확인' : players.length - 1 <= showIndex ? `게임 시작` : '다 음'}
 				</button>
 			</div>
 		)
 	}
-
 }
 
 // export class CheckRole extends React.Component {

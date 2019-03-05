@@ -30,7 +30,7 @@ export default function Setting() {
 	// 	jobs: state.jobs,
 	// 	setPeopleNum: actions.setPeopleNum,
 	// 	onChangePeopleName: actions.onChangePeopleName
-	const [{ people, jobs }, dispatch] = useContext(GameContext)
+	const [{ people, jobs }] = useContext(GameContext)
 	const [step, setStep] = useState(0);
 	const { history } = useReactRouter();
 
@@ -55,7 +55,7 @@ export default function Setting() {
 	}
 
 	function onSettingEnd() {
-		const { history, jobs, people } = this.props;
+		// const { history, jobs, people } = this.props;
 		const countByMin = jobs
 			.map((job) => job.minCount)
 			.reduce((accu, count) => accu + count);

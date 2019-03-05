@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef, useState, forwardRef } from 'react';
-import { useGame, GameContext } from '../../context/GameContext';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { GameContext } from '../../context/GameContext';
 import classNames from 'classnames'
 // import _ from 'lodash'
 // import { SELECT_OF_PEOPLE_NUM_START, SELECT_OF_PEOPLE_NUM_END } from '../../contants/Setting';
@@ -30,9 +30,9 @@ export default function InputPeople() {
     }
 
     function onScrollOpacity() {
-        console.log("scrollHeight:", scrollRef.current.scrollHeight)
-        console.log("clientHeight:", scrollRef.current.clientHeight)
-        console.log("scrollTop:", scrollRef.current.scrollTop)
+        // console.log("scrollHeight:", scrollRef.current.scrollHeight)
+        // console.log("clientHeight:", scrollRef.current.clientHeight)
+        // console.log("scrollTop:", scrollRef.current.scrollTop)
         // 스크롤을 끝까지 내렸을 때, fadeAfter를 적용시키지 않음.
         if (scrollRef.current.scrollHeight - scrollRef.current.clientHeight <= scrollRef.current.scrollTop + 10) {
             setFadeAfter(false)
