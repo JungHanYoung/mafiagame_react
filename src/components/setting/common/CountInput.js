@@ -5,7 +5,6 @@ import minusImg from '../../../assets/btn-minus.png'
 import plusImg from '../../../assets/btn-plus.png'
 
 const CountInput = ({ count, handler }) => (
-
     <div className="input-container">
         <span
             className="btn minus"
