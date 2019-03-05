@@ -1,19 +1,19 @@
 import React, { useContext, useState } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import classNames from 'classnames'
 // import { withRouter } from 'react-router-dom';
 import useReactRouter from 'use-react-router';
 import { GameContext } from '../context/GameContext';
 
 // 상수
-import { JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE, JOB_NAME_OF_CITIZEN, JOB_NAME_OF_DOCTOR } from '../contants/Job';
+// import { JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE, JOB_NAME_OF_CITIZEN, JOB_NAME_OF_DOCTOR } from '../contants/Job';
 
 // Component
 import InputPeople from '../components/setting/InputPeople'
 import JobSetting from '../components/setting/JobSetting'
 
 
-const steps = [InputPeople, JobSetting]
+export const steps = [InputPeople, JobSetting]
 
 const getContent = (step) => {
 	if (steps.length > step && step >= 0) {
@@ -22,7 +22,6 @@ const getContent = (step) => {
 	} else {
 		return null;
 	}
-
 }
 
 export default function Setting() {
@@ -76,7 +75,7 @@ export default function Setting() {
 			<h1 className="setting-title">game settings</h1>
 			{getContent(step)}
 			<div className="setting-step">
-				<div className="setting-step-wrapper">
+				<div className="setting-step-wrapper" data-testid="step-wrapper">
 					{Array
 						.from({ length: steps.length }, (v, k) => k)
 						.map(number => (
@@ -95,9 +94,9 @@ export default function Setting() {
 					<button className="setting-prev-btn" onClick={handleBack}>이 전</button>
 				}
 				{step === steps.length - 1 ?
-					<button className="setting-next-btn setting-end" onClick={onSettingEnd}>게임 시작</button>
+					<button className="setting-next-btn setting-end" data-testid="game-start" onClick={onSettingEnd}>게임 시작</button>
 					:
-					<button className="setting-next-btn" onClick={handleNext}>다&nbsp;&nbsp;음</button>
+					<button className="setting-next-btn" data-testid="next-button" onClick={handleNext}>다&nbsp;&nbsp;음</button>
 				}
 			</div>
 		</>
@@ -186,21 +185,21 @@ export default function Setting() {
 // 	}
 // }
 
-Setting.propTypes = {
-	people: PropTypes.arrayOf(PropTypes.string),
-	jobs: PropTypes.arrayOf(PropTypes.shape({
-		jobName: PropTypes.oneOf([JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE, JOB_NAME_OF_DOCTOR, JOB_NAME_OF_CITIZEN]),
-		minCount: PropTypes.number.isRequired,
-		maxCount: PropTypes.number.isRequired
-	})),
-	setPeopleNum: PropTypes.func.isRequired,
-	onChangePeopleName: PropTypes.func.isRequired,
-	//
-};
+// Setting.propTypes = {
+// 	people: PropTypes.arrayOf(PropTypes.string),
+// 	jobs: PropTypes.arrayOf(PropTypes.shape({
+// 		jobName: PropTypes.oneOf([JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE, JOB_NAME_OF_DOCTOR, JOB_NAME_OF_CITIZEN]),
+// 		minCount: PropTypes.number.isRequired,
+// 		maxCount: PropTypes.number.isRequired
+// 	})),
+// 	setPeopleNum: PropTypes.func.isRequired,
+// 	onChangePeopleName: PropTypes.func.isRequired,
+// 	//
+// };
 
-Setting.defaultProps = {
+// Setting.defaultProps = {
 
-}
+// }
 
 // export default withRouter(
 // 	useGame(({ state, actions }) => ({
