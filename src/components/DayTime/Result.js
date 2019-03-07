@@ -3,8 +3,16 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import { JOB_NAME_OF_MAFIA } from '../../contants/Job';
 
+/**
+ * FIXME:
+ * - [o] 마피아1, 의사1, 시민1 - 낮투표에서 마피아2 의사1 했는데 투표 동률이면서 마피아 승리. 190307
+ */
 export default function Result({
-	players, changeDayTimeOrder, deletePlayer, moveRevote, moveToResult
+	players,
+	changeDayTimeOrder,
+	deletePlayer,
+	moveRevote,
+	moveToResult
 }) {
 
 	const maxNumOfVotes = players.reduce((max, cur) => max.get('daytimeVoted') > cur.get('daytimeVoted') ? max : cur).get('daytimeVoted')

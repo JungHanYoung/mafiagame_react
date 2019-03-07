@@ -111,6 +111,13 @@ export default function Night({
 	}
 }
 
+Night.propTypes = {
+	players: ImmutablePropTypes.list,
+	changeDayAndNight: PropTypes.func.isRequired,
+	deletePlayer: PropTypes.func.isRequired,
+	moveToResult: PropTypes.func.isRequired
+};
+
 // class Night extends React.Component {
 // 	constructor(props) {
 // 		super(props)
@@ -253,14 +260,5 @@ export default function Night({
 // 		);
 // 	}
 // }
-
-Night.propTypes = {
-	players: ImmutablePropTypes.list,
-	changeDayAndNight: PropTypes.func.isRequired,
-	deletePlayer: PropTypes.func.isRequired,
-	moveToResult: PropTypes.func.isRequired
-	// isEndVoteNight: PropTypes.bool.isRequired,
-	// nightTimeOrder: PropTypes.number.isRequired
-};
 
 // export default Night

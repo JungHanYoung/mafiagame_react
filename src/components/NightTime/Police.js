@@ -59,10 +59,19 @@ export default function Police({
 				{selected &&
 					<button
 						className="btn-lg"
-						onClick={handleNextOrder}>다음</button>}
+						onClick={handleNextOrder}
+					>다음</button>}
 			</>
 		)
 }
+
+Police.propTypes = {
+	players: ImmutablePropTypes.list,
+	me: ImmutablePropTypes.map,
+	revoted: PropTypes.bool.isRequired,
+	toggleConfirmed: PropTypes.func.isRequired,
+	changeNightTimeOrder: PropTypes.func.isRequired
+};
 
 // class Police extends Component {
 // 	state = {
@@ -137,25 +146,5 @@ export default function Police({
 // 			)
 // 	}
 // }
-
-Police.propTypes = {
-	// // context
-	// players: PropTypes.arrayOf(
-	// 	PropTypes.shape({
-	// 		name: PropTypes.string.isRequired,
-	// 		daytimeVoted: PropTypes.number,
-	// 		jobName: PropTypes.string.isRequired,
-	// 		code: PropTypes.number
-	// 	})
-	// ).isRequired,
-	// nextOrder: PropTypes.func.isRequired,
-	// // parent
-	// handleConfirmAndCheck: PropTypes.func.isRequired
-	players: ImmutablePropTypes.list,
-	me: ImmutablePropTypes.map,
-	revoted: PropTypes.bool.isRequired,
-	toggleConfirmed: PropTypes.func.isRequired,
-	changeNightTimeOrder: PropTypes.func.isRequired
-};
 
 // export default Police

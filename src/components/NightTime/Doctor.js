@@ -23,7 +23,8 @@ export default function Doctor({
 			<Layout describe={`재투표 중입니다. 이전의 선택한 결과가 그대로 갈 것입니다.`} />
 			<button
 				className="btn-lg"
-				onClick={handleNext}>다음</button>
+				onClick={handleNext}
+			>다음</button>
 		</>
 	) : (
 			<Layout describe={`당신은 의사입니다.

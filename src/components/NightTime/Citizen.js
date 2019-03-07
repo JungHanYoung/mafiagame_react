@@ -14,12 +14,17 @@ export default function Citizen({
 		<Layout describe={`당신은 시민입니다.`} />
 		<button
 			className="btn-lg"
-			onClick={handleSelectBtn}>
+			onClick={handleSelectBtn}
+		>
 			다음
-			</button>
+		</button>
 	</>
 }
 
+Citizen.propTypes = {
+	toggleConfirmed: PropTypes.func.isRequired,
+	changeNightTimeOrder: PropTypes.func.isRequired
+};
 // class Citizen extends React.Component {
 // 	handleSelectBtn = () => {
 // 		const { toggleConfirmed, changeNightTimeOrder } = this.props;
@@ -39,10 +44,5 @@ export default function Citizen({
 // 		);
 // 	}
 // }
-
-Citizen.propTypes = {
-	toggleConfirmed: PropTypes.func.isRequired,
-	changeNightTimeOrder: PropTypes.func.isRequired
-};
 
 // export default Citizen

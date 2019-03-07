@@ -18,7 +18,8 @@ export default function Mafia({
 	return (
 		<Layout
 			describe={`당신은 마피아 입니다.
-			죽일 사람을 선택하십시오.`}>
+			죽일 사람을 선택하십시오.`}
+		>
 			{mafias.length > 0 && (
 				<>
 					<div>마피아 투표 현황</div>
@@ -34,7 +35,11 @@ export default function Mafia({
 					{players
 						.filter((person) => person.get('jobName') !== JOB_NAME_OF_MAFIA)
 						.map((person, i) => (
-							<button className="btn-sm" key={`mafia-select-${i}`} onClick={() => handleSelectBtn(person.get('name'))}>
+							<button
+								className="btn-sm"
+								key={`mafia-select-${i}`}
+								onClick={() => handleSelectBtn(person.get('name'))}
+							>
 								{person.get('name')}
 							</button>
 						))}
@@ -43,6 +48,14 @@ export default function Mafia({
 		</Layout>
 	)
 }
+
+Mafia.propTypes = {
+	players: ImmutablePropTypes.list,
+	mafiaVotes: ImmutablePropTypes.map,
+	handleVote: PropTypes.func.isRequired,
+	toggleConfirmed: PropTypes.func.isRequired,
+	changeNightTimeOrder: PropTypes.func.isRequired
+};
 
 // class Mafia extends React.Component {
 // 	handleSelectBtn = (name) => {
@@ -83,13 +96,5 @@ export default function Mafia({
 // 		);
 // 	}
 // }
-
-Mafia.propTypes = {
-	players: ImmutablePropTypes.list,
-	mafiaVotes: ImmutablePropTypes.map,
-	handleVote: PropTypes.func.isRequired,
-	toggleConfirmed: PropTypes.func.isRequired,
-	changeNightTimeOrder: PropTypes.func.isRequired
-};
 
 // export default Mafia
