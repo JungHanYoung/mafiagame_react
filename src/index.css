@@ -9,7 +9,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Anton', 'Noto Sans KR', sans-serif;
-  font-weight: 900;
+  /* font-weight: 900; */
   background: #000;
   overflow: hidden;
 }
@@ -44,12 +44,13 @@ body {
 
 .main-img {
   margin-top: 50px;
-  width: 120px;
+  height: 207px;
 }
 
 .main-title {
   font-size: 60px;
-  margin: 40px 0;
+  font-family: 'Bangers', cursive;
+  margin: 38px 0 43px;
   color: #fff;
 }
 
@@ -58,11 +59,10 @@ body {
   margin-bottom: 20px;
   background: #ff0000;
   color: #000;
-  font-size: 20px;
-  width: 190px;
+  font-size: 18px;
+  width: 188px;
   text-align: center;
   text-decoration: none;
-  font-weight: bold;
 }
 
 /* Setting */
@@ -71,8 +71,10 @@ body {
   padding: 30px 0;
   font-size: 24px;
   margin: 0;
+  font-family: 'Bangers', cursive;
   color: #ff0000;
   text-align: center;
+  text-transform: uppercase;
 }
 
 .setting-step {
@@ -81,7 +83,7 @@ body {
   position: relative;
 }
 
-.setting-step::before {
+/* .setting-step::before {
   content: '';
   width: 100%;
   position: absolute;
@@ -89,17 +91,20 @@ body {
   box-sizing: border-box;
   border: solid 1px #fff;
   top: 12px;
+} */
+
+.setting-step .setting-step-wrapper {
+  width: 85px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
 }
 
 .setting-step-bar {
-  width:25px;
-  height:25px;
-  box-sizing: border-box;
-  border: solid 2px #fff;
+  width:10px;
+  height:10px;
   border-radius: 50%;
   background: #666;
-  z-index: 999;
-  text-align: center;
 }
 
 .setting-step-bar.active {
@@ -107,16 +112,75 @@ body {
 }
 
 .setting-container {
-  height: 410px;
-  padding: 55px 24px 0;
+  height: 380px;
+  padding: 55px 24px 30px;
   color: red;
+  position: relative;
+}
 
+.setting-container .fade-wrapper {
+  position: relative;
+  overflow: scroll;
+}
+
+.fadeBefore::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  top: 0;
+  background-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+  z-index: 10;
+}
+
+.fadeAfter::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  bottom: 0;
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));
 }
 
 .setting-container .setting-subtitle {
-  font-size: 18px;
+  font-size: 24px;
+  font-weight: 300;
   line-height: 140%;
+  padding-left: 26px;
   margin: 0;
+}
+
+.setting-container .input-container {
+  height: 25px;
+  padding-left: 26px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.setting-container .input-container .btn {
+  height: 100%;
+  width: 25px;
+  background: #ff0000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.setting-container .input-container .btn img {
+  display: block;
+  width: 50%;
+}
+
+.setting-container .input-container .peopleNum {
+  font-family: 'Bangers', cursive;
+  width: 20px;
+  text-align: center;
+  font-size: 24px;
+  margin: 0 13.25px;
 }
 
 .setting-people-select {
@@ -139,23 +203,28 @@ body {
 }
 
 .setting-people-name-container {
-  display: flex;
-  flex-wrap: wrap;
+  padding: 0 12px;
   margin-top: 20px;
+  overflow: scroll;
+  height: 240px;
+  position: relative;
 }
 
+
 .setting-people-name {
-  position: relative;
-  box-sizing: border-box;
-  width: 50%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.setting-people-name + .setting-people-name {
+  margin-top: 25px;
 }
 
 .people-name-placeholder {
-  color: #888;
-  font-size: 10px;
-  padding-right: 20px;
-  display: block;
-  margin-top: 10px;
+  color: #ff0000;
+  font-family: 'Bangers', cursive;
+  font-size: 24px;
 }
 
 .setting-people-name > input {
@@ -167,11 +236,13 @@ body {
   color: white;
   line-height: 200%;
   font-weight: 600;
-  width: 80%;
+  font-size: 16px;
+  text-align: center;
+  width: 137px;
 }
 
 .setting-btn-group {
-  margin: 0 25px;
+  margin: 25px 50px 0;
   text-align: right;
   /* margin-top: 250px;
   padding: 0 25px;
@@ -184,7 +255,6 @@ body {
   outline: none;
   border: none;
   color: #fff;
-  font-weight: bolder;
   font-size: 15px;
 }
 
@@ -192,19 +262,33 @@ body {
   
   margin-left: 20px;
   background: #ff0000;
-  width: 163px;
+  width: 137px;
   height: 50px;
   outline: none;
   border: none;
   color: #fff;
-  font-weight: bolder;
   font-size: 15px;
 }
 
 .setting-job-container {
   margin-top: 50px;
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
+}
+
+.setting-job-container .setting-tr {
+  margin-bottom: 20px;
+}
+
+.setting-job-container .setting-tr .setting-th {
+  width: 98px;
+  text-align: center;
+  float: right
+}
+
+.setting-th + .setting-th {
+  margin-right: 40px;
 }
 
 .job-name {
@@ -214,11 +298,24 @@ body {
 }
 
 .job-input-container {
-  width: 50%;
   box-sizing: border-box;
   margin: 0;
+  font-size: 21px;
+  font-family: 'Bangers', cursive;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+.job-input-container + .job-input-container {
+  margin-top: 25px;
+}
+
+.job-input-container .subject {
+  width: 15%;
+}
+
+.job-input-container .input-container {
+  margin-top: 0;
 }
 
 .job-input {
@@ -240,11 +337,71 @@ body {
 
 /* Check Role */
 
-.daytime {
-  height: 100%;
-  background: #fff;
-  color: #000;
+.check-content {
+  position: relative;
+  height: 375px;
+  margin-top: 100px;
+  text-align: center;
 }
+
+.check-content .content-description {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 150%;
+  height: 160px;
+  width: 196px;
+}
+
+.check-content .player-name {
+  position: absolute;
+    top: 183px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    color: #fff;
+    height: 70px;
+    font-size: 24px;
+    font-weight: 100;
+}
+
+.check-content .job-image {
+  width: 59px;
+}
+
+.check-content .player-job {
+  margin-top: 26px;
+  color: #ff0000;
+  font-size: 24px;
+  font-family: 'Bangers', cursive;
+}
+
+.check-content .check-mafia-sub {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 100;
+  margin: 85px 0 16px;
+}
+
+.check-content .check-mafia-co {
+  display: flex;
+  flex-wrap: wrap;
+  width: 280px;
+  margin: 0 auto;
+  text-align: center;
+  justify-content: space-evenly;
+}
+
+.check-content .check-mafia-co .mafia-co-person {
+  flex: 1;
+  color: #fff;
+  text-align: center;
+  font-weight: 100;
+}
+
+/* Game */
 
 .night {
   height: 100%;
@@ -257,10 +414,12 @@ body {
 }
 
 .game-title {
+  font-size: 25px;
+  font-family: 'Bangers', cursive;
   text-transform: uppercase;
   text-align: center;
   margin: 0;
-  padding: 20px 0;
+  padding: 30px 0;
   color: #ff0000;
 }
 
@@ -269,47 +428,57 @@ body {
 }
 
 .game-content {
+  position: relative;
   height: 375px;
   margin-top: 100px;
   text-align: center;
 }
 
+.game-content .subject {
+  color: #ff0000;
+  font-weight: 300;
+  margin-bottom: 32px;
+  font-size: 24px;
+}
+
 .game-content .content-description {
   font-size: 18px;
+  font-weight: 300;
+  line-height: 150%;
   height: 160px;
+  margin: 0 auto;
+  white-space: pre-line;
+}
+
+.sunset .content-description {
+  color: #fff;
+}
+
+.game-content .content-description .voted-person {
+  font-size: 24px;
+  font-weight: 100;
 }
 
 .game-content .player-name {
+  position: absolute;
+  top: 183px;
+  left: 50%;
+  transform: translateX(-50%);
   color: #fff;
   height: 70px;
   font-size: 24px;
+  font-weight: 100;
+}
+
+.game-content .job-image {
+  width: 59px;
 }
 
 .game-content .player-job {
+  margin-top: 26px;
   color: #ff0000;
   font-size: 24px;
-}
-
-.game-content .check-mafia-sub {
-  color: #fff;
-  font-size: 14px;
-  margin: 20px 0;
-}
-
-.game-content .check-mafia-co {
-  display: flex;
-  flex-wrap: wrap;
-  width: 280px;
-  margin: 0 auto;
-  text-align: center;
-  justify-content: space-evenly;
-  font-weight: 500;
-}
-
-.check-mafia-co .mafia-co-person {
-  flex: 1;
-  color: #fff;
-  text-align: center;
+  font-family: 'Bangers', cursive;
 }
 
 .btn-lg {
@@ -321,29 +490,31 @@ body {
   border: 0;
   outline: 0;
   margin: 0 auto;
-  font-weight: bolder;
 }
 
 /* Game */
 
-.daytime {
+.sunset {
   height: 100%;
-  background: #fff;
+  background: url("./assets/bg-sunset.png");
+  background-size: cover;
+  background-repeat: round;
   text-align: center;
   color: #000;
 }
 
-.daytime .game-title {
-
+.daytime {
+  height: 100%;
+  background: url("./assets/bg-daytime.png");
+  background-size: cover;
+  background-repeat: round;
+  text-align: center;
+  color: #000;
 }
 
-.daytime .game-content {
-
-}
-
-.daytime > h1 {
-  margin: 0;
-  padding: 20px 0;
+.voter .voter.bold{
+  font-size: 24px;
+  font-weight: 300;
 }
 
 .daytime .container, .night .container {
@@ -352,8 +523,7 @@ body {
 }
 
 .daytime .game-content .voter {
-  color: #ff0000;
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .game-content .vote-btn-container {
@@ -412,7 +582,9 @@ body {
 
 .night {
   height: 100%;
-  background: #000;
+  background: url("./assets/bg-night.png");
+  background-size: cover;
+  background-repeat: round;
   text-align: center;
   color: #ff0000;
 }
@@ -420,10 +592,6 @@ body {
 .night > h1 {
   margin: 0;
   padding: 20px 0;
-}
-
-.night > h2 {
-  margin-top: 115px;
 }
 
 .night .btn-sm {
@@ -494,18 +662,51 @@ body {
   outline: 0;
 }
 
+/* 밤 투표 결과 화면 */
+
+.night-subject {
+  font-size: 25px;
+  color: #ff0000;
+  font-weight: 300;
+}
+
+.night-describe {
+  color: #fff;
+  margin-top: 32px;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.night-describe .person {
+  font-size: 24px;
+}
+
+.night-complete {
+  margin-top: 194px;
+  font-size: 24px;
+}
+
+/* 게임 결과 화면 */
+
 .result-img {
   width: 122px;
 }
 
 .result-subject {
-  color: #fff;
-  margin: 36px 0;
+  color: #ff0000;
+  margin: 0 0 36px;
+  font-size: 25px;
+  font-weight: 300;
 }
 
 .result-container {
   width: 209px;
+  height: 307px;
   margin: 0 auto 45px;
+}
+
+.result-container .scroll-wrapper {
+  height: max-content;
 }
 
 .result-item {
@@ -513,18 +714,40 @@ body {
   justify-content: space-around;
 }
 
+.result-item + .result-item {
+  margin-top: 24px;
+}
+
 .result-item .result-name {
   font-size: 24px;
-  color: #ff0000;
+  font-weight: 300;
+  color: #fff;
 }
 
 .result-item .result-job {
-  font-size:18px;
+  font-size: 25px;
   color: #fff;
+  font-family: 'Bangers', cursive;
+}
+
+.result-item .result-job.mafia {
+  color: #ff0000;
 }
 
 @media(min-width: 1024px) {
   .setting-people-name {
     width: 25%;
   }
+}
+
+.is-animated {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.empty {
+  animation-name: heightout;
+  animation-duration: 1s;
+  position: relative;
 }

@@ -25,11 +25,11 @@ describe('Night > <Mafia /> 컴포넌트 테스트', () => {
         wrapper = shallow(<Mafia {...minProps} />)
     })
 
-    it('HTML 렌더링 테스트', () => {
-        expect(wrapper.find('div.game-content').exists()).toEqual(true)
-        expect(wrapper.find('p.content-description').exists()).toEqual(true)
-        expect(wrapper.find('p.content-description').text()).toEqual('당신은 마피아 입니다.죽일 사람을 선택하십시오.')
-    })
+    // it('HTML 렌더링 테스트', () => {
+    //     // expect(wrapper.find('div.game-content').exists()).toEqual(true)
+    //     expect(wrapper.find('p.content-description').exists()).toEqual(true)
+    //     expect(wrapper.find('p.content-description').text()).toEqual('당신은 마피아 입니다.죽일 사람을 선택하십시오.')
+    // })
 
     it('투표버튼 렌더링 테스트', () => {
         // wrapper.find('div.vote-btn-container').children().children().find('button.btn-sm').forEach(element => console.log(element.html()))
