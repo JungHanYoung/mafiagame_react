@@ -9,7 +9,7 @@ import { JOB_NAME_OF_MAFIA, JOB_NAME_OF_POLICE, JOB_NAME_OF_DOCTOR, JOB_NAME_OF_
 
 export const GameContext = React.createContext();
 
-let initialState = {
+export const initialState = {
 	people: [],
 	jobs: [
 		{

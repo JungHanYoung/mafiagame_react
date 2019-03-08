@@ -6,7 +6,7 @@ import classNames from 'classnames'
 
 import CountInput from './common/CountInput';
 
-
+import { onChangePeopleName, setPeopleNum } from '../../context/Game/action'
 // const range = _.range(SELECT_OF_PEOPLE_NUM_START, SELECT_OF_PEOPLE_NUM_END)
 
 export default function InputPeople() {
@@ -20,13 +20,9 @@ export default function InputPeople() {
 
     function onPeopleChange(value) {
         if (value >= 0) {
-            dispatch({ type: 'SET_PEOPLE_NUM', value })
+            dispatch(setPeopleNum(value))
             setNum(value)
         }
-    }
-
-    function onChangePeopleName(index, value) {
-        dispatch({ type: 'ON_CHANGE_PEOPLE_NAME', index, value })
     }
 
     function onScrollOpacity() {
@@ -80,7 +76,7 @@ export default function InputPeople() {
                                     name={`person_${i}`}
                                     value={person}
                                     autoComplete="off"
-                                    onChange={(e) => onChangePeopleName(i, e.target.value)}
+                                    onChange={(e) => dispatch(onChangePeopleName(i, e.target.value))}
                                 />
                             </div>
                         ))}
