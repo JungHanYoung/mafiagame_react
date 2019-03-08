@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { List, Map } from 'immutable'
 import { Redirect } from 'react-router-dom'
 // import PropTypes from 'prop-types';
@@ -17,6 +17,9 @@ export default function Game(props) {
 				.map(player => Map(player).set('daytimeVoted', 0))));
 	const [gameOrder, setGameOrder] = useState(DAY_TIME);
 
+	useEffect(() => {
+		initVote()
+	}, [gameOrder])
 
 	function moveToResult() {
 		props.history.push('/result', { players: props.history.location.state.players })
