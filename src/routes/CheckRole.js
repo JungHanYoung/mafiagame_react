@@ -86,7 +86,7 @@ export default function CheckRole() {
 							data-testid="role-describe"
 						>이제 각 사람 마다<br />역할이 정해집니다.
 										</p>}
-					<p className={classNames('player-name')}>{players[showIndex].name}</p>
+					<p className={classNames('player-name')} data-testid="player-name">{players[showIndex].name}</p>
 					{showRole &&
 						<>
 							<img className={classNames('job-image', 'animated', 'fadeIn')} src={logoImg} alt="character" />
