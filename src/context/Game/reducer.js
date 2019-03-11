@@ -1,7 +1,7 @@
 import { SET_PEOPLE_NUM, ON_CHANGE_JOB_MIN, ON_CHANGE_JOB_MAX, ON_CHANGE_PEOPLE_NAME } from "./actionType";
 import { initialState } from "../GameContext";
 
-export default function (state = initialState, action) {
+export const reducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_PEOPLE_NUM:
             return {

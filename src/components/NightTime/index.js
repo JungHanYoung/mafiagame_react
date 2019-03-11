@@ -102,7 +102,7 @@ export default function Night({
 	} else {
 		return <>
 			<div className="game-content">
-				<h1>{players.getIn([nightTimeOrder, 'name'])}의 차례입니다.</h1>
+				<div className="game-guide">{players.getIn([nightTimeOrder, 'name'])}의 차례입니다.</div>
 			</div>
 			<button
 				className="btn-lg"

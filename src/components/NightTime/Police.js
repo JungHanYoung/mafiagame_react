@@ -54,7 +54,7 @@ export default function Police({
 								}
 							</div>
 						</div>
-						: <div>{selectName}님은 {jobName === JOB_NAME_OF_MAFIA ? <><b style={{ color: 'white' }}>마피아</b>입니다.</> : '마피아가 아닙니다.'}</div>}
+						: <div className="guide-content">{selectName}님은 {jobName === JOB_NAME_OF_MAFIA ? <><b style={{ color: 'white' }}>마피아</b>입니다.</> : '마피아가 아닙니다.'}</div>}
 				</Layout>
 				{selected &&
 					<button
