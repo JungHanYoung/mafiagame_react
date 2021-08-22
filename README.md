@@ -83,8 +83,8 @@ Mafia Game은 소수의 마피아, 다수의 시민으로 나뉘어 서로 생�
   - 디자인본을 통한 페이지 제작(React)
   - 프로젝트 구성 및 구현
   - 테스트 코드 작성(UI Test)
-- [최병욱](https://github.com/ChoiBU)
-  - 콘솔로 prototype 구현(C++)([repo](https://github.com/ChoiBU/MafiaGame_single_cpp))
+- [최병욱](https://github.com/ByeongUkChoi)
+  - 콘솔로 prototype 구현(C++)([repo](https://github.com/ByeongUkChoi/MafiaGame_single_cpp))
   - 게임 스토리보드 기획 및 player 랜덤 세팅 모듈 구현([code](https://github.com/JungHanYoung/MafiaGame_single_react/blob/0209_develop/src/utils/setPlayers.js))
 - [정지은](http://burnicknich.dothome.co.kr/)
   - UI 디자인
